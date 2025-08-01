@@ -1,0 +1,148 @@
+"use client"
+
+import { useState } from "react"
+import { X, Plus, Minus, ShoppingBag } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import CheckoutForm from "./checkout-form"
+import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "next/navigation"
+
+interface CartItem {
+  id: string
+  name: string
+  nameHindi?: string
+  price: number
+  quantity: number
+  type?: string
+}
+
+interface CartProps {
+  isOpen: boolean
+  onClose: () => void
+  items: CartItem[]
+  updateItem: (id: string, quantity: number) => void
+  total: number
+  clearCart?: () => void
+}
+
+export default function Cart({ isOpen, onClose, items, updateItem, total, clearCart }: CartProps) {
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
+  const { isAuthenticated } = useAuth()
+  const router = useRouter()
+  
+  if (!isOpen) return null
+
+  const handleCheckout = () => {
+    // If user is not authenticated, redirect to login
+    if (!isAuthenticated) {
+      router.push('/login')
+      onClose()
+      return
+    }
+    
+    // Open checkout form
+    setIsCheckoutOpen(true)
+  }
+  
+  const handleOrderComplete = () => {
+    // Clear cart and close checkout
+    if (clearCart) clearCart()
+    setIsCheckoutOpen(false)
+    onClose()
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end">
+      <div className="bg-white w-full max-w-md h-full overflow-y-auto">
+        <div className="sticky top-0 bg-white border-b p-4 flex justify-between items-center">
+          <h2 className="text-xl font-bold text-gray-900">Shopping Cart / कार्ट</h2>
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="p-4">
+          {items.length === 0 ? (
+            <div className="text-center py-12">
+              <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-600 mb-2">Your cart is empty</h3>
+              <p className="text-gray-500">आपका कार्ट खाली है</p>
+            </div>
+          ) : (
+            <>
+              <div className="space-y-4 mb-6">
+                {items.map((item) => (
+                  <Card key={item.id} className="p-4">
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-900">{item.name}</h4>
+                        {item.nameHindi && <p className="text-sm text-gray-600">{item.nameHindi}</p>}
+                        {item.type && (
+                          <span className="inline-block bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded mt-1">
+                            {item.type}
+                          </span>
+                        )}
+                      </div>
+                      <button onClick={() => updateItem(item.id, 0)} className="text-red-500 hover:text-red-700 p-1">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => updateItem(item.id, item.quantity - 1)}
+                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                        >
+                          <Minus className="w-4 h-4" />
+                        </button>
+                        <span className="font-semibold">{item.quantity}</span>
+                        <button
+                          onClick={() => updateItem(item.id, item.quantity + 1)}
+                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-semibold text-amber-900">₹{item.price * item.quantity}</div>
+                        <div className="text-sm text-gray-500">₹{item.price} each</div>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+
+              <div className="border-t pt-4">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-lg font-semibold">Total / कुल:</span>
+                  <span className="text-2xl font-bold text-amber-900">₹{total}</span>
+                </div>
+
+                <Button
+                  onClick={handleCheckout}
+                  className="w-full bg-amber-900 hover:bg-amber-800 text-white py-3 text-lg"
+                >
+                  Proceed to Checkout / चेकआउट करें
+                </Button>
+
+                <p className="text-xs text-gray-500 text-center mt-3">Secure payment • Free delivery in Indore</p>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+      
+      {/* Checkout Form */}
+      {isCheckoutOpen && (
+        <CheckoutForm 
+          cartItems={items} 
+          total={total} 
+          onClose={() => setIsCheckoutOpen(false)}
+          onComplete={handleOrderComplete}
+        />
+      )}
+    </div>
+  )
+}
