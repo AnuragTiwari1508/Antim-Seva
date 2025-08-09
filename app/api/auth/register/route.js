@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import dbConnect from '@/lib/mongoose';
-import User from '@/models/User';
+import { connectToDatabase } from '@/lib/mongodb-native';
 
 export async function POST(request) {
   try {
@@ -15,11 +14,13 @@ export async function POST(request) {
       );
     }
 
-    // Connect to database
-    await dbConnect();
+    // Connect to database using native driver
+    const { db } = await connectToDatabase();
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    // Check if user already exists in users collection
+    const usersCollection = db.collection('users');
+    const existingUser = await usersCollection.findOne({ email });
+    
     if (existingUser) {
       return NextResponse.json(
         { error: 'User with this email already exists' },
@@ -31,24 +32,30 @@ export async function POST(request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
-    const user = await User.create({
+    const newUser = {
       name,
       email,
       password: hashedPassword,
-      phone,
-      address,
-    });
-
-    // Return user without password
-    const newUser = {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      address: user.address,
+      phone: phone || '',
+      address: address || '',
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
 
-    return NextResponse.json({ user: newUser }, { status: 201 });
+    const result = await usersCollection.insertOne(newUser);
+
+    // Return user without password
+    const userResponse = {
+      _id: result.insertedId,
+      name: newUser.name,
+      email: newUser.email,
+      phone: newUser.phone,
+      address: newUser.address,
+    };
+
+    console.log('✅ User registered successfully in user.users collection:', userResponse.email);
+
+    return NextResponse.json({ user: userResponse }, { status: 201 });
   } catch (error) {
     console.error('Registration error:', error);
     return NextResponse.json(

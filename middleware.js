@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { jwtVerify } from 'jose';
 
 // Paths that require authentication
 const protectedPaths = [
@@ -17,34 +17,58 @@ const authPaths = [
   '/reset-password',
 ];
 
-export function middleware(request) {
+export async function middleware(request) {
   const path = request.nextUrl.pathname;
   const token = request.cookies.get('token')?.value;
-  const isAuthenticated = !!token;
+
+  // Validate JWT if present using Edge-friendly jose
+  let isAuthenticated = false;
+  if (token) {
+    try {
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'antim-sewa-secret-key');
+      await jwtVerify(token, secret);
+      isAuthenticated = true;
+    } catch (_err) {
+      // Invalid or expired token – treat as unauthenticated
+      isAuthenticated = false;
+    }
+  }
+
+  // Prepare a response we can mutate (e.g., clear bad cookie)
+  let response;
+
+  // If token exists but is invalid/expired, clear it proactively
+  if (token && !isAuthenticated) {
+    response = NextResponse.next();
+    response.cookies.set({ name: 'token', value: '', path: '/', maxAge: 0 });
+  }
 
   // Redirect authenticated users away from auth pages
-  if (isAuthenticated && authPaths.some(authPath => path.startsWith(authPath))) {
+  if (isAuthenticated && authPaths.some((authPath) => path.startsWith(authPath))) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
   // Redirect unauthenticated users away from protected pages
-  if (!isAuthenticated && protectedPaths.some(protectedPath => path.startsWith(protectedPath))) {
+  if (!isAuthenticated && protectedPaths.some((protectedPath) => path.startsWith(protectedPath))) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  return NextResponse.next();
+  return response ?? NextResponse.next();
 }
 
+// No matcher config - let Next.js handle all routes
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
+     * Match specific paths that need auth protection or redirection:
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\.svg$|.*\.png$|.*\.jpg$|.*\.jpeg$).*)',
+    '/profile',
+    '/checkout',
+    '/orders',
+    '/change-password',
+    '/login',
+    '/register',
+    '/forgot-password',
+    '/reset-password',
   ],
 };

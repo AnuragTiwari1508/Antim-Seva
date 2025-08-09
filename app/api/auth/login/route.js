@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import dbConnect from '@/lib/mongoose';
-import User from '@/models/User';
+import { connectToDatabase } from '@/lib/mongodb-native';
 
 // JWT secret key - should be in environment variables in production
 const JWT_SECRET = process.env.JWT_SECRET || 'antim-sewa-secret-key';
@@ -19,11 +18,13 @@ export async function POST(request) {
       );
     }
 
-    // Connect to database
-    await dbConnect();
+    // Connect to database using native driver
+    const { db } = await connectToDatabase();
 
     // Find user by email
-    const user = await User.findOne({ email });
+    const usersCollection = db.collection('users');
+    const user = await usersCollection.findOne({ email });
+    
     if (!user) {
       return NextResponse.json(
         { error: 'Invalid email or password' },
@@ -42,7 +43,7 @@ export async function POST(request) {
 
     // Create JWT token
     const token = jwt.sign(
-      { userId: user._id, email: user.email },
+      { userId: user._id.toString(), email: user.email },
       JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -52,9 +53,11 @@ export async function POST(request) {
       _id: user._id,
       name: user.name,
       email: user.email,
-      phone: user.phone,
-      address: user.address,
+      phone: user.phone || '',
+      address: user.address || '',
     };
+
+    console.log('✅ User logged in successfully from user.users collection:', userInfo.email);
 
     return NextResponse.json(
       { user: userInfo, token },
