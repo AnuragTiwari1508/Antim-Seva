@@ -5,13 +5,5 @@
   "outputDirectory": ".next",
   "devCommand": "next dev",
   "installCommand": "pnpm install",
-  "regions": ["iad1"],
-  "functions": {
-    "app/api/**/*.js": {
-      "runtime": "nodejs20.x"
-    }
-  },
-  "env": {
-    "NODE_ENV": "production"
-  }
+  "regions": ["iad1"]
 }
