@@ -1,415 +1,113 @@
 # Antim Sewa - अंतिम सेवा
 
-This is a comprehensive funeral services website that provides essential items and services for final rites. Built with Next.js 15 and MongoDB Atlas cloud database.
+A comprehensive funeral services website providing essential items and services for final rites. Built with Next.js 15 and MongoDB Atlas cloud database.
+
+## 📸 Screenshots
+
+<div align="center">
+  <table>
+    <tr>
+      <td><img src="https://github.com/user-attachments/assets/register-page.png" width="200" alt="Register Page"/><br><em>Registration Page</em></td>
+      <td><img src="https://github.com/user-attachments/assets/products-page.png" width="200" alt="Products Page"/><br><em>Products Catalog</em></td>
+      <td><img src="https://github.com/user-attachments/assets/packages-page.png" width="200" alt="Packages Page"/><br><em>Package Deals</em></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/user-attachments/assets/home-page.png" width="200" alt="Home Page"/><br><em>Home Page</em></td>
+      <td><img src="https://github.com/user-attachments/assets/login-page.png" width="200" alt="Login Page"/><br><em>Login Page</em></td>
+      <td></td>
+    </tr>
+  </table>
+</div>
 
 ## 🌟 Features
 
-- **User Authentication System**
-  - User registration and login
-  - JWT-based authentication with secure cookies
-  - Password hashing with bcryptjs
-  - Google OAuth integration support
-
-- **Product & Service Management**
-  - Individual products catalog
-  - Package deals for complete services
-  - Service offerings with detailed descriptions
-
-- **Shopping Cart System**
-  - Add/remove items from cart
-  - Update quantities
-  - User-specific cart management
-  - Persistent cart storage in MongoDB
-
-- **Responsive Design**
-  - Mobile-first responsive design
-  - Hindi and English bilingual support
-  - Modern UI with Tailwind CSS
+- **User Authentication** - Registration, login, JWT-based auth, Google OAuth
+- **Product Catalog** - Individual products and package deals  
+- **Shopping Cart** - Add/remove items, user-specific cart management
+- **Bilingual Support** - Hindi and English interface
+- **Responsive Design** - Mobile-first modern UI
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** Next.js 15, React 18, TypeScript
-- **Backend:** Next.js API Routes, Node.js
-- **Database:** MongoDB Atlas (Cloud)
-- **Authentication:** JWT with jose library
-- **Styling:** Tailwind CSS, Radix UI components
-- **Icons:** Lucide React
-- **Forms:** React Hook Form with Zod validation
+**Frontend:** Next.js 15, React 18, TypeScript, Tailwind CSS  
+**Backend:** Next.js API Routes, MongoDB Atlas  
+**Authentication:** JWT with jose library  
+**UI Components:** Radix UI, Lucide React
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
-### Prerequisites
+**Prerequisites:** Node.js 18+, MongoDB Atlas account, pnpm
 
-- Node.js 18+ 
-- MongoDB Atlas account
-- Git
-- pnpm (recommended) or npm
-
-### Installation
-
-1. **Clone the repository**
 ```bash
+# Clone and install
 git clone https://github.com/AnuragTiwari1508/Antim-Sewa.git
 cd Antim-Sewa
-```
-
-2. **Install dependencies**
-```bash
 pnpm install
-# or
-npm install
-```
 
-3. **Environment Setup**
-```bash
+# Setup environment
 cp .env.example .env.local
-```
+# Edit .env.local with your MongoDB URI and JWT secret
 
-4. **Configure Environment Variables**
-Edit `.env.local` with your values:
-```env
-# JWT Secret - Generate a secure random string
-JWT_SECRET=your-jwt-secret-key-here
-
-# MongoDB URI - MongoDB Atlas Connection String
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=true&w=majority&appName=YourApp
-
-# Google OAuth - Get from Google Cloud Console
-NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
-
-# Site URL
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+# Start development
+pnpm dev
 ```
 
 ## 🗄️ MongoDB Atlas Setup
 
-### Step 1: Create MongoDB Atlas Account
-1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-2. Sign up for a free account
-3. Create a new cluster (choose free tier M0)
+1. **Create Account:** [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+2. **Create Cluster:** Choose free tier M0
+3. **Get Connection String:** Replace in `.env.local`
+4. **IP Whitelist:** Add your IP or `0.0.0.0/0` for development
 
-### Step 2: Database Configuration
 ```bash
-# Test MongoDB connection
-node -e "
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = 'your-mongodb-connection-string';
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
-
-async function run() {
-  try {
-    await client.connect();
-    await client.db('admin').command({ ping: 1 });
-    console.log('✅ Successfully connected to MongoDB!');
-  } catch (error) {
-    console.log('❌ Connection failed:', error.message);
-  } finally {
-    await client.close();
-  }
-}
-run();
-"
-```
-
-### Step 3: IP Whitelisting
-```bash
-# Get your current IP address
-curl -s ifconfig.me
-
-# Add this IP to MongoDB Atlas Network Access:
-# 1. Go to MongoDB Atlas Dashboard
-# 2. Navigate to Network Access
-# 3. Click "Add IP Address"
-# 4. Add your IP or use 0.0.0.0/0 for development (not recommended for production)
-```
-
-### Step 4: Database Structure
-The application creates these collections automatically:
-- `user.users` - User accounts and profiles
-- `user.carts` - Shopping cart data
-
-## 🔧 Development Commands
-
-### Start Development Server
-```bash
-# Standard development
-pnpm dev
-
-# With specific port
-PORT=3000 pnpm dev
-
-# With environment variables
-JWT_SECRET=your-secret MONGODB_URI=your-uri pnpm dev
-
-# With debug mode
-DEBUG=* pnpm dev
-```
-
-### Database Testing Commands
-```bash
-# Test database connection
+# Test connection
 node -e "
 const { connectToDatabase } = require('./lib/mongodb-native.js');
 async function test() {
   try {
     const { db } = await connectToDatabase();
     console.log('✅ Database connected successfully');
-    const users = await db.collection('users').countDocuments();
-    console.log('Users in database:', users);
   } catch (error) {
     console.error('❌ Database error:', error.message);
   }
 }
-test();
-"
-
-# Check database collections
-node -e "
-const { connectToDatabase } = require('./lib/mongodb-native.js');
-async function listCollections() {
-  const { db } = await connectToDatabase();
-  const collections = await db.listCollections().toArray();
-  console.log('Collections:', collections.map(c => c.name));
-}
-listCollections();
-"
+test();"
 ```
 
-### API Testing Commands
+## 🔧 Development Commands
+
 ```bash
-# Test registration API
+# Development server
+pnpm dev
+
+# API Testing
 curl -X POST http://localhost:3000/api/auth/register \
   -H "Content-Type: application/json" \
-  -d '{
-    "name": "Test User",
-    "email": "test@example.com",
-    "password": "password123",
-    "phone": "9876543210"
-  }'
+  -d '{"name":"Test User","email":"test@example.com","password":"password123","phone":"9876543210"}'
 
-# Test login API
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{
-    "email": "test@example.com",
-    "password": "password123"
-  }'
+  -d '{"email":"test@example.com","password":"password123"}'
 
-# Test cart API (requires authentication token)
-curl -X POST http://localhost:3000/api/cart \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  -d '{
-    "productId": "test-product-123",
-    "productName": "Test Product",
-    "quantity": 2,
-    "price": 199.99
-  }'
-```
-
-### Build and Production Commands
-```bash
-# Build for production
+# Build & Production
 pnpm build
-
-# Start production server
 pnpm start
-
-# Check build output
-pnpm build && ls -la .next/
-
-# Lint code
-pnpm lint
-
-# Type checking
-npx tsc --noEmit
 ```
 
-## 🔧 Process Management Commands
+## � Common Issues & Solutions
 
-### Kill Existing Processes
+| Issue | Solution |
+|-------|----------|
+| MongoDB connection failed | Check MONGODB_URI and IP whitelist |
+| Port 3000 in use | `kill -9 $(lsof -ti:3000)` or use different port |
+| JWT token errors | Clear cookies: `curl -X GET http://localhost:3000/api/auth/logout` |
+| Pages not loading | Clear cache: `rm -rf .next && pnpm dev` |
+
 ```bash
-# Kill Next.js development servers
-pkill -f "next dev"
-
-# Kill specific port processes
-lsof -ti:3000 | xargs kill -9
-
-# Kill all Node processes (use with caution)
-pkill -f node
-```
-
-### Check Running Processes
-```bash
-# Check what's running on port 3000
-lsof -i :3000
-
-# Check all Node processes
-ps aux | grep node
-
-# Check Next.js processes specifically
-ps aux | grep "next dev"
-```
-
-## 📁 Project Structure
-
-```
-├── app/                    # Next.js 13+ app directory
-│   ├── api/               # API routes
-│   │   ├── auth/         # Authentication endpoints
-│   │   │   ├── register/ # User registration
-│   │   │   ├── login/    # User login
-│   │   │   ├── logout/   # User logout
-│   │   │   └── me/       # Current user info
-│   │   ├── cart/         # Cart management endpoints
-│   │   └── debug/        # Debug endpoints
-│   ├── fonts.ts          # Font configuration
-│   ├── layout.tsx        # Root layout component
-│   ├── providers.tsx     # Client-side providers
-│   ├── login/page.js     # Login page
-│   ├── register/page.js  # Registration page
-│   └── globals.css       # Global styles
-├── components/            # Reusable UI components
-├── context/              # React context providers
-│   └── AuthContext.js   # Authentication context
-├── lib/                  # Utility libraries
-│   ├── mongodb-native.js # MongoDB connection (native driver)
-│   ├── mongoose.js       # Mongoose configuration
-│   └── utils.ts          # Utility functions
-├── models/               # Database models
-│   ├── User.js          # User model
-│   └── Cart.js          # Cart model
-├── middleware.js         # Next.js middleware for auth
-├── .env.example         # Environment template
-└── README.md           # This file
-```
-
-## 🔒 Authentication Flow
-
-The application uses JWT-based authentication with the following flow:
-
-1. **Registration**: `POST /api/auth/register`
-   - User provides name, email, password, phone, address
-   - Password is hashed with bcryptjs
-   - User stored in MongoDB `user.users` collection
-
-2. **Login**: `POST /api/auth/login`
-   - User provides email and password
-   - Server validates credentials
-   - JWT token generated and set as HTTP-only cookie
-   - User data returned (without password)
-
-3. **Authentication Check**: `GET /api/auth/me`
-   - Validates JWT token from cookie or Authorization header
-   - Returns current user data
-
-4. **Logout**: `GET /api/auth/logout`
-   - Clears authentication cookie
-
-## 🛒 Cart System
-
-Shopping cart functionality with user association:
-
-- **Get Cart**: `GET /api/cart` (requires auth)
-- **Add Item**: `POST /api/cart` (requires auth)
-- **Update Item**: `PUT /api/cart` (requires auth)
-- **Remove Item**: `DELETE /api/cart` (requires auth)
-
-## 🐛 Troubleshooting
-
-### Common Issues and Solutions
-
-#### 1. MongoDB Connection Issues
-```bash
-# Error: "Failed to connect to MongoDB"
-# Solution: Check your MONGODB_URI and IP whitelist
-
-# Test connection manually
-node -e "
-const { MongoClient } = require('mongodb');
-const client = new MongoClient('your-mongodb-uri');
-client.connect()
-  .then(() => console.log('✅ Connected'))
-  .catch(err => console.error('❌ Error:', err.message));
-"
-```
-
-#### 2. Port Already in Use
-```bash
-# Error: "Port 3000 is already in use"
-# Solution: Kill existing process or use different port
-
-# Find process using port 3000
-lsof -i :3000
-
-# Kill process
-kill -9 $(lsof -ti:3000)
-
-# Or use different port
-PORT=3001 pnpm dev
-```
-
-#### 3. Environment Variables Not Loading
-```bash
-# Check if .env.local exists and has correct format
-cat .env.local
-
-# Test environment loading
-node -e "
-require('dotenv').config({ path: '.env.local' });
-console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
-console.log('MONGODB_URI exists:', !!process.env.MONGODB_URI);
-"
-```
-
-#### 4. JWT Token Issues
-```bash
-# Error: "Invalid token" or "JsonWebTokenError"
-# Solution: Ensure JWT_SECRET is consistent and tokens are not expired
-
-# Clear browser cookies or use:
-curl -X GET http://localhost:3000/api/auth/logout
-```
-
-#### 5. Build/Compilation Errors
-```bash
-# Clear Next.js cache
-rm -rf .next
-
-# Reinstall dependencies
-rm -rf node_modules pnpm-lock.yaml
-pnpm install
-
-# Check for TypeScript errors
-npx tsc --noEmit
-```
-
-#### 6. Registration/Login Pages Not Loading
-```bash
-# Check middleware configuration
-# Ensure middleware.js has correct JWT validation
-
-# Test direct page access
-curl -v http://localhost:3000/register
-curl -v http://localhost:3000/login
-```
-
-### Debug Commands
-```bash
-# Enable debug logging
-DEBUG=* pnpm dev
-
-# Check API endpoints
-curl -v http://localhost:3000/api/debug
-
-# Test specific routes
-curl -v http://localhost:3000/api/auth/me
+# Debug commands
+DEBUG=* pnpm dev                    # Enable debug logging
+lsof -i :3000                      # Check what's using port 3000
+curl -v http://localhost:3000/api/debug  # Test API endpoint
 ```
 
 ## 🚀 Deployment
