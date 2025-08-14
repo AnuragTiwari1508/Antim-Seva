@@ -156,7 +156,11 @@ export default function PackageDeals({ addToCart }: PackageDealsProps) {
                         <div className="text-sm font-medium">{item.name}</div>
                         <div className="text-xs text-gray-500">{item.nameHindi}</div>
                       </div>
-                      <div className="text-sm text-gray-600">₹{item.price}</div>
+                      <div className="w-6 h-6 flex items-center justify-center">
+                        <div className="w-4 h-4 bg-amber-100 rounded-full flex items-center justify-center">
+                          <span className="text-xs text-amber-600">•</span>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>

@@ -8,6 +8,7 @@ export interface Product {
   inPackage3: boolean
   category: string
   description?: string
+  image?: string
 }
 
 export const products: Product[] = [
@@ -20,6 +21,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "essential",
+    image: "/products/Kafan.jpg",
   },
   {
     id: "2",
@@ -30,6 +32,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "essential",
+    image: "/products/Nada.jpg",
   },
   {
     id: "3",
@@ -50,6 +53,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Matka.jpg",
   },
   {
     id: "5",
@@ -190,6 +194,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "essential",
+    image: "/products/Kapas.jpg",
   },
   {
     id: "19",
@@ -300,6 +305,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "essential",
+    image: "/products/Chatai.jpg",
   },
   {
     id: "30",
@@ -330,6 +336,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "essential",
+    image: "/products/Ghee.jpg",
   },
   {
     id: "33",
