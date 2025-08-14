@@ -86,7 +86,7 @@ export default function IndividualProducts({ selectedItems, onItemChange, addToC
               <CardHeader className="p-4">
                 <div className="relative">
                   <img
-                    src="/placeholder.svg?height=150&width=200"
+                    src={product.image || "/placeholder.svg?height=150&width=200"}
                     alt={product.name}
                     className="w-full h-32 object-cover rounded-lg bg-gray-100"
                   />

@@ -5,103 +5,22 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ShoppingCart, Star } from "lucide-react"
-
-interface Product {
-  id: string
-  name: string
-  nameHindi: string
-  price: number
-  originalPrice?: number
-  image: string
-  category: string
-  rating: number
-  inStock: boolean
-  description: string
-}
+import { products } from "@/data/products"
 
 interface ProductCatalogProps {
-  addToCart: (item: Product) => void
+  addToCart: (item: any) => void
 }
 
 export default function ProductCatalog({ addToCart }: ProductCatalogProps) {
   const [selectedCategory, setSelectedCategory] = useState("all")
-
-  const products: Product[] = [
-    {
-      id: "1",
-      name: "Kafan & Shawl",
-      nameHindi: "कफन और शाल",
-      price: 150,
-      originalPrice: 200,
-      image: "/placeholder.svg?height=200&width=200",
-      category: "essential",
-      rating: 4.8,
-      inStock: true,
-      description: "Premium quality white cotton kafan with traditional shawl",
-    },
-    {
-      id: "2",
-      name: "Puja Samagri Set",
-      nameHindi: "पूजा सामग्री सेट",
-      price: 80,
-      image: "/placeholder.svg?height=200&width=200",
-      category: "puja",
-      rating: 4.7,
-      inStock: true,
-      description: "Complete set of fragrant puja materials for rituals",
-    },
-    {
-      id: "3",
-      name: "Sacred Thread Bundle",
-      nameHindi: "सुतली और नाड़ा",
-      price: 40,
-      image: "/placeholder.svg?height=200&width=200",
-      category: "essential",
-      rating: 4.6,
-      inStock: true,
-      description: "Traditional sacred threads and ropes for ceremonies",
-    },
-    {
-      id: "4",
-      name: "Abir Gulal Set",
-      nameHindi: "अबीर गुलाल सेट",
-      price: 60,
-      originalPrice: 80,
-      image: "/placeholder.svg?height=200&width=200",
-      category: "puja",
-      rating: 4.9,
-      inStock: true,
-      description: "Pure and natural colored powders for rituals",
-    },
-    {
-      id: "5",
-      name: "Ghee & Resin",
-      nameHindi: "घी और राल",
-      price: 100,
-      image: "/placeholder.svg?height=200&width=200",
-      category: "essential",
-      rating: 4.8,
-      inStock: true,
-      description: "Pure cow ghee and natural resin for sacred fire",
-    },
-    {
-      id: "6",
-      name: "Traditional Cap",
-      nameHindi: "पारंपरिक टोपी",
-      price: 90,
-      image: "/placeholder.svg?height=200&width=200",
-      category: "clothing",
-      rating: 4.5,
-      inStock: true,
-      description: "Traditional ceremonial headwear",
-    },
-  ]
 
   const categories = [
     { id: "all", name: "All Products", nameHindi: "सभी उत्पाद" },
     { id: "essential", name: "Essential Items", nameHindi: "आवश्यक सामग्री" },
     { id: "puja", name: "Puja Materials", nameHindi: "पूजा सामग्री" },
     { id: "clothing", name: "Clothing", nameHindi: "वस्त्र" },
+    { id: "ritual", name: "Ritual", nameHindi: "अनुष्ठान" },
+    { id: "special", name: "Special", nameHindi: "विशेष" },
   ]
 
   const filteredProducts =
@@ -146,12 +65,11 @@ export default function ProductCatalog({ addToCart }: ProductCatalogProps) {
                     alt={product.name}
                     className="w-full h-48 object-cover rounded-lg"
                   />
-                  {product.originalPrice && (
-                    <Badge className="absolute top-2 left-2 bg-red-500">
-                      {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                  <div className="absolute top-2 right-2">
+                    <Badge variant="secondary" className="text-xs">
+                      {product.category}
                     </Badge>
-                  )}
-                  {!product.inStock && <Badge className="absolute top-2 right-2 bg-gray-500">Out of Stock</Badge>}
+                  </div>
                 </div>
               </CardHeader>
 
@@ -164,31 +82,27 @@ export default function ProductCatalog({ addToCart }: ProductCatalogProps) {
                 <div className="flex items-center gap-2 mb-2">
                   <div className="flex items-center">
                     <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-sm text-gray-600 ml-1">{product.rating}</span>
+                    <span className="text-sm text-gray-600 ml-1">4.5</span>
                   </div>
                   <Badge variant="secondary" className="text-xs">
-                    {product.inStock ? "In Stock" : "Out of Stock"}
+                    In Stock
                   </Badge>
                 </div>
 
-                <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.description}</p>
+                <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.description || "High quality product for traditional ceremonies"}</p>
 
                 <div className="flex items-center gap-2">
                   <span className="text-xl font-bold text-amber-900">₹{product.price}</span>
-                  {product.originalPrice && (
-                    <span className="text-sm text-gray-500 line-through">₹{product.originalPrice}</span>
-                  )}
                 </div>
               </CardContent>
 
               <CardFooter className="p-4 pt-0">
                 <Button
                   onClick={() => addToCart(product)}
-                  disabled={!product.inStock}
-                  className="w-full bg-amber-900 hover:bg-amber-800 disabled:bg-gray-300"
+                  className="w-full bg-amber-900 hover:bg-amber-800"
                 >
                   <ShoppingCart className="w-4 h-4 mr-2" />
-                  {product.inStock ? "Add to Cart / कार्ट में डालें" : "Out of Stock"}
+                  Add to Cart / कार्ट में डालें
                 </Button>
               </CardFooter>
             </Card>
