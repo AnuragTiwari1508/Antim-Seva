@@ -118,7 +118,7 @@ export default function RegisterPage() {
                 id="phone"
                 name="phone"
                 type="tel"
-                placeholder="+91 98765 43210"
+                placeholder="+91 91796 77292"
                 value={formData.phone}
                 onChange={handleChange}
               />

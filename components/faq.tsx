@@ -107,7 +107,7 @@ export default function FAQ() {
             <p className="text-gray-600 mb-6">हमारी टीम आपकी हर समस्या का समाधान करने के लिए तैयार है</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="bg-amber-900 text-white px-6 py-3 rounded-lg hover:bg-amber-800 transition-colors">
-                Call Us: +91 98765 43210
+                Call Us: +91 91796 77292
               </button>
               <button className="border border-amber-900 text-amber-900 px-6 py-3 rounded-lg hover:bg-amber-50 transition-colors">
                 WhatsApp Support

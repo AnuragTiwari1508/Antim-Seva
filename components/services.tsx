@@ -3,6 +3,19 @@ import { Button } from "@/components/ui/button"
 import { Phone, MapPin, Users, Clock, Heart, Shield } from "lucide-react"
 
 export default function Services() {
+  const phoneNumber = "919179677292"; // WhatsApp number
+  const displayNumber = "+91 91796 77292";
+
+  const handleCallClick = () => {
+    window.open(`tel:${displayNumber}`, "_self");
+  };
+
+  const handleWhatsAppClick = () => {
+    const message = encodeURIComponent("नमस्ते! मैं Antim Sewa की सेवाओं के बारे में जानकारी चाहता/चाहती हूँ। कृपया मार्गदर्शन करें।");
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
   const services = [
     {
       icon: <Users className="w-8 h-8 text-blue-600" />,
@@ -95,14 +108,19 @@ export default function Services() {
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Need Immediate Assistance? / तत्काल सहायता चाहिए?</h3>
             <p className="text-gray-600 mb-6">हमारी टीम 24/7 आपकी सेवा में उपलब्ध है</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-green-600 hover:bg-green-700">
+              <Button 
+                size="lg" 
+                className="bg-green-600 hover:bg-green-700"
+                onClick={handleCallClick}
+              >
                 <Phone className="w-5 h-5 mr-2" />
-                Call Now: +91 98765 43210
+                Call Now: {displayNumber}
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 className="border-amber-900 text-amber-900 hover:bg-amber-50 bg-transparent"
+                onClick={handleWhatsAppClick}
               >
                 WhatsApp Support
               </Button>

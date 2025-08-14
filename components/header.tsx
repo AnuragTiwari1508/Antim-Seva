@@ -1,11 +1,12 @@
 "use client"
 
-import { ShoppingCart, Phone, MapPin, User, LogOut } from "lucide-react"
+import { ShoppingCart, Phone, MapPin, User, LogOut, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/context/AuthContext"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { useState } from "react"
 
 interface HeaderProps {
   activeSection: string
@@ -17,6 +18,7 @@ interface HeaderProps {
 export default function Header({ activeSection, setActiveSection, cartItemsCount, onCartClick }: HeaderProps) {
   const { user, isAuthenticated, logout } = useAuth();
   const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const navItems = [
     { id: "home", label: "Home / होम", icon: null },
@@ -29,16 +31,16 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
-      {/* Top Bar */}
-      <div className="bg-amber-900 text-white py-2 px-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
+      {/* Top Bar - Hidden on mobile */}
+      <div className="bg-amber-900 text-white py-1 px-4 hidden md:block">
+        <div className="max-w-7xl mx-auto flex justify-between items-center text-xs">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
-              <Phone className="w-4 h-4" />
-              <span>+91 98765 43210</span>
+              <Phone className="w-3 h-3" />
+              <span>+91 91796 77292</span>
             </div>
             <div className="flex items-center gap-1">
-              <MapPin className="w-4 h-4" />
+              <MapPin className="w-3 h-3" />
               <span>Indore, Madhya Pradesh</span>
             </div>
           </div>
@@ -47,19 +49,21 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
       </div>
 
       {/* Main Header */}
-      <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className="max-w-7xl mx-auto px-4 py-2 md:py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-amber-900 rounded-full flex items-center justify-center text-white font-bold text-xl">
+          {/* Logo */}
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="w-8 h-8 md:w-12 md:h-12 bg-amber-900 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl">
               अं
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-amber-900">Antim Sewa</h1>
-              <p className="text-sm text-gray-600">अंतिम संस्कार आवश्यक वस्तुएं</p>
+              <h1 className="text-lg md:text-2xl font-bold text-amber-900">Antim Sewa</h1>
+              <p className="text-xs md:text-sm text-gray-600 hidden sm:block">अंतिम संस्कार आवश्यक वस्तुएं</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center gap-3">
             <Button
               onClick={onCartClick}
               variant="outline"
@@ -110,11 +114,107 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
               </div>
             )}
           </div>
+
+          {/* Mobile Actions */}
+          <div className="flex md:hidden items-center gap-2">
+            <Button
+              onClick={onCartClick}
+              variant="outline"
+              size="sm"
+              className="relative border-amber-900 text-amber-900 hover:bg-amber-50 bg-transparent p-2"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                  {cartItemsCount}
+                </span>
+              )}
+            </Button>
+            
+            {!isAuthenticated && (
+              <Link href="/register">
+                <Button size="sm" className="bg-amber-900 hover:bg-amber-800 text-xs px-2">
+                  Register
+                </Button>
+              </Link>
+            )}
+            
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-amber-900 p-2"
+            >
+              {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </Button>
+          </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-4 pb-4 border-t border-gray-200">
+            <div className="flex flex-col gap-2 mt-4">
+              {!isAuthenticated ? (
+                <div className="flex gap-2 mb-3">
+                  <Link href="/login" className="flex-1">
+                    <Button variant="ghost" size="sm" className="w-full text-amber-900 hover:bg-amber-50">
+                      Login / लॉगिन
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2 mb-3">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => router.push('/profile')}
+                    className="text-amber-900 hover:bg-amber-50 justify-start"
+                  >
+                    <User className="w-4 h-4 mr-2" />
+                    Profile / प्रोफाइल
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={async () => {
+                      await logout();
+                      router.push('/');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="text-amber-900 hover:bg-amber-50 justify-start"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout / लॉगआउट
+                  </Button>
+                </div>
+              )}
+              
+              {/* Mobile Navigation Items */}
+              <div className="grid grid-cols-2 gap-2">
+                {navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setActiveSection(item.id);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`px-3 py-2 text-xs font-medium transition-colors rounded ${
+                      activeSection === item.id 
+                        ? "bg-amber-900 text-white" 
+                        : "text-amber-900 hover:bg-amber-50"
+                    }`}
+                  >
+                    {item.label.split(' / ')[0]}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Navigation */}
-      <nav className="bg-amber-800 text-white">
+      {/* Desktop Navigation */}
+      <nav className="bg-amber-800 text-white hidden md:block">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-1">
             {navItems.map((item) => (
