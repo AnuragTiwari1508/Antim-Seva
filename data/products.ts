@@ -43,6 +43,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "essential",
+    image: "/products/Rassi.jpg",
   },
   {
     id: "4",
@@ -64,6 +65,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Abir-Gulal-Ashtgandh.jpg",
   },
   {
     id: "6",
@@ -84,6 +86,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Jal Tilpatti.jpg",
   },
   {
     id: "8",
@@ -104,6 +107,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Jal Kalash.jpg",
   },
   {
     id: "10",
@@ -124,6 +128,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Omkari.jpg",
   },
   {
     id: "12",
@@ -507,6 +512,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "essential",
+    image: "/products/Ral.jpg",
   },
 ]
 
