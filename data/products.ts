@@ -129,7 +129,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
-    image: "/products/Omkari.jpg",
+    image: "/products/Omkar.jpg",
   },
   {
     id: "12",
@@ -140,6 +140,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Mung Moti.jpg",
   },
   {
     id: "13",
@@ -150,6 +151,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Panchratna.jpg",
   },
   {
     id: "14",
@@ -160,6 +162,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Matki.jpg",
   },
   {
     id: "15",
@@ -180,6 +183,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Paan.jpg",
   },
   {
     id: "17",
@@ -190,6 +194,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Kaal.jpg",
   },
   {
     id: "18",
@@ -251,6 +256,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Matki Ka Nandan.jpg",
   },
   {
     id: "24",
@@ -261,6 +267,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Mati-Lota.jpg",
   },
   {
     id: "25",
@@ -271,6 +278,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Aata.jpg",
   },
   {
     id: "26",
