@@ -129,7 +129,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
-    image: "/products/Omkar.jpg",
+    image: "/products/Omkari.jpg",
   },
   {
     id: "12",
@@ -289,6 +289,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Papu.jpg",
   },
   {
     id: "27",
@@ -299,6 +300,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Gopi-Janak.jpg",
   },
   {
     id: "28",
@@ -309,6 +311,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Tulsi Mala.jpg",
   },
   {
     id: "29",
@@ -330,6 +333,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Puja Patan Puja.jpg",
   },
   {
     id: "31",
@@ -361,6 +365,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Tal Sugandh Sone Ki Siri.jpg",
   },
   {
     id: "34",
@@ -371,6 +376,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Sugandh Chandan Ki Siri.jpg",
   },
   {
     id: "35",
@@ -381,6 +387,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Chandan Pul.jpg",
   },
   {
     id: "36",
@@ -391,6 +398,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Dhan.jpg",
   },
   {
     id: "37",
@@ -401,6 +409,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Suhagan Ka Saman.jpg",
   },
   {
     id: "38",
@@ -411,6 +420,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Chandi Ka Saman Mishri.jpg",
   },
   {
     id: "39",
