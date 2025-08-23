@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import crypto from 'crypto';
 import dbConnect from '@/lib/mongoose';
 import User from '@/models/User';
 
@@ -28,8 +27,10 @@ export async function POST(request) {
       );
     }
 
-    // Generate reset token
-    const resetToken = crypto.randomBytes(32).toString('hex');
+    // Generate reset token using Web Crypto API (compatible with Edge Runtime)
+    const tokenArray = new Uint8Array(32);
+    crypto.getRandomValues(tokenArray);
+    const resetToken = Array.from(tokenArray, byte => byte.toString(16).padStart(2, '0')).join('');
     const resetTokenExpiry = Date.now() + 3600000; // 1 hour from now
 
     // Save token to user

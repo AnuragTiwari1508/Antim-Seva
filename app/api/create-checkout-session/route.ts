@@ -15,15 +15,6 @@ function getStripe() {
 
 export async function POST(req: Request) {
   try {
-    const stripeInstance = getStripe();
-    
-    if (!stripeInstance) {
-      return NextResponse.json(
-        { error: "Stripe not configured" },
-        { status: 500 }
-      );
-    }
-
     const { cartItems } = await req.json();
 
     const line_items = cartItems.map((item: any) => ({
@@ -35,7 +26,7 @@ export async function POST(req: Request) {
       quantity: item.quantity,
     }));
 
-    const session = await stripeInstance.checkout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       line_items,

@@ -2,14 +2,6 @@ import Razorpay from "razorpay";
 
 export async function POST(req) {
   try {
-    // Check if Razorpay is configured
-    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
-      return new Response(
-        JSON.stringify({ error: "Razorpay not configured" }),
-        { status: 500 }
-      );
-    }
-
     const { amount } = await req.json();
 
     const razorpay = new Razorpay({
