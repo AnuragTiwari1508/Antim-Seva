@@ -1,12 +1,29 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: "2024-06-20",
-});
+// Initialize Stripe only when API key is available
+let stripe: Stripe | null = null;
+
+function getStripe() {
+  if (!stripe && process.env.STRIPE_SECRET_KEY) {
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2025-07-30.basil",
+    });
+  }
+  return stripe;
+}
 
 export async function POST(req: Request) {
   try {
+    const stripeInstance = getStripe();
+    
+    if (!stripeInstance) {
+      return NextResponse.json(
+        { error: "Stripe not configured" },
+        { status: 500 }
+      );
+    }
+
     const { cartItems } = await req.json();
 
     const line_items = cartItems.map((item: any) => ({
@@ -18,7 +35,7 @@ export async function POST(req: Request) {
       quantity: item.quantity,
     }));
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await stripeInstance.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       line_items,
