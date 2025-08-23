@@ -14,32 +14,78 @@ import Cart from "@/components/cart"
 import UserOptions from "@/components/user-options"
 import PackageSelector from "@/components/package-selector"
 import IndividualProducts from "@/components/individual-products"
+import { products } from "@/data/products"
+
+interface CartItem {
+  id: string
+  name: string
+  nameHindi?: string
+  price: number
+  quantity: number
+  type?: string
+}
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("home")
-  const [cartItems, setCartItems] = useState([])
+  const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [isCartOpen, setIsCartOpen] = useState(false)
 
   // Add state for user options and selected items
   const [userOptions, setUserOptions] = useState({})
-  const [selectedPackage, setSelectedPackage] = useState(null)
-  const [selectedItems, setSelectedItems] = useState({})
+  const [selectedPackage, setSelectedPackage] = useState<string | null>(null)
+  const [selectedItems, setSelectedItems] = useState<{ [key: string]: number }>({})
 
-  const addToCart = (item) => {
+  const addToCart = (item: any) => {
     setCartItems((prev) => {
       const existing = prev.find((p) => p.id === item.id)
       if (existing) {
-        return prev.map((p) => (p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p))
+        return prev.map((p) => (p.id === item.id ? { ...p, quantity: p.quantity + (item.quantity || 1) } : p))
       }
-      return [...prev, { ...item, quantity: 1 }]
+      return [...prev, { ...item, quantity: item.quantity || 1 }]
     })
   }
 
-  const updateCartItem = (id, quantity) => {
+  const updateCartItem = (id: string, quantity: number) => {
     if (quantity <= 0) {
       setCartItems((prev) => prev.filter((item) => item.id !== id))
     } else {
       setCartItems((prev) => prev.map((item) => (item.id === id ? { ...item, quantity } : item)))
+    }
+  }
+
+  // Enhanced function to handle individual item changes and sync with cart
+  const handleItemChange = (itemId: string, quantity: number) => {
+    // Update selectedItems state
+    setSelectedItems((prev) => ({
+      ...prev,
+      [itemId]: quantity,
+    }))
+    
+    // Also sync with cart
+    const product = cartItems.find(item => item.id === itemId)
+    const productInfo = products.find(p => p.id === itemId)
+    
+    if (!productInfo) return
+    
+    const productData: CartItem = {
+      id: itemId,
+      name: productInfo.name,
+      nameHindi: productInfo.nameHindi,
+      price: productInfo.price,
+      quantity: quantity
+    }
+    
+    if (quantity > 0) {
+      if (product) {
+        // Update existing item in cart
+        updateCartItem(itemId, quantity)
+      } else {
+        // Add new item to cart
+        setCartItems(prev => [...prev, productData])
+      }
+    } else {
+      // Remove from cart if quantity is 0
+      updateCartItem(itemId, 0)
     }
   }
 
@@ -89,12 +135,7 @@ export default function Home() {
             />
             <IndividualProducts
               selectedItems={selectedItems}
-              onItemChange={(itemId, quantity) => {
-                setSelectedItems((prev) => ({
-                  ...prev,
-                  [itemId]: quantity,
-                }))
-              }}
+              onItemChange={handleItemChange}
               addToCart={addToCart}
             />
           </>
@@ -121,12 +162,7 @@ export default function Home() {
             />
             <IndividualProducts
               selectedItems={selectedItems}
-              onItemChange={(itemId, quantity) => {
-                setSelectedItems((prev) => ({
-                  ...prev,
-                  [itemId]: quantity,
-                }))
-              }}
+              onItemChange={handleItemChange}
               addToCart={addToCart}
             />
           </>
