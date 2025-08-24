@@ -101,16 +101,20 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
               </DropdownMenu>
             ) : (
               <div className="flex gap-2">
-                <Link href="/login">
-                  <Button variant="ghost" className="text-amber-900 hover:bg-amber-50">
-                    Login / लॉगिन
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button variant="default" className="bg-amber-900 hover:bg-amber-800">
-                    Register / रजिस्टर
-                  </Button>
-                </Link>
+                <Button 
+                  variant="ghost" 
+                  className="text-amber-900 hover:bg-amber-50"
+                  onClick={() => router.push('/login')}
+                >
+                  Login / लॉगिन
+                </Button>
+                <Button 
+                  variant="default" 
+                  className="bg-amber-900 hover:bg-amber-800"
+                  onClick={() => router.push('/register')}
+                >
+                  Register / रजिस्टर
+                </Button>
               </div>
             )}
           </div>
@@ -132,11 +136,13 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
             </Button>
             
             {!isAuthenticated && (
-              <Link href="/register">
-                <Button size="sm" className="bg-amber-900 hover:bg-amber-800 text-xs px-2">
-                  Register
-                </Button>
-              </Link>
+              <Button 
+                size="sm" 
+                className="bg-amber-900 hover:bg-amber-800 text-xs px-2"
+                onClick={() => router.push('/register')}
+              >
+                Register
+              </Button>
             )}
             
             <Button
@@ -156,11 +162,17 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
             <div className="flex flex-col gap-2 mt-4">
               {!isAuthenticated ? (
                 <div className="flex gap-2 mb-3">
-                  <Link href="/login" className="flex-1">
-                    <Button variant="ghost" size="sm" className="w-full text-amber-900 hover:bg-amber-50">
-                      Login / लॉगिन
-                    </Button>
-                  </Link>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full text-amber-900 hover:bg-amber-50"
+                    onClick={() => {
+                      router.push('/login');
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    Login / लॉगिन
+                  </Button>
                 </div>
               ) : (
                 <div className="flex flex-col gap-2 mb-3">
