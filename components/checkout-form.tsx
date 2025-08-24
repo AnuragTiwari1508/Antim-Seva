@@ -49,6 +49,39 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({})
   const [isProcessing, setIsProcessing] = useState(false)
 
+  // Generate unique order ID
+  const generateOrderId = () => {
+    return `AS${Date.now()}${Math.random().toString(36).substr(2, 4).toUpperCase()}`
+  }
+
+  // Send order confirmation email
+  const sendOrderConfirmationEmail = async (orderData: any) => {
+    try {
+      console.log('📧 Sending order confirmation email...')
+      
+      const response = await fetch('/api/email/send-order-confirmation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData)
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        console.log('✅ Order confirmation email sent:', result.messageId)
+        return true
+      } else {
+        const error = await response.json()
+        console.error('❌ Failed to send email:', error.error)
+        return false
+      }
+    } catch (error) {
+      console.error('❌ Email sending error:', error)
+      return false
+    }
+  }
+
   // Load Razorpay script
   const loadRazorpay = () => {
     return new Promise((resolve) => {
@@ -168,20 +201,45 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
   }
 
   const handleCashOnDelivery = async () => {
-    // Save order to database (you can add API call here)
-    console.log("Cash on Delivery Order:", { 
-      items: cartItems, 
-      total, 
+    const orderId = generateOrderId()
+    const orderDate = new Date().toLocaleString('en-IN', { 
+      timeZone: 'Asia/Kolkata',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+
+    const orderData = {
+      orderId,
+      orderDate,
+      items: cartItems.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      total,
       customerInfo: {
         ...formData,
         deliveryLocation: formData.locationAddress || `${formData.location.lat}, ${formData.location.lng}`
       },
       paymentMethod: 'cash',
       paymentStatus: 'pending'
-    })
+    }
+
+    // Save order to database (you can add API call here)
+    console.log("💰 Cash on Delivery Order:", orderData)
+
+    // Send order confirmation email
+    const emailSent = await sendOrderConfirmationEmail(orderData)
     
     // Show success message
-    alert("आपका ऑर्डर सफलतापूर्वक दर्ज हो गया है! हम जल्द ही आपसे संपर्क करेंगे। / Your order has been placed successfully! We will contact you soon.")
+    if (emailSent) {
+      alert(`आपका ऑर्डर सफलतापूर्वक दर्ज हो गया है! (Order ID: ${orderId})\nऑर्डर कन्फर्मेशन ईमेल भेजा गया है। हम जल्द ही आपसे संपर्क करेंगे।\n\nYour order has been placed successfully!\nOrder confirmation email sent. We will contact you soon.`)
+    } else {
+      alert(`आपका ऑर्डर सफलतापूर्वक दर्ज हो गया है! (Order ID: ${orderId})\nहम जल्द ही आपसे संपर्क करेंगे।\n\nYour order has been placed successfully! We will contact you soon.`)
+    }
     
     // Close checkout and clear cart
     onComplete()
@@ -245,10 +303,25 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
             })
 
             if (verificationResponse.ok) {
-              // Save successful order
-              console.log("Online Payment Order:", { 
-                items: cartItems, 
-                total, 
+              const orderId = generateOrderId()
+              const orderDate = new Date().toLocaleString('en-IN', { 
+                timeZone: 'Asia/Kolkata',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })
+
+              const orderData = {
+                orderId,
+                orderDate,
+                items: cartItems.map(item => ({
+                  name: item.name,
+                  quantity: item.quantity,
+                  price: item.price
+                })),
+                total,
                 customerInfo: {
                   ...formData,
                   deliveryLocation: formData.locationAddress || `${formData.location.lat}, ${formData.location.lng}`
@@ -256,9 +329,21 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
                 paymentMethod: 'online',
                 paymentStatus: 'completed',
                 paymentId: response.razorpay_payment_id
-              })
+              }
+
+              // Save successful order
+              console.log("💳 Online Payment Order:", orderData)
+
+              // Send order confirmation email
+              const emailSent = await sendOrderConfirmationEmail(orderData)
               
-              alert("भुगतान सफल! आपका ऑर्डर कन्फर्म हो गया है। / Payment successful! Your order is confirmed.")
+              // Show success message
+              if (emailSent) {
+                alert(`भुगतान सफल! आपका ऑर्डर कन्फर्म हो गया है! (Order ID: ${orderId})\nऑर्डर कन्फर्मेशन ईमेल भेजा गया है।\n\nPayment successful! Your order is confirmed!\nOrder confirmation email sent.`)
+              } else {
+                alert(`भुगतान सफल! आपका ऑर्डर कन्फर्म हो गया है! (Order ID: ${orderId})\n\nPayment successful! Your order is confirmed!`)
+              }
+              
               onComplete()
             } else {
               throw new Error('Payment verification failed')
