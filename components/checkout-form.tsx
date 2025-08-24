@@ -47,6 +47,18 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
   }, [isAuthenticated, user])
   
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({})
+  const [isProcessing, setIsProcessing] = useState(false)
+
+  // Load Razorpay script
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script')
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+      script.onload = () => resolve(true)
+      script.onerror = () => resolve(false)
+      document.body.appendChild(script)
+    })
+  }
   
   const handleLocationSelect = (location: { lat: number; lng: number }, address?: string) => {
     setFormData(prev => ({
@@ -90,6 +102,7 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
   }
 
   const validateForm = () => {
+    console.log('🔍 Validating form...', formData)
     const errors: Record<string, string> = {}
 
     if (!formData.name.trim()) {
@@ -114,29 +127,161 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
       errors.location = "Please select your location on the map / कृपया मानचित्र पर अपना स्थान चुनें"
     }
 
+    console.log('📋 Validation result:', { errors, isValid: Object.keys(errors).length === 0 })
     setValidationErrors(errors)
     return Object.keys(errors).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('🔄 Form submitted!', { formData, total, cartItems })
     
-    if (validateForm()) {
-      // Process the order
-      console.log("Order submitted:", { 
-        items: cartItems, 
-        total, 
-        customerInfo: {
-          ...formData,
-          deliveryLocation: formData.locationAddress || `${formData.location.lat}, ${formData.location.lng}`
-        }
+    if (!validateForm()) {
+      console.log('❌ Form validation failed', validationErrors)
+      // Scroll to first error
+      const firstErrorField = document.querySelector('.border-red-500')
+      if (firstErrorField) {
+        firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+      return
+    }
+
+    console.log('✅ Form validation passed, processing payment...')
+    setIsProcessing(true)
+
+    try {
+      if (formData.paymentMethod === 'cash') {
+        console.log('💰 Processing cash on delivery...')
+        // Handle Cash on Delivery
+        await handleCashOnDelivery()
+      } else {
+        console.log('💳 Processing online payment...')
+        // Handle Online Payment
+        await handleOnlinePayment()
+      }
+    } catch (error) {
+      console.error('❌ Payment processing error:', error)
+      alert('Payment processing failed. Please try again. / भुगतान प्रक्रिया असफल। कृपया पुनः प्रयास करें।')
+    } finally {
+      setIsProcessing(false)
+    }
+  }
+
+  const handleCashOnDelivery = async () => {
+    // Save order to database (you can add API call here)
+    console.log("Cash on Delivery Order:", { 
+      items: cartItems, 
+      total, 
+      customerInfo: {
+        ...formData,
+        deliveryLocation: formData.locationAddress || `${formData.location.lat}, ${formData.location.lng}`
+      },
+      paymentMethod: 'cash',
+      paymentStatus: 'pending'
+    })
+    
+    // Show success message
+    alert("आपका ऑर्डर सफलतापूर्वक दर्ज हो गया है! हम जल्द ही आपसे संपर्क करेंगे। / Your order has been placed successfully! We will contact you soon.")
+    
+    // Close checkout and clear cart
+    onComplete()
+  }
+
+  const handleOnlinePayment = async () => {
+    try {
+      // Load Razorpay script
+      const razorpayLoaded = await loadRazorpay()
+      if (!razorpayLoaded) {
+        throw new Error('Razorpay SDK failed to load')
+      }
+
+      // Create order
+      const response = await fetch('/api/payment/create-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: total,
+          currency: 'INR'
+        })
       })
-      
-      // Show success message
-      alert("Your order has been placed successfully! / आपका ऑर्डर सफलतापूर्वक दर्ज कर लिया गया है!")
-      
-      // Close checkout and clear cart
-      onComplete()
+
+      const order = await response.json()
+
+      if (!response.ok) {
+        throw new Error(order.error || 'Failed to create order')
+      }
+
+      // Configure Razorpay options
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_lEQBZ5fwEMtoMF',
+        amount: order.amount,
+        currency: order.currency,
+        name: 'Antim Sewa',
+        description: 'Religious Ceremony Items',
+        order_id: order.id,
+        prefill: {
+          name: formData.name,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        theme: {
+          color: '#92400e'
+        },
+        handler: async (response: any) => {
+          try {
+            // Verify payment
+            const verificationResponse = await fetch('/api/payment/verify', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                payment_id: response.razorpay_payment_id,
+                order_id: response.razorpay_order_id,
+                signature: response.razorpay_signature,
+              })
+            })
+
+            if (verificationResponse.ok) {
+              // Save successful order
+              console.log("Online Payment Order:", { 
+                items: cartItems, 
+                total, 
+                customerInfo: {
+                  ...formData,
+                  deliveryLocation: formData.locationAddress || `${formData.location.lat}, ${formData.location.lng}`
+                },
+                paymentMethod: 'online',
+                paymentStatus: 'completed',
+                paymentId: response.razorpay_payment_id
+              })
+              
+              alert("भुगतान सफल! आपका ऑर्डर कन्फर्म हो गया है। / Payment successful! Your order is confirmed.")
+              onComplete()
+            } else {
+              throw new Error('Payment verification failed')
+            }
+          } catch (error) {
+            console.error('Payment verification error:', error)
+            alert('Payment verification failed. Please contact support. / भुगतान सत्यापन असफल। कृपया सहायता से संपर्क करें।')
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            setIsProcessing(false)
+          }
+        }
+      }
+
+      // @ts-ignore
+      const razorpay = new window.Razorpay(options)
+      razorpay.open()
+
+    } catch (error) {
+      console.error('Online payment error:', error)
+      throw error
     }
   }
 
@@ -265,8 +410,21 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
                 </div>
 
                 <div className="pt-4">
-                  <Button type="submit" className="w-full bg-amber-900 hover:bg-amber-800 text-white py-3 text-lg">
-                    Place Order / ऑर्डर करें
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-amber-900 hover:bg-amber-800 text-white py-3 text-lg"
+                    disabled={isProcessing}
+                  >
+                    {isProcessing ? (
+                      <div className="flex items-center gap-2">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        Processing... / प्रक्रिया जारी...
+                      </div>
+                    ) : formData.paymentMethod === 'cash' ? (
+                      'Place Order / ऑर्डर करें'
+                    ) : (
+                      'Proceed to Pay / भुगतान करें'
+                    )}
                   </Button>
                 </div>
               </form>
