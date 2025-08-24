@@ -418,8 +418,8 @@ export const products: Product[] = [
 
   {
     id: "36",
-    name: "Swargiya-Chaudi-Ki-CD",
-    nameHindi: "स्वर्गीय चौदी की सीडी",
+    name: "Swargiya-Chandi-Ki-Seedi",
+    nameHindi: "स्वर्गीय चाँदी की सीढ़ी",
     price: 100,
     inPackage1: false,
     inPackage2: false,
