@@ -326,13 +326,9 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
                 </Button>
               </div>
               <div className="text-center">
-                <Button 
-                  onClick={() => setIsCheckoutOpen(false)}
-                  variant="link"
-                  className="text-amber-800 hover:text-amber-900"
-                >
-                  Continue as Guest / गेस्ट के रूप में जारी रखें
-                </Button>
+                <p className="text-sm text-amber-700">
+                  Or continue with guest checkout below / या नीचे गेस्ट चेकआउट के साथ जारी रखें
+                </p>
               </div>
             </div>
           </div>
