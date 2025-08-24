@@ -89,6 +89,22 @@ export async function POST(request) {
       path: '/',
     });
 
+    // Set user cookie for middleware access
+    response.cookies.set({
+      name: 'user',
+      value: JSON.stringify({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        profileImage: user.profileImage || '',
+      }),
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: '/',
+    });
+
     return response;
   } catch (error) {
     console.error('Google login error:', error);

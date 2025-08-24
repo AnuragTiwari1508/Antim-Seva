@@ -59,15 +59,39 @@ export async function POST(request) {
 
     console.log('✅ User logged in successfully from user.users collection:', userInfo.email);
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       { user: userInfo, token },
-      { 
-        status: 200,
-        headers: {
-          'Set-Cookie': `token=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${60 * 60 * 24 * 7}` // 7 days
-        }
-      }
+      { status: 200 }
     );
+
+    // Set token cookie
+    response.cookies.set({
+      name: 'token',
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: '/',
+    });
+
+    // Set user cookie for middleware access
+    response.cookies.set({
+      name: 'user',
+      value: JSON.stringify({
+        id: userInfo.id,
+        name: userInfo.name,
+        email: userInfo.email,
+        profileImage: userInfo.profileImage || '',
+      }),
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: '/',
+    });
+
+    return response;
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
