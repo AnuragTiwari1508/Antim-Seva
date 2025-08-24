@@ -1,14 +1,15 @@
 export interface Product {
   id: string
   name: string
-  nameHindi: string
+  nameHindi?: string
   price: number
-  inPackage1: boolean
-  inPackage2: boolean
-  inPackage3: boolean
+  inPackage1?: boolean
+  inPackage2?: boolean
+  inPackage3?: boolean
   category: string
   description?: string
   image?: string
+  available?: boolean
 }
 
 export const products: Product[] = [

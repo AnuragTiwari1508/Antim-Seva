@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -13,14 +13,26 @@ import { Separator } from '@/components/ui/separator';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 
-export default function LoginPage() {
+function LoginForm() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
   const [formError, setFormError] = useState('');
+  const [showGooglePrompt, setShowGooglePrompt] = useState(false);
   const { login, googleLogin, loading, error } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Check URL parameters on component mount
+  useEffect(() => {
+    const provider = searchParams.get('provider');
+    const redirect = searchParams.get('redirect');
+    
+    if (provider === 'google') {
+      setShowGooglePrompt(true);
+    }
+  }, [searchParams]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +58,14 @@ export default function LoginPage() {
     try {
       await login(formData);
       console.log('✅ Login successful, redirecting...');
-      router.push('/');
+      
+      // Check for redirect parameter
+      const redirect = searchParams.get('redirect');
+      if (redirect) {
+        router.push(redirect);
+      } else {
+        router.push('/');
+      }
     } catch (error) {
       console.error('❌ Login error:', error);
       setFormError(error.message || 'Login failed. Please try again.');
@@ -54,8 +73,8 @@ export default function LoginPage() {
   };
 
   const handleGoogleSuccess = async (credentialResponse) => {
-    setFormError('');
     try {
+      // Decode the JWT token from Google
       const decoded = jwtDecode(credentialResponse.credential);
       
       // Extract user data from decoded token
@@ -68,7 +87,14 @@ export default function LoginPage() {
       
       // Call the googleLogin function from AuthContext
       await googleLogin(credentialResponse.credential, userData);
-      router.push('/');
+      
+      // Check for redirect parameter for admin access
+      const redirect = searchParams.get('redirect');
+      if (redirect) {
+        router.push(redirect);
+      } else {
+        router.push('/');
+      }
     } catch (error) {
       setFormError(error.message || 'Google login failed. Please try again.');
     }
@@ -83,7 +109,13 @@ export default function LoginPage() {
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl text-amber-900">Login / लॉगिन</CardTitle>
-          <CardDescription>Enter your credentials to access your account</CardDescription>
+          <CardDescription>
+            {showGooglePrompt ? (
+              'Admin access requires Google login / Admin के लिए Google से लॉगिन करें'
+            ) : (
+              'Enter your credentials to access your account'
+            )}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {(formError || error) && (
@@ -91,6 +123,15 @@ export default function LoginPage() {
               <AlertDescription>{formError || error}</AlertDescription>
             </Alert>
           )}
+          
+          {showGooglePrompt && (
+            <Alert className="mb-4">
+              <AlertDescription>
+                Please use Google login to access admin panel
+              </AlertDescription>
+            </Alert>
+          )}
+          
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email / ईमेल</Label>
@@ -140,16 +181,18 @@ export default function LoginPage() {
             </div>
             
             <div className="flex justify-center my-4">
-              <GoogleLogin
-                onSuccess={handleGoogleSuccess}
-                onError={handleGoogleError}
-                text="signin_with"
-                shape="rectangular"
-                locale="en"
-                theme="outline"
-                size="large"
-              />
-              <p className="ml-2 text-sm text-gray-600">Google से लॉगिन करें</p>
+              <div className="flex flex-col items-center space-y-2">
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={handleGoogleError}
+                  text="signin_with"
+                  shape="rectangular"
+                  locale="en"
+                  theme="outline"
+                  size="large"
+                />
+                <p className="text-sm text-gray-600">Google से लॉगिन करें</p>
+              </div>
             </div>
           </form>
         </CardContent>
@@ -163,5 +206,20 @@ export default function LoginPage() {
         </CardFooter>
       </Card>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-r from-amber-50 to-orange-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-900 mx-auto"></div>
+          <p className="mt-2 text-amber-900">Loading...</p>
+        </div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

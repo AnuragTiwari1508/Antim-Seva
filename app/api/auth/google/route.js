@@ -7,6 +7,18 @@ import User from '@/models/User';
 // JWT secret key - should be in environment variables in production
 const JWT_SECRET = process.env.JWT_SECRET || 'antim-sewa-secret-key';
 
+// GET method - redirect to Google OAuth
+export async function GET(request) {
+  try {
+    // In a real implementation, you would redirect to Google OAuth
+    // For now, we'll redirect to login page with Google login option
+    return NextResponse.redirect(new URL('/login?provider=google', request.url));
+  } catch (error) {
+    console.error('Google OAuth redirect error:', error);
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+}
+
 export async function POST(request) {
   try {
     // Get request body
