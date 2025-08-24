@@ -33,26 +33,36 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('📝 Register form submitted!', { 
+      name: formData.name, 
+      email: formData.email,
+      phone: formData.phone 
+    });
     setFormError('');
 
     // Basic validation
     if (!formData.name || !formData.email || !formData.password) {
+      console.log('❌ Validation failed: Missing required fields');
       setFormError('Name, email and password are required');
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
+      console.log('❌ Validation failed: Passwords do not match');
       setFormError('Passwords do not match');
       return;
     }
 
     if (formData.password.length < 6) {
+      console.log('❌ Validation failed: Password too short');
       setFormError('Password must be at least 6 characters long');
       return;
     }
 
+    console.log('✅ Validation passed, attempting registration...');
     try {
       // Register the user
+      console.log('📝 Calling register API...');
       await register({
         name: formData.name,
         email: formData.email,
@@ -61,15 +71,18 @@ export default function RegisterPage() {
         address: formData.address,
       });
 
+      console.log('✅ Registration successful, attempting auto-login...');
       // Login the user after successful registration
       await login({
         email: formData.email,
         password: formData.password,
       });
 
+      console.log('✅ Auto-login successful, redirecting...');
       // Redirect to home page
       router.push('/');
     } catch (error) {
+      console.error('❌ Registration/Login error:', error);
       setFormError(error.message || 'Registration failed. Please try again.');
     }
   };

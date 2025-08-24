@@ -32,18 +32,23 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('🔐 Login form submitted!', { email: formData.email });
     setFormError('');
 
     // Basic validation
     if (!formData.email || !formData.password) {
+      console.log('❌ Validation failed: Missing email or password');
       setFormError('Email and password are required');
       return;
     }
 
+    console.log('✅ Validation passed, attempting login...');
     try {
       await login(formData);
+      console.log('✅ Login successful, redirecting...');
       router.push('/');
     } catch (error) {
+      console.error('❌ Login error:', error);
       setFormError(error.message || 'Login failed. Please try again.');
     }
   };
