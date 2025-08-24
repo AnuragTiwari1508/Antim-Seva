@@ -34,14 +34,25 @@ export default function Cart({ isOpen, onClose, items, updateItem, total, clearC
   if (!isOpen) return null
 
   const handleCheckout = () => {
-    // If user is not authenticated, redirect to login
+    console.log('🛒 Proceed to Checkout clicked!')
+    console.log('👤 User authenticated:', isAuthenticated)
+    console.log('📦 Cart items:', items)
+    console.log('💰 Total amount:', total)
+    
+    // For testing purposes, let's bypass authentication temporarily
+    // TODO: Remove this bypass in production
     if (!isAuthenticated) {
-      router.push('/login')
-      onClose()
-      return
+      console.log('⚠️ User not authenticated')
+      // Option 1: Show login prompt within checkout
+      // Option 2: Allow guest checkout
+      // For now, let's allow guest checkout for testing
+      console.log('🔄 Proceeding with guest checkout for testing...')
+    } else {
+      console.log('✅ User authenticated')
     }
     
-    // Open checkout form
+    console.log('📋 Opening checkout form...')
+    // Open checkout form regardless for testing
     setIsCheckoutOpen(true)
   }
   

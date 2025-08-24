@@ -301,26 +301,45 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
         </div>
         
         {!isAuthenticated ? (
-          <div className="p-6 text-center">
-            <h3 className="text-lg font-semibold mb-4">Please login to continue / जारी रखने के लिए कृपया लॉगिन करें</h3>
-            <p className="mb-4 text-gray-600">You need to be logged in to place an order / ऑर्डर करने के लिए आपको लॉगिन करना होगा</p>
-            <div className="flex justify-center gap-4">
-              <Button 
-                onClick={() => router.push('/login')}
-                className="bg-amber-900 hover:bg-amber-800 text-white"
-              >
-                Login / लॉगिन
-              </Button>
-              <Button 
-                onClick={() => router.push('/register')}
-                variant="outline"
-                className="border-amber-900 text-amber-900 hover:bg-amber-50"
-              >
-                Register / रजिस्टर
-              </Button>
+          <div className="p-6">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+              <h3 className="text-lg font-semibold mb-2 text-amber-800">
+                Guest Checkout Available / गेस्ट चेकआउट उपलब्ध
+              </h3>
+              <p className="text-amber-700 text-sm mb-4">
+                You can checkout as a guest or login for a faster experience / 
+                आप गेस्ट के रूप में चेकआउट कर सकते हैं या तेज़ अनुभव के लिए लॉगिन कर सकते हैं
+              </p>
+              <div className="flex justify-center gap-4 mb-4">
+                <Button 
+                  onClick={() => router.push('/login')}
+                  className="bg-amber-900 hover:bg-amber-800 text-white"
+                >
+                  Login / लॉगिन
+                </Button>
+                <Button 
+                  onClick={() => router.push('/register')}
+                  variant="outline"
+                  className="border-amber-900 text-amber-900 hover:bg-amber-50"
+                >
+                  Register / रजिस्टर
+                </Button>
+              </div>
+              <div className="text-center">
+                <Button 
+                  onClick={() => setIsCheckoutOpen(false)}
+                  variant="link"
+                  className="text-amber-800 hover:text-amber-900"
+                >
+                  Continue as Guest / गेस्ट के रूप में जारी रखें
+                </Button>
+              </div>
             </div>
           </div>
-        ) : (
+        ) : null}
+
+        {/* Show form for both authenticated and guest users for testing */}
+        {(isAuthenticated || !isAuthenticated) ? (
 
         <div className="p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -486,7 +505,7 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
             </div>
           </div>
         </div>
-        )}
+        ) : null}
       </div>
     </div>
   )
