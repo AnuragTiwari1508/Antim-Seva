@@ -54,6 +54,43 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
     return `AS${Date.now()}${Math.random().toString(36).substr(2, 4).toUpperCase()}`
   }
 
+  // Log order details for manual processing (simple solution)
+  const logOrderDetails = (orderData: any) => {
+    const timestamp = new Date().toLocaleString('en-IN', { 
+      timeZone: 'Asia/Kolkata',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    console.log('📧 === ORDER PLACED ===');
+    console.log('🆔 Order ID:', orderData.orderId);
+    console.log('📅 Date:', timestamp);
+    console.log('👤 Customer:', orderData.customerInfo);
+    console.log('🛍️ Items:', orderData.items);
+    console.log('💰 Total:', `₹${orderData.total}`);
+    console.log('💳 Payment:', orderData.paymentMethod);
+    console.log('🎯 Status:', orderData.paymentStatus);
+    console.log('📍 Location:', orderData.customerInfo.deliveryLocation);
+    console.log('📧 Email Required for:', orderData.customerInfo.email);
+    console.log('📞 Phone:', orderData.customerInfo.phone);
+    console.log('========================');
+    
+    // Store in localStorage for admin access if needed
+    try {
+      const existingOrders = JSON.parse(localStorage.getItem('antim-sewa-orders') || '[]');
+      existingOrders.push(orderData);
+      localStorage.setItem('antim-sewa-orders', JSON.stringify(existingOrders));
+      console.log('💾 Order saved to local storage for tracking');
+    } catch (error) {
+      console.log('⚠️ Local storage save failed:', error);
+    }
+
+    return true;
+  }
+
   // Send order confirmation email
   const sendOrderConfirmationEmail = async (orderData: any) => {
     try {
