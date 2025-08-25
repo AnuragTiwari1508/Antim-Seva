@@ -14,7 +14,7 @@
 ### Environment Variables Required for Vercel:
 
 #### Database
-- `MONGODB_URI=mongodb+srv://tiwarianurag342407:asdfghjkl123A@antim-sewa.jfmmpb3.mongodb.net`
+- `MONGODB_URI=......`
 
 #### Authentication  
 - `NEXTAUTH_SECRET=your-nextauth-secret-key-here`
