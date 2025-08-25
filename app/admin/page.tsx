@@ -22,7 +22,8 @@ const AUTHORIZED_ADMINS = [
 ]
 
 interface Product {
-  id: string
+  id?: string
+  _id?: string
   name: string
   price: number
   category: string
@@ -81,9 +82,14 @@ export default function AdminPage() {
 
   const loadProducts = async () => {
     try {
-      // For now, we'll load from the existing data file
-      const { products: existingProducts } = await import('@/data/products')
-      setProducts(existingProducts)
+      // Load from database instead of static file
+      const response = await fetch('/api/admin/products')
+      if (response.ok) {
+        const data = await response.json()
+        setProducts(data.products)
+      } else {
+        toast.error('Failed to load products')
+      }
     } catch (error) {
       console.error('Error loading products:', error)
       toast.error('Failed to load products')
@@ -130,7 +136,8 @@ export default function AdminPage() {
           toast.success('Product deleted successfully')
           loadProducts()
         } else {
-          toast.error('Failed to delete product')
+          const errorData = await response.json()
+          toast.error(errorData.error || 'Failed to delete product')
         }
       } catch (error) {
         console.error('Error deleting product:', error)
@@ -340,7 +347,7 @@ export default function AdminPage() {
                             <Button
                               size="sm"
                               variant="outline"
-                              onClick={() => handleDeleteProduct(product.id)}
+                              onClick={() => handleDeleteProduct(product._id || product.id || '')}
                               className="text-red-600 hover:text-red-900"
                             >
                               <Trash2 className="h-4 w-4" />
@@ -450,12 +457,70 @@ function ProductEditDialog({ product, isOpen, onClose, onSave }: ProductEditDial
     image: '',
     available: true
   })
+  const [isUploading, setIsUploading] = useState(false)
+  const [dragActive, setDragActive] = useState(false)
 
   useEffect(() => {
     if (product) {
       setFormData(product)
     }
   }, [product])
+
+  // Handle file upload
+  const handleFileUpload = async (file: File) => {
+    if (!file) return
+
+    setIsUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setFormData(prev => ({ ...prev, image: data.imageUrl }))
+        toast.success('Image uploaded successfully!')
+      } else {
+        toast.error('Failed to upload image')
+      }
+    } catch (error) {
+      console.error('Upload error:', error)
+      toast.error('Failed to upload image')
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
+  // Handle drag and drop
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActive(true)
+    } else if (e.type === 'dragleave') {
+      setDragActive(false)
+    }
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActive(false)
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFileUpload(e.dataTransfer.files[0])
+    }
+  }
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      handleFileUpload(e.target.files[0])
+    }
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -465,12 +530,14 @@ function ProductEditDialog({ product, isOpen, onClose, onSave }: ProductEditDial
       return
     }
 
-    // Generate ID for new products
-    if (!formData.id) {
-      formData.id = `product_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    // Generate ID for new products if not editing existing
+    const productToSave = {
+      ...formData,
+      id: formData.id || `product_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      _id: formData.id // for database compatibility
     }
 
-    onSave(formData)
+    onSave(productToSave)
   }
 
   return (
@@ -528,13 +595,74 @@ function ProductEditDialog({ product, isOpen, onClose, onSave }: ProductEditDial
           </div>
 
           <div>
-            <Label htmlFor="image">Image URL</Label>
-            <Input
-              id="image"
-              value={formData.image}
-              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-              placeholder="Enter image URL or path"
-            />
+            <Label htmlFor="image">Product Image</Label>
+            <div className="space-y-4">
+              {/* Current Image Preview */}
+              {formData.image && (
+                <div className="flex items-center space-x-4">
+                  <img
+                    src={formData.image}
+                    alt="Product preview"
+                    className="w-20 h-20 object-cover rounded border"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setFormData({ ...formData, image: '' })}
+                  >
+                    Remove Image
+                  </Button>
+                </div>
+              )}
+              
+              {/* Drag & Drop Upload Area */}
+              <div
+                className={`relative border-2 border-dashed rounded-lg p-6 transition-colors ${
+                  dragActive 
+                    ? 'border-amber-500 bg-amber-50' 
+                    : 'border-gray-300 hover:border-gray-400'
+                }`}
+                onDragEnter={handleDrag}
+                onDragLeave={handleDrag}
+                onDragOver={handleDrag}
+                onDrop={handleDrop}
+              >
+                <input
+                  type="file"
+                  id="image-upload"
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  accept="image/*"
+                  onChange={handleFileSelect}
+                  disabled={isUploading}
+                />
+                
+                <div className="text-center">
+                  {isUploading ? (
+                    <div className="space-y-2">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600 mx-auto"></div>
+                      <p className="text-sm text-gray-600">Uploading image...</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <Package className="mx-auto h-12 w-12 text-gray-400" />
+                      <p className="text-sm text-gray-600">
+                        <span className="font-medium text-amber-600">Click to upload</span> or drag and drop
+                      </p>
+                      <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Or enter URL manually */}
+              <div className="text-center text-sm text-gray-500">Or</div>
+              <Input
+                value={formData.image}
+                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                placeholder="Enter image URL manually"
+              />
+            </div>
           </div>
 
           <div>

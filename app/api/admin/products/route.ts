@@ -1,233 +1,142 @@
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs/promises'
-import path from 'path'
-import { cookies } from 'next/headers'
+import { connectDB } from '@/lib/mongoose'
+import Product from '@/models/Product'
 
-// Admin authorized emails - same as in admin page
-const AUTHORIZED_ADMINS = [
-  'vaibhavmalviyaji@gmail.com',
-  'tiwarianurag342407@gmail.com'
-]
-
-// Check if user is authorized admin
-async function checkAdminAuth(request: NextRequest) {
-  try {
-    const cookieStore = await cookies()
-    const userCookie = cookieStore.get('user')
-    
-    if (!userCookie) {
-      return { authorized: false, user: null }
-    }
-
-    const user = JSON.parse(userCookie.value)
-    const isAuthorized = AUTHORIZED_ADMINS.includes(user.email)
-    
-    return { authorized: isAuthorized, user }
-  } catch (error) {
-    console.error('Auth check error:', error)
-    return { authorized: false, user: null }
-  }
-}
-
-// Get products file path
-const getProductsFilePath = () => {
-  return path.join(process.cwd(), 'data', 'products.ts')
-}
-
-// Read products from file
-async function readProductsFile() {
-  try {
-    const filePath = getProductsFilePath()
-    const fileContent = await fs.readFile(filePath, 'utf-8')
-    
-    // Parse TypeScript export to get products array
-    const productsMatch = fileContent.match(/export const products = (\[[\s\S]*?\]);/)
-    if (!productsMatch) {
-      throw new Error('Could not parse products from file')
-    }
-    
-    // Convert TypeScript to JSON (simple approach for this use case)
-    const productsString = productsMatch[1]
-      .replace(/'/g, '"')
-      .replace(/(\w+):/g, '"$1":')
-      .replace(/,(\s*[\}\]])/g, '$1')
-    
-    return JSON.parse(productsString)
-  } catch (error) {
-    console.error('Error reading products file:', error)
-    return []
-  }
-}
-
-// Write products to file
-async function writeProductsFile(products: any[]) {
-  try {
-    const filePath = getProductsFilePath()
-    
-    // Generate TypeScript content
-    const tsContent = `export interface Product {
-  id: string
-  name: string
-  price: number
-  category: string
-  description: string
-  image: string
-  available?: boolean
-}
-
-export const products: Product[] = ${JSON.stringify(products, null, 2)
-  .replace(/"/g, "'")
-  .replace(/'(\w+)':/g, '$1:')}
-`
-    
-    await fs.writeFile(filePath, tsContent, 'utf-8')
-    return true
-  } catch (error) {
-    console.error('Error writing products file:', error)
-    return false
-  }
-}
-
-// GET - Get all products
+// GET - Fetch all products
 export async function GET(request: NextRequest) {
-  const { authorized } = await checkAdminAuth(request)
-  
-  if (!authorized) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
   try {
-    const products = await readProductsFile()
+    const userCookie = request.cookies.get('user')
+    if (!userCookie) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const userData = JSON.parse(userCookie.value)
+    if (!userData.isAdmin) {
+      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
+    }
+
+    await connectDB()
+    const products = await Product.find().sort({ createdAt: -1 })
+    
     return NextResponse.json({ products })
   } catch (error) {
     console.error('Error fetching products:', error)
-    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Failed to fetch products' },
+      { status: 500 }
+    )
   }
 }
 
-// POST - Add new product
+// POST - Create new product
 export async function POST(request: NextRequest) {
-  const { authorized } = await checkAdminAuth(request)
-  
-  if (!authorized) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
   try {
-    const newProduct = await request.json()
-    
-    // Validate required fields
-    if (!newProduct.name || !newProduct.category || !newProduct.price) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    const userCookie = request.cookies.get('user')
+    if (!userCookie) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Generate ID if not provided
-    if (!newProduct.id) {
-      newProduct.id = `product_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    const userData = JSON.parse(userCookie.value)
+    if (!userData.isAdmin) {
+      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }
 
-    // Set defaults
-    newProduct.available = newProduct.available !== false
-    newProduct.description = newProduct.description || ''
-    newProduct.image = newProduct.image || ''
-
-    // Read existing products
-    const products = await readProductsFile()
+    const productData = await request.json()
     
-    // Add new product
-    products.push(newProduct)
+    await connectDB()
+    const product = new Product(productData)
+    await product.save()
     
-    // Write back to file
-    const success = await writeProductsFile(products)
-    
-    if (!success) {
-      return NextResponse.json({ error: 'Failed to save product' }, { status: 500 })
-    }
-
-    return NextResponse.json({ message: 'Product added successfully', product: newProduct })
+    return NextResponse.json({ 
+      success: true, 
+      product,
+      message: 'Product created successfully' 
+    })
   } catch (error) {
-    console.error('Error adding product:', error)
-    return NextResponse.json({ error: 'Failed to add product' }, { status: 500 })
+    console.error('Error creating product:', error)
+    return NextResponse.json(
+      { error: 'Failed to create product' },
+      { status: 500 }
+    )
   }
 }
 
 // PUT - Update existing product
 export async function PUT(request: NextRequest) {
-  const { authorized } = await checkAdminAuth(request)
-  
-  if (!authorized) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
   try {
-    const updatedProduct = await request.json()
-    
-    if (!updatedProduct.id) {
-      return NextResponse.json({ error: 'Product ID is required' }, { status: 400 })
+    const userCookie = request.cookies.get('user')
+    if (!userCookie) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Read existing products
-    const products = await readProductsFile()
+    const userData = JSON.parse(userCookie.value)
+    if (!userData.isAdmin) {
+      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
+    }
+
+    const { id, ...updateData } = await request.json()
     
-    // Find and update product
-    const productIndex = products.findIndex((p: any) => p.id === updatedProduct.id)
+    if (!id) {
+      return NextResponse.json({ error: 'Product ID required' }, { status: 400 })
+    }
     
-    if (productIndex === -1) {
+    await connectDB()
+    const product = await Product.findByIdAndUpdate(id, updateData, { new: true })
+    
+    if (!product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 })
     }
-
-    // Update product
-    products[productIndex] = { ...products[productIndex], ...updatedProduct }
     
-    // Write back to file
-    const success = await writeProductsFile(products)
-    
-    if (!success) {
-      return NextResponse.json({ error: 'Failed to update product' }, { status: 500 })
-    }
-
-    return NextResponse.json({ message: 'Product updated successfully', product: products[productIndex] })
+    return NextResponse.json({ 
+      success: true, 
+      product,
+      message: 'Product updated successfully' 
+    })
   } catch (error) {
     console.error('Error updating product:', error)
-    return NextResponse.json({ error: 'Failed to update product' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Failed to update product' },
+      { status: 500 }
+    )
   }
 }
 
-// DELETE - Delete product
+// DELETE - Remove product
 export async function DELETE(request: NextRequest) {
-  const { authorized } = await checkAdminAuth(request)
-  
-  if (!authorized) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
   try {
-    const { productId } = await request.json()
-    
-    if (!productId) {
-      return NextResponse.json({ error: 'Product ID is required' }, { status: 400 })
+    const userCookie = request.cookies.get('user')
+    if (!userCookie) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Read existing products
-    const products = await readProductsFile()
+    const userData = JSON.parse(userCookie.value)
+    if (!userData.isAdmin) {
+      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
+    }
+
+    const url = new URL(request.url)
+    const id = url.searchParams.get('id')
     
-    // Filter out the product to delete
-    const updatedProducts = products.filter((p: any) => p.id !== productId)
+    if (!id) {
+      return NextResponse.json({ error: 'Product ID required' }, { status: 400 })
+    }
     
-    if (updatedProducts.length === products.length) {
+    await connectDB()
+    const product = await Product.findByIdAndDelete(id)
+    
+    if (!product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 })
     }
-
-    // Write back to file
-    const success = await writeProductsFile(updatedProducts)
     
-    if (!success) {
-      return NextResponse.json({ error: 'Failed to delete product' }, { status: 500 })
-    }
-
-    return NextResponse.json({ message: 'Product deleted successfully' })
+    return NextResponse.json({ 
+      success: true,
+      message: 'Product deleted successfully' 
+    })
   } catch (error) {
     console.error('Error deleting product:', error)
-    return NextResponse.json({ error: 'Failed to delete product' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Failed to delete product' },
+      { status: 500 }
+    )
   }
 }
