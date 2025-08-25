@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Trash2, Edit, Plus, LogOut, Shield, Package } from 'lucide-react'
 import { toast } from 'sonner'
+import { FileUpload } from '@/components/ui/file-upload'
 
 // Admin authorized emails
 const AUTHORIZED_ADMINS = [
@@ -457,6 +458,28 @@ function ProductEditDialog({ product, isOpen, onClose, onSave }: ProductEditDial
     }
   }, [product])
 
+  const handleFileUpload = async (file: File): Promise<string> => {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const response = await fetch('/api/admin/upload', {
+      method: 'POST',
+      body: formData
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.message || 'Upload failed')
+    }
+
+    const result = await response.json()
+    return result.imageUrl
+  }
+
+  const handleImageChange = (imageUrl: string) => {
+    setFormData({ ...formData, image: imageUrl })
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     
@@ -475,7 +498,7 @@ function ProductEditDialog({ product, isOpen, onClose, onSave }: ProductEditDial
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {product?.id ? 'Edit Product' : 'Add New Product'}
@@ -528,12 +551,12 @@ function ProductEditDialog({ product, isOpen, onClose, onSave }: ProductEditDial
           </div>
 
           <div>
-            <Label htmlFor="image">Image URL</Label>
-            <Input
-              id="image"
-              value={formData.image}
-              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-              placeholder="Enter image URL or path"
+            <FileUpload
+              onUpload={handleFileUpload}
+              currentImageUrl={formData.image}
+              onImageUrlChange={handleImageChange}
+              accept="image/*"
+              maxSize={5 * 1024 * 1024}
             />
           </div>
 

@@ -40,6 +40,9 @@ server.log
 # Temporary files
 test-db.js
 
+# Uploaded files - don't commit user uploads
+public/uploads/
+
 # IDEs
 .vscode/
 .idea/
