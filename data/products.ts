@@ -210,6 +210,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Baas.jpg",
   },
 
   {
