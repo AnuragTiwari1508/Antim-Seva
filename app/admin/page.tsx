@@ -86,13 +86,34 @@ export default function AdminPage() {
       const response = await fetch('/api/admin/products')
       if (response.ok) {
         const data = await response.json()
+        console.log('Products loaded:', data.products.length)
         setProducts(data.products)
       } else {
+        console.error('Failed to load products:', response.status, response.statusText)
         toast.error('Failed to load products')
       }
     } catch (error) {
       console.error('Error loading products:', error)
       toast.error('Failed to load products')
+    }
+  }
+
+  const handleSyncProducts = async () => {
+    try {
+      toast.loading('Syncing products to file...')
+      const response = await fetch('/api/admin/sync', {
+        method: 'POST'
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        toast.success(`✅ ${data.message}`)
+      } else {
+        toast.error('Failed to sync products')
+      }
+    } catch (error) {
+      console.error('Error syncing products:', error)
+      toast.error('Failed to sync products')
     }
   }
 
@@ -126,15 +147,15 @@ export default function AdminPage() {
   const handleDeleteProduct = async (productId: string) => {
     if (confirm('Are you sure you want to delete this product?')) {
       try {
-        const response = await fetch('/api/admin/products', {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ productId })
+        const response = await fetch(`/api/admin/products?id=${productId}`, {
+          method: 'DELETE'
         })
 
         if (response.ok) {
           toast.success('Product deleted successfully')
           loadProducts()
+          // Auto sync to file
+          handleSyncProducts()
         } else {
           const errorData = await response.json()
           toast.error(errorData.error || 'Failed to delete product')
@@ -148,20 +169,27 @@ export default function AdminPage() {
 
   const handleSaveProduct = async (productData: Product) => {
     try {
-      const method = productData.id ? 'PUT' : 'POST'
+      const method = productData._id || productData.id ? 'PUT' : 'POST'
+      const payload = productData._id || productData.id 
+        ? { ...productData, id: productData._id || productData.id }
+        : productData
+        
       const response = await fetch('/api/admin/products', {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(productData)
+        body: JSON.stringify(payload)
       })
 
       if (response.ok) {
-        toast.success(productData.id ? 'Product updated successfully' : 'Product added successfully')
+        toast.success(productData._id || productData.id ? 'Product updated successfully' : 'Product added successfully')
         setIsEditingProduct(false)
         setCurrentProduct(null)
         loadProducts()
+        // Auto sync to file
+        handleSyncProducts()
       } else {
-        toast.error('Failed to save product')
+        const errorData = await response.json()
+        toast.error(errorData.error || 'Failed to save product')
       }
     } catch (error) {
       console.error('Error saving product:', error)
@@ -221,6 +249,16 @@ export default function AdminPage() {
             </div>
             
             <div className="flex items-center space-x-4">
+              <Button 
+                onClick={handleSyncProducts} 
+                variant="outline" 
+                size="sm"
+                className="text-blue-600 border-blue-200 hover:bg-blue-50"
+              >
+                <Package className="h-4 w-4 mr-2" />
+                Sync to File
+              </Button>
+              
               <div className="text-right">
                 <p className="text-sm font-medium text-gray-900">{user?.name}</p>
                 <p className="text-xs text-gray-500">{user?.email}</p>
@@ -472,20 +510,21 @@ function ProductEditDialog({ product, isOpen, onClose, onSave }: ProductEditDial
 
     setIsUploading(true)
     try {
-      const formData = new FormData()
-      formData.append('file', file)
+      const uploadFormData = new FormData()
+      uploadFormData.append('file', file)
 
       const response = await fetch('/api/admin/upload', {
         method: 'POST',
-        body: formData,
+        body: uploadFormData,
       })
 
       if (response.ok) {
         const data = await response.json()
-        setFormData(prev => ({ ...prev, image: data.imageUrl }))
+        setFormData(prev => ({ ...prev, image: data.url })) // Use 'url' instead of 'imageUrl'
         toast.success('Image uploaded successfully!')
       } else {
-        toast.error('Failed to upload image')
+        const error = await response.json()
+        toast.error(error.error || 'Failed to upload image')
       }
     } catch (error) {
       console.error('Upload error:', error)
@@ -530,11 +569,11 @@ function ProductEditDialog({ product, isOpen, onClose, onSave }: ProductEditDial
       return
     }
 
-    // Generate ID for new products if not editing existing
+    // For editing existing products, preserve the original _id
     const productToSave = {
       ...formData,
-      id: formData.id || `product_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      _id: formData.id // for database compatibility
+      _id: formData._id || formData.id,
+      id: formData._id || formData.id || `product_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
     }
 
     onSave(productToSave)
@@ -691,7 +730,7 @@ function ProductEditDialog({ product, isOpen, onClose, onSave }: ProductEditDial
               Cancel
             </Button>
             <Button type="submit" className="bg-amber-600 hover:bg-amber-700">
-              {product?.id ? 'Update Product' : 'Add Product'}
+              {product?._id || product?.id ? 'Update Product' : 'Add Product'}
             </Button>
           </div>
         </form>

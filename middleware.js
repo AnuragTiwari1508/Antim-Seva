@@ -74,7 +74,7 @@ export async function middleware(request) {
       return NextResponse.redirect(new URL('/api/auth/google', request.url));
     }
     
-    // Check if user is authorized admin
+    // Check if user is authorized admin - Only Anurag and Vaibhav
     if (!user || !AUTHORIZED_ADMINS.includes(user.email)) {
       // Redirect unauthorized users to home page
       return NextResponse.redirect(new URL('/?error=unauthorized-admin', request.url));
