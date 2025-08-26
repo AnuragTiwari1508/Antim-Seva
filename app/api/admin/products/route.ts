@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongoose'
+import dbConnect from '@/lib/mongoose'
 import Product from '@/models/Product'
 
 // GET - Fetch all products
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }
 
-    await connectDB()
+    await dbConnect()
     const products = await Product.find().sort({ createdAt: -1 })
     
     return NextResponse.json({ products })
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 
     const productData = await request.json()
     
-    await connectDB()
+    await dbConnect()
     const product = new Product(productData)
     await product.save()
     
@@ -80,7 +80,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Product ID required' }, { status: 400 })
     }
     
-    await connectDB()
+    await dbConnect()
     const product = await Product.findByIdAndUpdate(id, updateData, { new: true })
     
     if (!product) {
@@ -121,7 +121,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Product ID required' }, { status: 400 })
     }
     
-    await connectDB()
+    await dbConnect()
     const product = await Product.findByIdAndDelete(id)
     
     if (!product) {
