@@ -106,12 +106,27 @@ export default function AdminPage() {
 
   const updateProductsFile = async (updatedProducts: Product[]) => {
     try {
-      // This would typically update the products.ts file
-      // For now, just update local state
+      // Update local state immediately
       setProducts(updatedProducts)
-      toast.success('Products updated successfully!')
+      
+      // Also update the actual products.ts file
+      const response = await fetch('/api/admin/update-products-file', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ products: updatedProducts })
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        toast.success('Products updated successfully!')
+        console.log('File updated:', data.message)
+      } else {
+        const error = await response.json()
+        console.error('File update failed:', error)
+        toast.error('Products updated locally but file update failed')
+      }
     } catch (error) {
-      console.error('Error updating products file:', error)
+      console.error('Error updating products:', error)
       toast.error('Failed to update products')
     }
   }
