@@ -125,19 +125,21 @@ export default function Home() {
                 // Add package to cart automatically
                 const packageData = {
                   id: packageId,
-                  name: packageId === "package1" ? "Basic Package" : packageId === "package2" ? "Standard Package" : "Premium Package",
-                  nameHindi: packageId === "package1" ? "मूलभूत पैकेज" : packageId === "package2" ? "मानक पैकेज" : "प्रीमियम पैकेज",
-                  price: packageId === "package1" ? 899 : packageId === "package2" ? 1499 : 2299,
+                  name: packageId === "package1" ? "Package 1" : packageId === "package2" ? "Standard Package" : "Premium Package",
+                  nameHindi: packageId === "package1" ? "पैकेट नंबर 1" : packageId === "package2" ? "मानक पैकेज" : "प्रीमियम पैकेज",
+                  price: packageId === "package1" ? 5100 : packageId === "package2" ? 11000 : 21000,
                   type: "package"
                 }
                 addToCart(packageData)
               }}
             />
-            <IndividualProducts
-              selectedItems={selectedItems}
-              onItemChange={handleItemChange}
-              addToCart={addToCart}
-            />
+            {selectedPackage && (
+              <IndividualProducts
+                selectedItems={selectedItems}
+                onItemChange={handleItemChange}
+                addToCart={addToCart}
+              />
+            )}
           </>
         )}
         {activeSection === "products" && <ProductCatalog addToCart={addToCart} />}
@@ -152,19 +154,21 @@ export default function Home() {
                 // Add package to cart automatically
                 const packageData = {
                   id: packageId,
-                  name: packageId === "package1" ? "Basic Package" : packageId === "package2" ? "Standard Package" : "Premium Package",
-                  nameHindi: packageId === "package1" ? "मूलभूत पैकेज" : packageId === "package2" ? "मानक पैकेज" : "प्रीमियम पैकेज",
-                  price: packageId === "package1" ? 899 : packageId === "package2" ? 1499 : 2299,
+                  name: packageId === "package1" ? "Package 1" : packageId === "package2" ? "Standard Package" : "Premium Package",
+                  nameHindi: packageId === "package1" ? "पैकेट नंबर 1" : packageId === "package2" ? "मानक पैकेज" : "प्रीमियम पैकेज",
+                  price: packageId === "package1" ? 5100 : packageId === "package2" ? 11000 : 21000,
                   type: "package"
                 }
                 addToCart(packageData)
               }}
             />
-            <IndividualProducts
-              selectedItems={selectedItems}
-              onItemChange={handleItemChange}
-              addToCart={addToCart}
-            />
+            {selectedPackage && (
+              <IndividualProducts
+                selectedItems={selectedItems}
+                onItemChange={handleItemChange}
+                addToCart={addToCart}
+              />
+            )}
           </>
         )}
         {activeSection === "services" && <Services />}
