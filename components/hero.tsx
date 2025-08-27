@@ -58,7 +58,7 @@ export default function Hero() {
           <div className="relative">
             <div className="bg-white rounded-2xl shadow-2xl p-8">
               <img
-                src="/placeholder.jpg?height=400&width=500"
+                src="/products/logo.png?height=400&width=500"
                 alt="Respectful funeral services"
                 className="w-full h-80 object-cover rounded-lg"
               />
