@@ -35,7 +35,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "essential",
-    image: "/products/Nada.jpg",
+    image: "/products/Nada.jpeg",
   },
 
   {
@@ -59,7 +59,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
-    image: "/products/Abir-Gulal-Ashtgandh.jpg",
+    image: "/products/Abir-Gulal-Ashtgandh.jpeg",
   },
 
   {
@@ -236,6 +236,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "clothing",
+     image: "/products/Shaal.jpeg",
   },
 
   {
