@@ -71,6 +71,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image:"/products/Makhane.jpeg",
   },
 
   {
@@ -116,7 +117,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
-    image: "/products/Jal Kalash.jpg",
+    image: "/products/Nariyal.jpeg",
   },
 
   {
@@ -140,7 +141,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
-    image: "/products/Omkari.jpg",
+    image: "/products/Agarbatti.jpeg",
   },
 
   {
@@ -199,6 +200,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Ghaas.jpeg",
   },
 
   {
@@ -222,7 +224,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "essential",
-    image: "/products/Kafan.jpg",
+    image: "/products/Kafan.jpeg",
   },
 
   {
@@ -256,6 +258,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "clothing",
+    image: "/products/Kapde-Kurta-Dhoti.jpeg",
   },
 
   {
@@ -278,6 +281,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image:"/products/Matki-Ka-Sten.jpeg",
   },
 
   {
@@ -289,7 +293,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
-    image: "/products/Mati-Lota.jpg",
+    image: "/products/Thali-Lota.jpeg",
   },
 
   {
@@ -313,6 +317,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Paay.jpeg",
   },
 
   {
@@ -358,6 +363,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image:"/products/Dhoop.jpeg",
   },
 
   {
@@ -380,6 +386,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "clothing",
+    image:"/products/Safa.jpeg",
   },
 
   {
@@ -415,6 +422,7 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image:"/products/Swargiya-Sone-Ki-Seedi.jpeg",
   },
 
   {
@@ -426,6 +434,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image:"/products/Swargiya-Sone-Ki-Seedi.jpeg",
   },
 
   {
@@ -470,6 +479,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "clothing",
+    image:"/products/Maharashtrian-Saree.jpeg",
   },
 
   {
