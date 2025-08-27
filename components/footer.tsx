@@ -8,9 +8,12 @@ export default function Footer() {
           {/* Company Info */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-amber-900 font-bold">
-                अं
-              </div>
+              <img 
+             src="/products/logo.png"   // <-- place your logo file in public folder and change the name here
+             alt="Antim Sewa Logo"
+             className="w-10 h-10 md:w-14 md:h-14 object-contain rounded-full"
+            // className="w-8 h-8 md:w-12 md:h-12 bg-amber-900 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl"
+            />
               <div>
                 <h3 className="text-xl font-bold">Antim Sewa</h3>
                 <p className="text-sm text-amber-200">अंतिम संस्कार सेवा</p>
