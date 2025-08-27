@@ -95,7 +95,9 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
 
               <CardContent className="px-6">
                 <div className="space-y-2 max-h-64 overflow-y-auto">
-                  <h4 className="font-semibold text-gray-900 mb-3">Included Items ({pkg.items.length}):</h4>
+                  <h4 className="font-semibold text-gray-900 mb-3">
+                    Included Items ({pkg.id === "package1" ? "29" : pkg.id === "package2" ? "42" : "67"}):
+                  </h4>
                   {pkg.items.map((item, index) => (
                     <div key={index} className="flex items-center gap-3">
                       <div className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
