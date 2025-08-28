@@ -237,6 +237,48 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
     }
   }
 
+  // Function to send order details to WhatsApp
+  const sendOrderToWhatsApp = async (orderData: any) => {
+    try {
+      const phoneNumber = "919179677292" // WhatsApp number provided
+      
+      // Create a formatted message with order details
+      let message = `*नया ऑर्डर प्राप्त हुआ है!* (New Order Received!)\n\n`
+      message += `*ऑर्डर ID:* ${orderData.orderId}\n`
+      message += `*दिनांक:* ${orderData.orderDate}\n\n`
+      
+      message += `*ग्राहक विवरण (Customer Details):*\n`
+      message += `नाम (Name): ${orderData.customerInfo.name}\n`
+      message += `फोन (Phone): ${orderData.customerInfo.phone}\n`
+      message += `पता (Address): ${orderData.customerInfo.address}\n`
+      message += `स्थान (Location): ${orderData.customerInfo.deliveryLocation}\n\n`
+      
+      message += `*ऑर्डर विवरण (Order Details):*\n`
+      orderData.items.forEach((item: any, index: number) => {
+        message += `${index + 1}. ${item.name} x ${item.quantity} - ₹${item.price * item.quantity}\n`
+      })
+      
+      message += `\n*कुल राशि (Total Amount):* ₹${orderData.total}\n`
+      message += `*भुगतान विधि (Payment Method):* ${orderData.paymentMethod === 'cash' ? 'कैश ऑन डिलीवरी (Cash on Delivery)' : 'ऑनलाइन (Online)'}\n`
+      message += `*भुगतान स्थिति (Payment Status):* ${orderData.paymentStatus === 'pending' ? 'लंबित (Pending)' : 'पूर्ण (Completed)'}`
+      
+      // Encode the message for URL
+      const encodedMessage = encodeURIComponent(message)
+      
+      // Create WhatsApp API URL
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`
+      
+      // Open WhatsApp in a new window
+      window.open(whatsappUrl, "_blank")
+      
+      console.log('📱 Order details sent to WhatsApp')
+      return true
+    } catch (error) {
+      console.error('❌ Failed to send order to WhatsApp:', error)
+      return false
+    }
+  }
+
   const handleCashOnDelivery = async () => {
     const orderId = generateOrderId()
     const orderDate = new Date().toLocaleString('en-IN', { 
@@ -270,6 +312,9 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
 
     // Send order confirmation email
     const emailSent = await sendOrderConfirmationEmail(orderData)
+    
+    // Send order details to WhatsApp
+    sendOrderToWhatsApp(orderData)
     
     // Show success message
     if (emailSent) {
@@ -353,6 +398,8 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
               const orderData = {
                 orderId,
                 orderDate,
+                // Add timestamp for easier sorting
+                timestamp: Date.now(),
                 items: cartItems.map(item => ({
                   name: item.name,
                   quantity: item.quantity,
@@ -373,6 +420,9 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
 
               // Send order confirmation email
               const emailSent = await sendOrderConfirmationEmail(orderData)
+              
+              // Send order details to WhatsApp
+              sendOrderToWhatsApp(orderData)
               
               // Show success message
               if (emailSent) {
