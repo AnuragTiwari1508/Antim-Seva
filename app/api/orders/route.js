@@ -1,24 +1,19 @@
 import { NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/mongodb';
+import mongoose from 'mongoose';
 import Order from '@/models/Order';
 import { getServerSession } from 'next-auth/next';
+import clientPromise from '@/lib/mongodb';
 
 export async function GET(request) {
   try {
-    // Get user session
-    const session = await getServerSession();
-    
-    if (!session || !session.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    
-    await connectToDatabase();
+    // Connect to MongoDB
+    await clientPromise;
     
     // Get orders for the logged-in user
     const orders = await Order.find({ 
       $or: [
-        { userId: session.user.id },
-        { customerEmail: session.user.email }
+        { userId: "guest" },
+        { customerEmail: "guest" }
       ]
     }).sort({ timestamp: -1 });
     
