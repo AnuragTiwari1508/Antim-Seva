@@ -1,30 +1,70 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongoose';
 import Order from '@/models/Order';
+import jwt from 'jsonwebtoken';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+
+// JWT secret key - should be in environment variables in production
+const JWT_SECRET = process.env.JWT_SECRET || 'antim-sewa-secret-key';
 
 // GET - Fetch user's orders
 export async function GET(request) {
   try {
-    const session = await getServerSession(authOptions);
+    // Try to get token from cookies
+    const cookies = request.cookies;
+    const token = cookies.get('token')?.value;
     
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (token) {
+      try {
+        // Verify token
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const userId = decoded.userId || decoded.id;
+        
+        await dbConnect();
+        
+        // Get user's orders
+        const orders = await Order.find({ 
+          userId: userId 
+        }).sort({ timestamp: -1 });
+        
+        return NextResponse.json({ 
+          success: true,
+          orders,
+          count: orders.length
+        });
+      } catch (tokenError) {
+        console.error('Token verification error:', tokenError);
+        // Continue to try NextAuth session if token verification fails
+      }
     }
     
-    await dbConnect();
+    // Fallback to NextAuth session if available
+    try {
+      // Import dynamically to prevent build errors
+      const { authOptions } = await import('@/app/api/auth/[...nextauth]/options');
+      const session = await getServerSession(authOptions);
+      
+      if (session) {
+        await dbConnect();
+        
+        // Get user's orders
+        const orders = await Order.find({ 
+          userId: session.user.id 
+        }).sort({ timestamp: -1 });
+        
+        return NextResponse.json({ 
+          success: true,
+          orders,
+          count: orders.length
+        });
+      }
+    } catch (sessionError) {
+      console.error('Session error:', sessionError);
+      // Continue to unauthorized response if session check fails
+    }
     
-    // Get user's orders
-    const orders = await Order.find({ 
-      userId: session.user.id 
-    }).sort({ timestamp: -1 });
-    
-    return NextResponse.json({ 
-      success: true,
-      orders,
-      count: orders.length
-    });
+    // If no authentication method worked
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   } catch (error) {
     console.error('Error fetching orders:', error);
     return NextResponse.json(
@@ -37,30 +77,69 @@ export async function GET(request) {
 // POST - Create new order
 export async function POST(request) {
   try {
-    const session = await getServerSession(authOptions);
+    // Try to get token from cookies
+    const cookies = request.cookies;
+    const token = cookies.get('token')?.value;
     
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (token) {
+      try {
+        // Verify token
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const userId = decoded.userId || decoded.id;
+        
+        const orderData = await request.json();
+        
+        // Add userId from token
+        orderData.userId = userId;
+        
+        await dbConnect();
+        
+        // Create new order
+        const order = new Order(orderData);
+        await order.save();
+        
+        return NextResponse.json({ 
+          success: true, 
+          order,
+          message: 'Order created successfully' 
+        });
+      } catch (tokenError) {
+        console.error('Token verification error:', tokenError);
+        // Continue to try NextAuth session if token verification fails
+      }
     }
     
-    const orderData = await request.json();
+    // Fallback to NextAuth session if available
+    try {
+      // Import dynamically to prevent build errors
+      const { authOptions } = await import('@/app/api/auth/[...nextauth]/options');
+      const session = await getServerSession(authOptions);
+      
+      if (session) {
+        const orderData = await request.json();
+        
+        // Add userId from session
+        orderData.userId = session.user.id;
+        
+        await dbConnect();
+        
+        // Create new order
+        const order = new Order(orderData);
+        await order.save();
+        
+        return NextResponse.json({ 
+          success: true, 
+          order,
+          message: 'Order created successfully' 
+        });
+      }
+    } catch (sessionError) {
+      console.error('Session error:', sessionError);
+      // Continue to unauthorized response if session check fails
+    }
     
-    // Add userId from session
-    orderData.userId = session.user.id;
-    
-    await dbConnect();
-    
-    // Create new order
-    const order = new Order(orderData);
-    await order.save();
-    
-    // Send WhatsApp notification (will be implemented in the next step)
-    
-    return NextResponse.json({ 
-      success: true, 
-      order,
-      message: 'Order created successfully' 
-    });
+    // If no authentication method worked
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   } catch (error) {
     console.error('Error creating order:', error);
     return NextResponse.json(
