@@ -1134,13 +1134,13 @@ export const packagePricing = {
   package2: {
     name: "Standard Package",
     nameHindi: "मानक पैकेज",
-    basePrice: 11000,
+    basePrice: 15000,
     items: products.filter((p) => p.inPackage2),
   },
   package3: {
     name: "Premium Package",
     nameHindi: "प्रीमियम पैकेज",
-    basePrice: 21000,
+    basePrice: 25000,
     items: products.filter((p) => p.inPackage3),
   },
 }
