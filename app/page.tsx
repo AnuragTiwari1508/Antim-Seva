@@ -156,7 +156,7 @@ export default function Home() {
                   id: packageId,
                   name: packageId === "package1" ? "Package 1" : packageId === "package2" ? "Standard Package" : "Premium Package",
                   nameHindi: packageId === "package1" ? "पैकेट नंबर 1" : packageId === "package2" ? "मानक पैकेज" : "प्रीमियम पैकेज",
-                  price: packageId === "package1" ? 5100 : packageId === "package2" ? 11000 : 21000,
+                  price: packageId === "package1" ? 5100 : packageId === "package2" ? 15000 : 25000,
                   type: "package"
                 }
                 addToCart(packageData)
