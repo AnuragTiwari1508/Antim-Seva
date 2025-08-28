@@ -103,7 +103,7 @@ export default function ProfilePage() {
             <Card className="shadow-lg">
               <CardHeader>
                 <CardTitle className="text-xl text-amber-900">Personal Information / व्यक्तिगत जानकारी</CardTitle>
-                <CardDescription>Update your account details</CardDescription>
+                <CardDescription>Update your account details and enable WhatsApp notifications</CardDescription>
               </CardHeader>
               <CardContent>
                 {formError && (

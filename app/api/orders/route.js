@@ -1,48 +1,71 @@
 import { NextResponse } from 'next/server';
-import mongoose from 'mongoose';
+import dbConnect from '@/lib/mongoose';
 import Order from '@/models/Order';
 import { getServerSession } from 'next-auth/next';
-import clientPromise from '@/lib/mongodb';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
+// GET - Fetch user's orders
 export async function GET(request) {
   try {
-    // Connect to MongoDB
-    await clientPromise;
+    const session = await getServerSession(authOptions);
     
-    // Get orders for the logged-in user
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    
+    await dbConnect();
+    
+    // Get user's orders
     const orders = await Order.find({ 
-      $or: [
-        { userId: "guest" },
-        { customerEmail: "guest" }
-      ]
+      userId: session.user.id 
     }).sort({ timestamp: -1 });
     
-    return NextResponse.json({ orders });
+    return NextResponse.json({ 
+      success: true,
+      orders,
+      count: orders.length
+    });
   } catch (error) {
     console.error('Error fetching orders:', error);
-    return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch orders', details: error.message },
+      { status: 500 }
+    );
   }
 }
 
-// Fallback for local storage orders when user is not logged in
+// POST - Create new order
 export async function POST(request) {
   try {
-    const { orderIds } = await request.json();
+    const session = await getServerSession(authOptions);
     
-    if (!orderIds || !Array.isArray(orderIds)) {
-      return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     
-    await connectToDatabase();
+    const orderData = await request.json();
     
-    // Get orders by their orderIds
-    const orders = await Order.find({ 
-      orderId: { $in: orderIds } 
-    }).sort({ timestamp: -1 });
+    // Add userId from session
+    orderData.userId = session.user.id;
     
-    return NextResponse.json({ orders });
+    await dbConnect();
+    
+    // Create new order
+    const order = new Order(orderData);
+    await order.save();
+    
+    // Send WhatsApp notification (will be implemented in the next step)
+    
+    return NextResponse.json({ 
+      success: true, 
+      order,
+      message: 'Order created successfully' 
+    });
   } catch (error) {
-    console.error('Error fetching local orders:', error);
-    return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 });
+    console.error('Error creating order:', error);
+    return NextResponse.json(
+      { error: 'Failed to create order', details: error.message },
+      { status: 500 }
+    );
   }
 }

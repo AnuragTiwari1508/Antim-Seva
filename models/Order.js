@@ -1,62 +1,96 @@
 import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
-const OrderSchema = new mongoose.Schema({
-  orderId: {
+const orderItemSchema = new Schema({
+  productId: {
     type: String,
     required: true,
-    unique: true
   },
-  customerName: {
+  name: {
     type: String,
-    required: true
+    required: true,
   },
-  customerEmail: {
-    type: String,
-    required: true
-  },
-  customerPhone: {
-    type: String,
-    required: true
-  },
-  address: {
-    type: String,
-    required: true
-  },
-  location: {
-    lat: Number,
-    lng: Number
-  },
-  items: [{
-    id: String,
-    name: String,
-    nameHindi: String,
-    price: Number,
-    quantity: Number,
-    type: String
-  }],
-  totalAmount: {
+  quantity: {
     type: Number,
-    required: true
+    required: true,
+    default: 1,
   },
-  paymentMethod: {
-    type: String,
-    enum: ['cash', 'online'],
-    required: true
-  },
-  paymentStatus: {
-    type: String,
-    enum: ['pending', 'completed', 'failed'],
-    default: 'pending'
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now
-  },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: false // Optional as guest checkout is allowed
+  price: {
+    type: Number,
+    required: true,
   }
 });
 
-export default mongoose.models.Order || mongoose.model('Order', OrderSchema);
+const orderSchema = new Schema(
+  {
+    orderId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    customerInfo: {
+      name: {
+        type: String,
+        required: true,
+      },
+      email: {
+        type: String,
+        required: true,
+      },
+      phone: {
+        type: String,
+        required: true,
+      },
+      address: {
+        type: String,
+        required: true,
+      },
+      deliveryLocation: {
+        type: String,
+      }
+    },
+    items: [orderItemSchema],
+    total: {
+      type: Number,
+      required: true,
+    },
+    paymentMethod: {
+      type: String,
+      enum: ['cash', 'online'],
+      required: true,
+    },
+    paymentStatus: {
+      type: String,
+      enum: ['pending', 'completed', 'failed'],
+      default: 'pending',
+    },
+    paymentId: {
+      type: String,
+    },
+    orderStatus: {
+      type: String,
+      enum: ['pending', 'processing', 'completed', 'cancelled'],
+      default: 'pending',
+    },
+    orderDate: {
+      type: String,
+      required: true,
+    },
+    timestamp: {
+      type: Number,
+      default: Date.now,
+    },
+    notificationSent: {
+      type: Boolean,
+      default: false,
+    }
+  },
+  { timestamps: true }
+);
+
+export default mongoose.models.Order || mongoose.model('Order', orderSchema);

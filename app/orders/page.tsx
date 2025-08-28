@@ -12,37 +12,25 @@ import { Separator } from "@/components/ui/separator"
 import { ShoppingBag, MapPin, Phone, Calendar, Clock, CreditCard } from "lucide-react"
 
 export default function OrdersPage() {
+  const { data: session, status } = useSession()
   const router = useRouter()
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
   useEffect(() => {
+    // Redirect to login if not authenticated
+    if (status === "unauthenticated") {
+      router.push("/login?callbackUrl=/orders")
+      return
+    }
+
     async function fetchOrders() {
       try {
         setLoading(true)
         
-        // Get orders from localStorage for all users
-        const localOrderIds = JSON.parse(localStorage.getItem("orderHistory") || "[]")
-        
-        if (localOrderIds.length > 0) {
-          const response = await fetch("/api/orders", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ orderIds: localOrderIds }),
-          })
-          
-          const data = await response.json()
-          
-          if (data.error) {
-            throw new Error(data.error)
-          }
-          
-          setOrders(data.orders)
-        } else {
-          // Try to fetch all orders if no local orders
+        // For logged in users, fetch from API
+        if (status === "authenticated") {
           const response = await fetch("/api/orders")
           const data = await response.json()
           
@@ -51,6 +39,27 @@ export default function OrdersPage() {
           }
           
           setOrders(data.orders)
+        } else {
+          // For guest users, get from localStorage
+          const localOrderIds = JSON.parse(localStorage.getItem("orderHistory") || "[]")
+          
+          if (localOrderIds.length > 0) {
+            const response = await fetch("/api/orders", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ orderIds: localOrderIds }),
+            })
+            
+            const data = await response.json()
+            
+            if (data.error) {
+              throw new Error(data.error)
+            }
+            
+            setOrders(data.orders)
+          }
         }
       } catch (err) {
         console.error("Error fetching orders:", err)
@@ -61,7 +70,7 @@ export default function OrdersPage() {
     }
 
     fetchOrders()
-  }, [router])
+  }, [status, router])
 
   // Format date for display
   const formatDate = (dateString) => {

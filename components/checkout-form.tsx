@@ -240,61 +240,38 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
   // Function to send order details to WhatsApp
   const sendOrderToWhatsApp = async (orderData: any) => {
     try {
-      // Get customer's phone number from the order
-      const customerPhone = orderData.customerInfo.phone.replace(/\D/g, '')
-      const phoneNumber = customerPhone.startsWith('91') ? customerPhone : `91${customerPhone}`
-      const adminPhone = "919179677292" // Admin WhatsApp number
+      const phoneNumber = "919179677292" // WhatsApp number provided
       
-      // Create a formatted message with order details for customer
-      let customerMessage = `*अंतिम सेवा से आपका ऑर्डर प्राप्त हो गया है!* (Your order has been received!)\n\n`
-      customerMessage += `*ऑर्डर ID:* ${orderData.orderId}\n`
-      customerMessage += `*दिनांक:* ${orderData.orderDate}\n\n`
+      // Create a formatted message with order details
+      let message = `*नया ऑर्डर प्राप्त हुआ है!* (New Order Received!)\n\n`
+      message += `*ऑर्डर ID:* ${orderData.orderId}\n`
+      message += `*दिनांक:* ${orderData.orderDate}\n\n`
       
-      customerMessage += `*ऑर्डर विवरण (Order Details):*\n`
+      message += `*ग्राहक विवरण (Customer Details):*\n`
+      message += `नाम (Name): ${orderData.customerInfo.name}\n`
+      message += `फोन (Phone): ${orderData.customerInfo.phone}\n`
+      message += `पता (Address): ${orderData.customerInfo.address}\n`
+      message += `स्थान (Location): ${orderData.customerInfo.deliveryLocation}\n\n`
+      
+      message += `*ऑर्डर विवरण (Order Details):*\n`
       orderData.items.forEach((item: any, index: number) => {
-        customerMessage += `${index + 1}. ${item.name} x ${item.quantity} - ₹${item.price * item.quantity}\n`
+        message += `${index + 1}. ${item.name} x ${item.quantity} - ₹${item.price * item.quantity}\n`
       })
       
-      customerMessage += `\n*कुल राशि (Total Amount):* ₹${orderData.total}\n`
-      customerMessage += `*भुगतान विधि (Payment Method):* ${orderData.paymentMethod === 'cash' ? 'कैश ऑन डिलीवरी (Cash on Delivery)' : 'ऑनलाइन (Online)'}\n`
-      customerMessage += `*भुगतान स्थिति (Payment Status):* ${orderData.paymentStatus === 'pending' ? 'लंबित (Pending)' : 'पूर्ण (Completed)'}\n\n`
-      customerMessage += `अधिक जानकारी के लिए हमसे संपर्क करें: +91 91796 77292`
+      message += `\n*कुल राशि (Total Amount):* ₹${orderData.total}\n`
+      message += `*भुगतान विधि (Payment Method):* ${orderData.paymentMethod === 'cash' ? 'कैश ऑन डिलीवरी (Cash on Delivery)' : 'ऑनलाइन (Online)'}\n`
+      message += `*भुगतान स्थिति (Payment Status):* ${orderData.paymentStatus === 'pending' ? 'लंबित (Pending)' : 'पूर्ण (Completed)'}`
       
       // Encode the message for URL
-      const encodedCustomerMessage = encodeURIComponent(customerMessage)
+      const encodedMessage = encodeURIComponent(message)
       
-      // Create WhatsApp API URL for customer
-      const customerWhatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedCustomerMessage}`
+      // Create WhatsApp API URL
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`
       
-      // Send message to customer
-      window.open(customerWhatsappUrl, "_blank")
+      // Open WhatsApp in a new window
+      window.open(whatsappUrl, "_blank")
       
-      // Also send notification to admin
-      const adminMessage = `*नया ऑर्डर प्राप्त हुआ है!* (New Order Received!)\n\n`
-      + `*ऑर्डर ID:* ${orderData.orderId}\n`
-      + `*दिनांक:* ${orderData.orderDate}\n\n`
-      + `*ग्राहक विवरण (Customer Details):*\n`
-      + `नाम (Name): ${orderData.customerInfo.name}\n`
-      + `फोन (Phone): ${orderData.customerInfo.phone}\n`
-      + `पता (Address): ${orderData.customerInfo.address}\n`
-      + `स्थान (Location): ${orderData.customerInfo.deliveryLocation}\n\n`
-      + `*ऑर्डर विवरण (Order Details):*\n`
-      + orderData.items.map((item: any, index: number) => 
-          `${index + 1}. ${item.name} x ${item.quantity} - ₹${item.price * item.quantity}`
-        ).join('\n')
-      + `\n\n*कुल राशि (Total Amount):* ₹${orderData.total}\n`
-      + `*भुगतान विधि (Payment Method):* ${orderData.paymentMethod === 'cash' ? 'कैश ऑन डिलीवरी (Cash on Delivery)' : 'ऑनलाइन (Online)'}\n`
-      + `*भुगतान स्थिति (Payment Status):* ${orderData.paymentStatus === 'pending' ? 'लंबित (Pending)' : 'पूर्ण (Completed)'}`
-      
-      const encodedAdminMessage = encodeURIComponent(adminMessage)
-      const adminWhatsappUrl = `https://api.whatsapp.com/send?phone=${adminPhone}&text=${encodedAdminMessage}`
-      
-      // Open admin notification in a new window
-      setTimeout(() => {
-        window.open(adminWhatsappUrl, "_blank")
-      }, 1000)
-      
-      console.log('📱 Order details sent to customer and admin via WhatsApp')
+      console.log('📱 Order details sent to WhatsApp')
       return true
     } catch (error) {
       console.error('❌ Failed to send order to WhatsApp:', error)
