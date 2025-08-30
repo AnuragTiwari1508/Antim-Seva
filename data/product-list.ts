@@ -1,4 +1,4 @@
-// Product List for Antim Sewa - Complete Catalog
+// Product List for Antim Seva - Complete Catalog
 
 import { products, packagePricing } from '@/data/products'
 

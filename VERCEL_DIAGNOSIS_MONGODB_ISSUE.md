@@ -2,13 +2,13 @@
 
 ### Problem Found: MongoDB Atlas Cluster Unavailable
 
-**Issue**: DNS resolution failed for `antim-sewa.jfmmpb3.mongodb.net`
+**Issue**: DNS resolution failed for `antim-seva.jfmmpb3.mongodb.net`
 - Error: "No addresses found at host"
 - This means the MongoDB Atlas cluster is not accessible
 
 ### Missing Environment Variables in Vercel:
 ❌ `NEXTAUTH_SECRET` - Required for NextAuth.js
-❌ `NEXTAUTH_URL` - Should be `https://antim-sewa-gamma.vercel.app`
+❌ `NEXTAUTH_URL` - Should be `https://antim-seva-gamma.vercel.app`
 ❌ `STRIPE_PUBLISHABLE_KEY` - For Stripe payments
 ❌ `RAZORPAY_SECRET` - For Razorpay payments
 
@@ -24,7 +24,7 @@ Go to MongoDB Atlas Dashboard and check:
 #### 2. Add Missing Environment Variables in Vercel:
 ```
 NEXTAUTH_SECRET=your-secret-minimum-32-characters-long
-NEXTAUTH_URL=https://antim-sewa-gamma.vercel.app
+NEXTAUTH_URL=https://antim-seva-gamma.vercel.app
 STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
 RAZORPAY_SECRET=your_razorpay_secret_key
 ```

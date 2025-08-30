@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { getServerSession } from 'next-auth/next';
 
 // JWT secret key - should be in environment variables in production
-const JWT_SECRET = process.env.JWT_SECRET || 'antim-sewa-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || 'antim-seva-secret-key';
 
 // GET - Fetch user's orders
 export async function GET(request) {

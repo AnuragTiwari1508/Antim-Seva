@@ -1,7 +1,7 @@
 // Simple MongoDB connection test
 const { MongoClient } = require('mongodb');
 
-const uri = "mongodb+srv://tiwarianurag342407:asdfghjkl123A@antim-sewa.jfmmpb3.mongodb.net/?retryWrites=true&w=majority&appName=Antim-Sewa";
+const uri = "mongodb+srv://tiwarianurag342407:asdfghjkl123A@antim-seva.jfmmpb3.mongodb.net/?retryWrites=true&w=majority&appName=Antim-Seva";
 
 async function testConnection() {
   console.log('🔄 Testing MongoDB connection for registration...');
@@ -15,8 +15,8 @@ async function testConnection() {
     await client.connect();
     console.log('✅ Connected successfully!');
     
-    const db = client.db('antimsewa');
-    console.log('📂 Connected to database: antimsewa');
+    const db = client.db('antimseva');
+    console.log('📂 Connected to database: antimseva');
     
     // Test inserting a sample user
     const usersCollection = db.collection('users');

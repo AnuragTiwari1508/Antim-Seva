@@ -11,7 +11,7 @@ export default function Services() {
   };
 
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("नमस्ते! मैं Antim Sewa की सेवाओं के बारे में जानकारी चाहता/चाहती हूँ। कृपया मार्गदर्शन करें।");
+    const message = encodeURIComponent("नमस्ते! मैं Antim Seva की सेवाओं के बारे में जानकारी चाहता/चाहती हूँ। कृपया मार्गदर्शन करें।");
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, "_blank");
   };

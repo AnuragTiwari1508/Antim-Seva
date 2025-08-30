@@ -1,7 +1,7 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const fs = require('fs');
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://tiwarianurag342407:asdfghjkl123A@antim-sewa.jfmmpb3.mongodb.net/?retryWrites=true&w=majority&appName=Antim-Sewa;" // Replace with your string
+const uri = process.env.MONGODB_URI || "mongodb+srv://tiwarianurag342407:asdfghjkl123A@antim-seva.jfmmpb3.mongodb.net/?retryWrites=true&w=majority&appName=Antim-Seva;" // Replace with your string
 
 // Try with minimal configuration first
 const client = new MongoClient(uri, {

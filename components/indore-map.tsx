@@ -185,7 +185,7 @@ export default function IndoreMap({ onLocationSelect, initialLocation, className
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=16&addressdetails=1&accept-language=en`,
         {
           headers: {
-            'User-Agent': 'Antim-Sewa-Ecommerce-App'
+            'User-Agent': 'Antim-Seva-Ecommerce-App'
           }
         }
       )

@@ -80,9 +80,9 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
     
     // Store in localStorage for admin access if needed
     try {
-      const existingOrders = JSON.parse(localStorage.getItem('antim-sewa-orders') || '[]');
+      const existingOrders = JSON.parse(localStorage.getItem('antim-seva-orders') || '[]');
       existingOrders.push(orderData);
-      localStorage.setItem('antim-sewa-orders', JSON.stringify(existingOrders));
+      localStorage.setItem('antim-seva-orders', JSON.stringify(existingOrders));
       console.log('💾 Order saved to local storage for tracking');
     } catch (error) {
       console.log('⚠️ Local storage save failed:', error);
@@ -358,7 +358,7 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_lEQBZ5fwEMtoMF',
         amount: order.amount,
         currency: order.currency,
-        name: 'Antim Sewa',
+        name: 'Antim Seva',
         description: 'Religious Ceremony Items',
         order_id: order.id,
         prefill: {

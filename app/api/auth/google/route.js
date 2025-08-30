@@ -5,7 +5,7 @@ import dbConnect from '@/lib/mongoose';
 import User from '@/models/User';
 
 // JWT secret key - should be in environment variables in production
-const JWT_SECRET = process.env.JWT_SECRET || 'antim-sewa-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || 'antim-seva-secret-key';
 
 // GET method - redirect to Google OAuth
 export async function GET(request) {

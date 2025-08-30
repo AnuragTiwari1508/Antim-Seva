@@ -1,5 +1,5 @@
 // Complete migration script to import all 49 products from data/products.ts to MongoDB
-process.env.MONGODB_URI = 'mongodb+srv://tiwarianurag342407:asdfghjkl123A@antim-sewa.jfmmpb3.mongodb.net/?retryWrites=true&w=majority&appName=Antim-Sewa'
+process.env.MONGODB_URI = 'mongodb+srv://tiwarianurag342407:asdfghjkl123A@antim-seva.jfmmpb3.mongodb.net/?retryWrites=true&w=majority&appName=Antim-Seva'
 
 import { connectDB } from '../lib/mongoose.js'
 import Product from '../models/Product.js'
