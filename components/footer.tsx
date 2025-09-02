@@ -1,4 +1,6 @@
+
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
+import Link from "next/link"
 
 export default function Footer() {
   return (
@@ -56,29 +58,29 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Quick Links / त्वरित लिंक</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+                <Link href="/" className="text-sm text-amber-100 hover:text-white transition-colors">
                   Products / उत्पाद
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+                <Link href="/" className="text-sm text-amber-100 hover:text-white transition-colors">
                   Packages / पैकेज
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+                <Link href="/" className="text-sm text-amber-100 hover:text-white transition-colors">
                   Services / सेवाएं
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+                <Link href="/" className="text-sm text-amber-100 hover:text-white transition-colors">
                   Emergency / आपातकाल
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+                <Link href="/" className="text-sm text-amber-100 hover:text-white transition-colors">
                   FAQ / प्रश्न
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -110,12 +112,12 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-amber-200">© 2024 Antim Seva. All rights reserved. / सभी अधिकार सुरक्षित।</p>
             <div className="flex gap-4 mt-4 md:mt-0">
-              <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+              <Link href="/" className="text-sm text-amber-100 hover:text-white transition-colors">
                 Privacy Policy
-              </a>
-              <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+              </Link>
+              <Link href="/" className="text-sm text-amber-100 hover:text-white transition-colors">
                 Terms of Service
-              </a>
+              </Link>
             </div>
           </div>
         </div>

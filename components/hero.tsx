@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { Heart, Shield, Clock } from "lucide-react"
 
-export default function Hero() {
+interface HeroProps {
+  setActiveSection?: (section: string) => void
+}
+
+export default function Hero({ setActiveSection }: HeroProps = {}) {
   return (
     <section className="bg-gradient-to-r from-amber-50 to-orange-100 py-16">
       <div className="max-w-7xl mx-auto px-4">
@@ -42,13 +46,18 @@ export default function Hero() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-amber-900 hover:bg-amber-800 text-white px-8">
+              <Button 
+                size="lg" 
+                className="bg-amber-900 hover:bg-amber-800 text-white px-8"
+                onClick={() => setActiveSection?.('packages')}
+              >
                 अभी ऑर्डर करें
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 className="border-amber-900 text-amber-900 hover:bg-amber-50 px-8 bg-transparent"
+                onClick={() => setActiveSection?.('services')}
               >
                 सेवाएं देखें
               </Button>
