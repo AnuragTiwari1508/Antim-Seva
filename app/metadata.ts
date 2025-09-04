@@ -6,6 +6,9 @@ export const metadata: Metadata = {
     "Antim Seva provides dignified funeral and antim sanskar services with care, compassion, and respect. Services include Shav Vahan, Pandit Ji, cremation assistance, and complete last journey support.",
   keywords: [
     "Antim Seva",
+    "antim seva",
+    "antimseva",
+    "antimsewa",
     "Funeral Services",
     "Shav Vahan",
     "Cremation Services",
@@ -41,10 +44,10 @@ export const metadata: Metadata = {
     site: "@antimseva", // update when Twitter/X account exists
     title: "Antim Seva | Funeral Services",
     description:
-      "Funeral & antim sanskar services with dignity and compassion. Pandit Ji, Shav Vahan, cremation assistance.",
+      "Funeral & antim sanskar services with dignity and compassigiton. Pandit Ji, Shav Vahan, cremation assistance.",
     images: ["/og-image.jpg"],
   },
   icons: {
-    icon: "/favicon.ico", // put favicon.ico in /public
+  icon: "/favicon.ico", // put favicon.ico in /public
   },
 }
