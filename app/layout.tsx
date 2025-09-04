@@ -23,6 +23,28 @@ export default function RootLayout({
             gtag('config', 'G-YG4KQ5XGJE');
           `}
         </Script>
+
+        {/* ✅ Structured Data for SEO */}
+        <Script id="structured-data" type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Antim Seva",
+            "url": "https://antimseva.in",
+            "logo": "https://antimseva.in/og-image.jpg",
+            "sameAs": [
+              "https://instagram.com/antimseva"
+              // add twitter later when available
+            ],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+91 91796 77292",
+              "contactType": "customer service",
+              "areaServed": "IN",
+              "availableLanguage": ["en", "hi"]
+            }
+          })}
+        </Script>
       </head>
       <body>
         <Providers>
