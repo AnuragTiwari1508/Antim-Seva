@@ -17,7 +17,7 @@ export default function AboutUs() {
 
             <div className="text-lg text-gray-700 leading-relaxed space-y-4">
               <p>
-                <strong className="text-amber-900">"Antim Sewa"</strong> सिर्फ एक सेवा नहीं, एक संकल्प है।
+                <strong className="text-amber-900">"Antim Seva"</strong> सिर्फ एक सेवा नहीं, एक संकल्प है।
               </p>
 
               <p>

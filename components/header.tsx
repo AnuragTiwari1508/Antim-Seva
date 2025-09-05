@@ -53,11 +53,16 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2 md:gap-3">
-            <div className="w-8 h-8 md:w-12 md:h-12 bg-amber-900 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl">
-              अं
-            </div>
+
+            <img 
+             src="/products/logo.png"   // <-- place your logo file in public folder and change the name here
+             alt="Antim Seva Logo"
+             className="w-10 h-10 md:w-14 md:h-14 object-contain rounded-full"
+            // className="w-8 h-8 md:w-12 md:h-12 bg-amber-900 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl"
+            />
+
             <div>
-              <h1 className="text-lg md:text-2xl font-bold text-amber-900">Antim Sewa</h1>
+              <h1 className="text-lg md:text-2xl font-bold text-amber-900">Antim Seva</h1>
               <p className="text-xs md:text-sm text-gray-600 hidden sm:block">अंतिम संस्कार आवश्यक वस्तुएं</p>
             </div>
           </div>

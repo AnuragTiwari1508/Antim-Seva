@@ -2,6 +2,7 @@
 
 import { AuthProvider } from '@/context/AuthContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { SessionProvider } from 'next-auth/react';
 import { fonts } from './fonts';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -13,9 +14,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
           --font-mono: ${fonts.mono.style.fontFamily};
         }
       `}</style>
-      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
-        <AuthProvider>{children}</AuthProvider>
-      </GoogleOAuthProvider>
+      <SessionProvider>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
+          <AuthProvider>{children}</AuthProvider>
+        </GoogleOAuthProvider>
+      </SessionProvider>
     </>
   );
 }

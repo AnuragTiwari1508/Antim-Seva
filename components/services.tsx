@@ -11,7 +11,13 @@ export default function Services() {
   };
 
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("नमस्ते! मैं Antim Sewa की सेवाओं के बारे में जानकारी चाहता/चाहती हूँ। कृपया मार्गदर्शन करें।");
+    const message = encodeURIComponent("नमस्ते! मैं Antim Seva की सेवाओं के बारे में जानकारी चाहता/चाहती हूँ। कृपया मार्गदर्शन करें।");
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  const handleServiceBooking = (serviceName: string) => {
+    const message = encodeURIComponent(`नमस्ते! मैं ${serviceName} सेवा के लिए बुकिंग करना चाहता/चाहती हूँ। कृपया विस्तार से जानकारी दें।`);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, "_blank");
   };
@@ -95,6 +101,7 @@ export default function Services() {
                 <Button
                   variant="outline"
                   className="w-full border-amber-900 text-amber-900 hover:bg-amber-50 bg-transparent"
+                  onClick={() => handleServiceBooking(service.titleHindi)}
                 >
                   Book Service / सेवा बुक करें
                 </Button>

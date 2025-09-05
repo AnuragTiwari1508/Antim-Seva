@@ -18,66 +18,67 @@ export const products: Product[] = [
     id: "1",
     name: "Sutli",
     nameHindi: "सुतली",
-    price: 30,
+    price: 50,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "essential",
-    image: "/products/Rassi.jpg",
+    image: "/products/Sutli.jpeg",
   },
 
   {
     id: "2",
     name: "Nada",
     nameHindi: "नाडा",
-    price: 40,
+    price: 50,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "essential",
-    image: "/products/Nada.jpg",
+    image: "/products/Nada.jpeg",
   },
 
   {
     id: "3",
     name: "Rassi",
     nameHindi: "रस्सी",
-    price: 30,
+    price: 50,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "essential",
-    image: "/products/Rassi.jpg",
+    image: "/products/Rassi.jpeg",
   },
 
   {
     id: "4",
     name: "Abir-Gulal-Ashtgandh",
     nameHindi: "अबीर-गुलाल-अष्टगंध",
-    price: 80,
+    price: 70,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
-    image: "/products/Abir-Gulal-Ashtgandh.jpg",
+    image: "/products/Abir-Gulal-Ashtgandh.jpeg",
   },
 
   {
     id: "5",
     name: "Singade-Koni-Makhane",
     nameHindi: "सिंगाडे कोणी मखाने",
-    price: 50,
+    price: 120,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image:"/products/Makhane.jpeg",
   },
 
   {
     id: "6",
     name: "Jav-Tilli",
     nameHindi: "जव-तिल्ली",
-    price: 40,
+    price: 60,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
@@ -89,7 +90,7 @@ export const products: Product[] = [
     id: "7",
     name: "Muthiya",
     nameHindi: "मुठिया",
-    price: 70,
+    price: 300,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
@@ -100,7 +101,7 @@ export const products: Product[] = [
     id: "8",
     name: "Itr",
     nameHindi: "इत्र",
-    price: 60,
+    price: 50,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
@@ -111,19 +112,19 @@ export const products: Product[] = [
     id: "9",
     name: "Nariyal",
     nameHindi: "नारियल",
-    price: 90,
+    price: 20,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
-    image: "/products/Jal Kalash.jpg",
+    image: "/products/Nariyal.jpeg",
   },
 
   {
     id: "10",
     name: "Kapur",
     nameHindi: "कपुर",
-    price: 35,
+    price: 50,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
@@ -135,19 +136,19 @@ export const products: Product[] = [
     id: "11",
     name: "Agarbatti",
     nameHindi: "अगरबत्ती",
-    price: 45,
+    price: 10,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
-    image: "/products/Omkari.jpg",
+    image: "/products/Agarbatti.jpeg",
   },
 
   {
     id: "12",
     name: "Munga-Moti",
     nameHindi: "मुंगा मोती",
-    price: 55,
+    price: 210,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
@@ -159,20 +160,20 @@ export const products: Product[] = [
     id: "13",
     name: "Panchratna",
     nameHindi: "पंचरत्न",
-    price: 65,
+    price: 250,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
-    image: "/products/Panchratna.jpg",
+    image: "/products/Panchratna.jpeg",
   },
 
   {
     id: "14",
-    name: "Matka-Matki",
-    nameHindi: "मटका-मटकी",
-    price: 60,
-    inPackage1: false,
+    name: "Matka/Matki",
+    nameHindi: "मटका/मटकी",
+    price: 80,
+    inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
@@ -183,7 +184,7 @@ export const products: Product[] = [
     id: "15",
     name: "Kimdi",
     nameHindi: "किमड़ी",
-    price: 40,
+    price: 150,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
@@ -194,34 +195,36 @@ export const products: Product[] = [
     id: "16",
     name: "Ghaas",
     nameHindi: "घास",
-    price: 30,
+    price: 100,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Ghaas.jpeg",
   },
 
   {
     id: "17",
     name: "Baas",
     nameHindi: "बास",
-    price: 25,
+    price: 300,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image: "/products/Baas.jpg",
   },
 
   {
     id: "18",
     name: "Kafan",
     nameHindi: "कफन",
-    price: 150,
+    price: 300,
     inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "essential",
-    image: "/products/Kafan.jpg",
+    image: "/products/Kafan.jpeg",
   },
 
   {
@@ -229,10 +232,11 @@ export const products: Product[] = [
     name: "Shaal",
     nameHindi: "शाल",
     price: 100,
-    inPackage1: false,
+    inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "clothing",
+     image: "/products/Shaal.jpeg",
   },
 
   {
@@ -255,6 +259,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "clothing",
+    image: "/products/Kapde-Kurta-Dhoti.jpeg",
   },
 
   {
@@ -272,11 +277,12 @@ export const products: Product[] = [
     id: "23",
     name: "Matki-Ka-Sten",
     nameHindi: "मटकी का स्टेन",
-    price: 60,
-    inPackage1: false,
+    price: 50,
+    inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image:"/products/Matki-Ka-Sten.jpeg",
   },
 
   {
@@ -288,7 +294,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
-    image: "/products/Mati-Lota.jpg",
+    image: "/products/Thali-Lota.jpeg",
   },
 
   {
@@ -296,7 +302,7 @@ export const products: Product[] = [
     name: "Aata",
     nameHindi: "आटा",
     price: 50,
-    inPackage1: false,
+    inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
@@ -312,25 +318,27 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Paay.jpeg",
   },
 
   {
     id: "27",
     name: "Gopi-Janeu",
     nameHindi: "गोपी-जनेऊ",
-    price: 35,
-    inPackage1: false,
+    price: 20,
+    inPackage1: true,
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Gopi-Janeu.jpeg",
   },
 
   {
     id: "28",
     name: "Maal",
     nameHindi: "माल",
-    price: 30,
-    inPackage1: false,
+    price: 50,
+    inPackage1: true,
     inPackage2: false,
     inPackage3: true,
     category: "puja",
@@ -352,22 +360,24 @@ export const products: Product[] = [
     id: "30",
     name: "Dhoop",
     nameHindi: "धूप",
-    price: 70,
-    inPackage1: false,
+    price: 150,
+    inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image:"/products/Dhoop.jpeg",
   },
 
   {
     id: "31",
     name: "Chandan-Chura",
     nameHindi: "चंदन चुरा",
-    price: 90,
-    inPackage1: false,
+    price: 370,
+    inPackage1: true,
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image: "/products/Chandan chura.jpeg",
   },
 
   {
@@ -379,26 +389,15 @@ export const products: Product[] = [
     inPackage2: true,
     inPackage3: true,
     category: "clothing",
+    image:"/products/Safa.jpeg",
   },
 
-  {
+   {
     id: "33",
-    name: "Ral",
-    nameHindi: "राल",
-    price: 300,
-    inPackage1: false,
-    inPackage2: true,
-    inPackage3: true,
-    category: "essential",
-    image: "/products/Ral.jpg",
-  },
-
-  {
-    id: "34",
     name: "Ghee",
     nameHindi: "घी",
-    price: 480,
-    inPackage1: false,
+    price: 600,
+    inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "essential",
@@ -406,14 +405,27 @@ export const products: Product[] = [
   },
 
   {
+    id: "34",
+    name: "Ral",
+    nameHindi: "राल",
+    price: 480,
+    inPackage1: true,
+    inPackage2: true,
+    inPackage3: true,
+    category: "essential",
+    image: "/products/Ral.jpeg",
+  },
+
+  {
     id: "35",
-    name: "Swargiya-Sone-Ki-Seedi",
+    name: "Swargiya-Sone-Ki-Seedi(polished)",
     nameHindi: "स्वर्गीय सोने की सीढ़ी",
-    price: 120,
-    inPackage1: false,
+    price: 500,
+    inPackage1: true,
     inPackage2: true,
     inPackage3: true,
     category: "puja",
+    image:"/products/Swargiya-Sone-Ki-Seedi.jpeg",
   },
 
   {
@@ -425,6 +437,7 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "puja",
+    image:"/products/Swargiya-Sone-Ki-Seedi.jpeg",
   },
 
   {
@@ -440,6 +453,18 @@ export const products: Product[] = [
 
   {
     id: "38",
+    name: "Shilpee",
+    nameHindi: "छील्पी",
+    price: 550,
+    inPackage1: true,
+    inPackage2: false,
+    inPackage3: true,
+    category: "puja",
+    image:"/products/Shilpee.jpeg",
+  },
+
+  {
+    id: "39",
     name: "Suhag-Ka-Saman",
     nameHindi: "सुहाग का सामान",
     price: 150,
@@ -450,7 +475,7 @@ export const products: Product[] = [
   },
 
   {
-    id: "39",
+    id: "40",
     name: "Vati-Ka-Saman-Bichhdi",
     nameHindi: "वटी का सामान बिछड़ी",
     price: 200,
@@ -461,7 +486,7 @@ export const products: Product[] = [
   },
 
   {
-    id: "40",
+    id: "41",
     name: "Maharashtrian-Saree",
     nameHindi: "महाराष्ट्रीयन साड़ी",
     price: 180,
@@ -469,10 +494,11 @@ export const products: Product[] = [
     inPackage2: false,
     inPackage3: true,
     category: "clothing",
+    image:"/products/Maharashtrian-Saree.jpeg",
   },
 
   {
-    id: "41",
+    id: "42",
     name: "Petticoat-Blouse",
     nameHindi: "पेटीकोट-ब्लाउज",
     price: 150,
@@ -483,7 +509,7 @@ export const products: Product[] = [
   },
 
   {
-    id: "42",
+    id: "43",
     name: "Lugda",
     nameHindi: "लुगड़ा",
     price: 300,
@@ -494,7 +520,7 @@ export const products: Product[] = [
   },
 
   {
-    id: "43",
+    id: "44",
     name: "Gadi-Takiya",
     nameHindi: "गादी-तकीया",
     price: 300,
@@ -505,7 +531,7 @@ export const products: Product[] = [
   },
 
   {
-    id: "44",
+    id: "45",
     name: "Chaddi-Banian",
     nameHindi: "चड्डी-बनियान",
     price: 100,
@@ -516,7 +542,7 @@ export const products: Product[] = [
   },
 
   {
-    id: "45",
+    id: "46",
     name: "Towel-Pancha",
     nameHindi: "टॉवेल-पंछा",
     price: 150,
@@ -527,7 +553,7 @@ export const products: Product[] = [
   },
 
   {
-    id: "46",
+    id: "47",
     name: "Shola",
     nameHindi: "शोला",
     price: 300,
@@ -538,7 +564,7 @@ export const products: Product[] = [
   },
 
   {
-    id: "47",
+    id: "48",
     name: "Haldi-Kaku",
     nameHindi: "हल्दी-ककू",
     price: 50,
@@ -549,7 +575,7 @@ export const products: Product[] = [
   },
 
   {
-    id: "48",
+    id: "49",
     name: "Khopra-Ka-Gola",
     nameHindi: "खोपरा का गोला",
     price: 70,
@@ -560,7 +586,7 @@ export const products: Product[] = [
   },
 
   {
-    id: "49",
+    id: "50",
     name: "Barak-Kharak",
     nameHindi: "बरक-खारक",
     price: 50,
@@ -576,19 +602,19 @@ export const packagePricing = {
   package1: {
     name: "Basic Package",
     nameHindi: "मूलभूत पैकेज",
-    basePrice: 1200,
+    basePrice: 5100,
     items: products.filter((p) => p.inPackage1),
   },
   package2: {
     name: "Standard Package",
     nameHindi: "मानक पैकेज",
-    basePrice: 2800,
+    basePrice: 7500,
     items: products.filter((p) => p.inPackage2),
   },
   package3: {
     name: "Premium Package",
     nameHindi: "प्रीमियम पैकेज",
-    basePrice: 5100,
+    basePrice: 11000,
     items: products.filter((p) => p.inPackage3),
   },
 }

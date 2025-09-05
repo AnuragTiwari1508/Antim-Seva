@@ -247,7 +247,7 @@ export default function AdminPage() {
               <Shield className="h-8 w-8 text-amber-600" />
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Admin Panel</h1>
-                <p className="text-sm text-gray-600">Antim Sewa Management System</p>
+                <p className="text-sm text-gray-600">Antim Seva Management System</p>
               </div>
             </div>
             

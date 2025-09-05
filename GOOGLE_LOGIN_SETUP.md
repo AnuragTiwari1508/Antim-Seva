@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide explains how to set up Google OAuth login for the Antim Sewa E-commerce application.
+This guide explains how to set up Google OAuth login for the Antim Seva E-commerce application.
 
 ## Prerequisites
 

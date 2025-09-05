@@ -39,7 +39,7 @@ export async function middleware(request) {
 
   if (token) {
     try {
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'antim-sewa-secret-key');
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'antim-seva-secret-key');
       await jwtVerify(token, secret);
       isAuthenticated = true;
       

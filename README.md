@@ -1,4 +1,4 @@
-# Antim Sewa - अंतिम सेवा
+# Antim Seva - अंतिम सेवा
 
 A comprehensive funeral services website providing essential items and services for final rites. Built with Next.js 15 and MongoDB Atlas cloud database.
 
@@ -40,8 +40,8 @@ A comprehensive funeral services website providing essential items and services 
 
 ```bash
 # Clone and install
-git clone https://github.com/AnuragTiwari1508/Antim-Sewa.git
-cd Antim-Sewa
+git clone https://github.com/AnuragTiwari1508/Antim-Seva.git
+cd Antim-Seva
 pnpm install
 
 # Setup environment
@@ -161,8 +161,8 @@ const token = jwt.sign(
   JWT_SECRET,
   { 
     expiresIn: '7d',  // Customize expiration
-    issuer: 'antim-sewa',
-    audience: 'antim-sewa-users'
+    issuer: 'antim-seva',
+    audience: 'antim-seva-users'
   }
 );
 ```

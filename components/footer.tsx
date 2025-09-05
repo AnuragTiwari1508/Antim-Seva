@@ -1,3 +1,4 @@
+
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
 import Link from "next/link"
 
@@ -27,11 +28,14 @@ export default function Footer() {
           {/* Company Info */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-amber-900 font-bold">
-                अं
-              </div>
+              <img 
+             src="/products/logo.png"   // <-- place your logo file in public folder and change the name here
+             alt="Antim Seva Logo"
+             className="w-10 h-10 md:w-14 md:h-14 object-contain rounded-full"
+            // className="w-8 h-8 md:w-12 md:h-12 bg-amber-900 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl"
+            />
               <div>
-                <h3 className="text-xl font-bold">Antim Sewa</h3>
+                <h3 className="text-xl font-bold">Antim Seva</h3>
                 <p className="text-sm text-amber-200">अंतिम संस्कार सेवा</p>
               </div>
             </div>
@@ -50,7 +54,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-amber-300" />
-                <span className="text-sm">info@antimsewa.com</span>
+                <span className="text-sm">info@antimseva.com</span>
               </div>
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-amber-300 mt-1" />
@@ -139,7 +143,7 @@ export default function Footer() {
 
         <div className="border-t border-amber-700 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-amber-200">© 2024 Antim Sewa. All rights reserved. / सभी अधिकार सुरक्षित।</p>
+            <p className="text-sm text-amber-200">© 2024 Antim Seva. All rights reserved. / सभी अधिकार सुरक्षित।</p>
             <div className="flex gap-4 mt-4 md:mt-0">
               <Link href="/privacy" className="text-sm text-amber-100 hover:text-white transition-colors">
                 Privacy Policy

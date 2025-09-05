@@ -24,7 +24,7 @@ const generateOrderEmailHTML = (orderData) => {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Order Confirmation - Antim Sewa</title>
+        <title>Order Confirmation - Antim Seva</title>
         <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -41,7 +41,7 @@ const generateOrderEmailHTML = (orderData) => {
     <body>
         <div class="container">
             <div class="header">
-                <h1>🙏 Antim Sewa - अंतिम सेवा</h1>
+                <h1>🙏 Antim Seva - अंतिम सेवा</h1>
                 <p>Order Confirmation / ऑर्डर पुष्टि</p>
             </div>
             
@@ -98,7 +98,7 @@ const generateOrderEmailHTML = (orderData) => {
             </div>
 
             <div class="footer">
-                <p>Thank you for choosing Antim Sewa / अंतिम सेवा चुनने के लिए धन्यवाद</p>
+                <p>Thank you for choosing Antim Seva / अंतिम सेवा चुनने के लिए धन्यवाद</p>
                 <p>🙏 अंतिम संस्कार आवश्यक वस्तुएं 🙏</p>
             </div>
         </div>
@@ -145,11 +145,11 @@ export async function POST(request) {
     // Send email to customer
     const mailOptions = {
       from: {
-        name: 'Antim Sewa - अंतिम सेवा',
+        name: 'Antim Seva - अंतिम सेवा',
         address: process.env.SMTP_USER
       },
       to: orderData.customerInfo.email,
-      subject: `Order Confirmation #${orderData.orderId} - Antim Sewa / ऑर्डर पुष्टि`,
+      subject: `Order Confirmation #${orderData.orderId} - Antim Seva / ऑर्डर पुष्टि`,
       html: emailHTML,
     };
 
@@ -160,7 +160,7 @@ export async function POST(request) {
     // Also send a copy to admin for order tracking
     const adminMailOptions = {
       from: {
-        name: 'Antim Sewa - Order System',
+        name: 'Antim Seva - Order System',
         address: process.env.SMTP_USER
       },
       to: process.env.SMTP_USER, // Send to admin email
