@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Header from "@/components/header"
 import Hero from "@/components/hero"
 import ProductCatalog from "@/components/product-catalog"
@@ -44,6 +44,16 @@ export default function Home() {
       return [...prev, { ...item, quantity: item.quantity || 1 }]
     })
   }
+
+  // Listen for section change events from footer
+  useEffect(() => {
+    const handleSectionChange = (event: any) => {
+      setActiveSection(event.detail);
+    };
+
+    window.addEventListener('changeSection', handleSectionChange);
+    return () => window.removeEventListener('changeSection', handleSectionChange);
+  }, []);
 
   const updateCartItem = (id: string, quantity: number) => {
     if (quantity <= 0) {

@@ -1,6 +1,25 @@
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
+import Link from "next/link"
 
 export default function Footer() {
+  // Handle smooth scrolling to sections
+  const handleSectionClick = (sectionId: string) => {
+    // First navigate to home page if not already there
+    if (window.location.pathname !== '/') {
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
+    
+    // If on home page, scroll to section or trigger state change
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Trigger section change via custom event (for navigation state)
+      window.dispatchEvent(new CustomEvent('changeSection', { detail: sectionId }));
+    }
+  }
+
   return (
     <footer className="bg-amber-900 text-white py-12">
       <div className="max-w-7xl mx-auto px-4">
@@ -53,29 +72,44 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Quick Links / त्वरित लिंक</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+                <button 
+                  onClick={() => handleSectionClick('products')} 
+                  className="text-sm text-amber-100 hover:text-white transition-colors text-left"
+                >
                   Products / उत्पाद
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+                <button 
+                  onClick={() => handleSectionClick('packages')} 
+                  className="text-sm text-amber-100 hover:text-white transition-colors text-left"
+                >
                   Packages / पैकेज
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+                <button 
+                  onClick={() => handleSectionClick('services')} 
+                  className="text-sm text-amber-100 hover:text-white transition-colors text-left"
+                >
                   Services / सेवाएं
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
-                  Emergency / आपातकाल
-                </a>
+                <button 
+                  onClick={() => handleSectionClick('about')} 
+                  className="text-sm text-amber-100 hover:text-white transition-colors text-left"
+                >
+                  About / परिचय
+                </button>
               </li>
               <li>
-                <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+                <button 
+                  onClick={() => handleSectionClick('faq')} 
+                  className="text-sm text-amber-100 hover:text-white transition-colors text-left"
+                >
                   FAQ / प्रश्न
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -107,12 +141,12 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-amber-200">© 2024 Antim Sewa. All rights reserved. / सभी अधिकार सुरक्षित।</p>
             <div className="flex gap-4 mt-4 md:mt-0">
-              <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+              <Link href="/privacy" className="text-sm text-amber-100 hover:text-white transition-colors">
                 Privacy Policy
-              </a>
-              <a href="#" className="text-sm text-amber-100 hover:text-white transition-colors">
+              </Link>
+              <Link href="/terms" className="text-sm text-amber-100 hover:text-white transition-colors">
                 Terms of Service
-              </a>
+              </Link>
             </div>
           </div>
         </div>
