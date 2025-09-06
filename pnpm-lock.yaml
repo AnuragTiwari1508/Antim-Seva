@@ -122,9 +122,18 @@ importers:
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
+      embla-carousel:
+        specifier: ^8.6.0
+        version: 8.6.0
+      embla-carousel-autoplay:
+        specifier: ^8.6.0
+        version: 8.6.0(embla-carousel@8.6.0)
       embla-carousel-react:
-        specifier: 8.5.1
-        version: 8.5.1(react@18.3.1)
+        specifier: ^8.6.0
+        version: 8.6.0(react@18.3.1)
+      framer-motion:
+        specifier: ^12.23.12
+        version: 12.23.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       geist:
         specifier: ^1.3.1
         version: 1.4.2(next@15.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
@@ -182,9 +191,15 @@ importers:
       react-resizable-panels:
         specifier: ^2.1.7
         version: 2.1.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-slick:
+        specifier: ^0.31.0
+        version: 0.31.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       recharts:
         specifier: 2.15.0
         version: 2.15.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      slick-carousel:
+        specifier: ^1.8.1
+        version: 1.8.1(jquery@3.7.1)
       sonner:
         specifier: ^1.7.1
         version: 1.7.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -213,6 +228,9 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.1.7(@types/react@19.1.11)
+      '@types/react-slick':
+        specifier: ^0.23.13
+        version: 0.23.13
       postcss:
         specifier: ^8.5
         version: 8.5.6
@@ -1167,6 +1185,9 @@ packages:
     peerDependencies:
       '@types/react': ^19.0.0
 
+  '@types/react-slick@0.23.13':
+    resolution: {integrity: sha512-bNZfDhe/L8t5OQzIyhrRhBr/61pfBcWaYJoq6UDqFtv5LMwfg4NsVDD2J8N01JqdAdxLjOt66OZEp6PX+dGs/A==}
+
   '@types/react@19.1.11':
     resolution: {integrity: sha512-lr3jdBw/BGj49Eps7EvqlUaoeA0xpj3pc0RoJkHpYaCHkVK7i28dKyImLQb3JVlqs3aYSXf7qYuWOW/fgZnTXQ==}
 
@@ -1284,6 +1305,9 @@ packages:
 
   class-variance-authority@0.7.1:
     resolution: {integrity: sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==}
+
+  classnames@2.5.1:
+    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
 
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
@@ -1439,18 +1463,23 @@ packages:
   electron-to-chromium@1.5.208:
     resolution: {integrity: sha512-ozZyibehoe7tOhNaf16lKmljVf+3npZcJIEbJRVftVsmAg5TeA1mGS9dVCZzOwr2xT7xK15V0p7+GZqSPgkuPg==}
 
-  embla-carousel-react@8.5.1:
-    resolution: {integrity: sha512-z9Y0K84BJvhChXgqn2CFYbfEi6AwEr+FFVVKm/MqbTQ2zIzO1VQri6w67LcfpVF0AjbhwVMywDZqY4alYkjW5w==}
+  embla-carousel-autoplay@8.6.0:
+    resolution: {integrity: sha512-OBu5G3nwaSXkZCo1A6LTaFMZ8EpkYbwIaH+bPqdBnDGQ2fh4+NbzjXjs2SktoPNKCtflfVMc75njaDHOYXcrsA==}
+    peerDependencies:
+      embla-carousel: 8.6.0
+
+  embla-carousel-react@8.6.0:
+    resolution: {integrity: sha512-0/PjqU7geVmo6F734pmPqpyHqiM99olvyecY7zdweCw+6tKEXnrE90pBiBbMMU8s5tICemzpQ3hi5EpxzGW+JA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.1 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
 
-  embla-carousel-reactive-utils@8.5.1:
-    resolution: {integrity: sha512-n7VSoGIiiDIc4MfXF3ZRTO59KDp820QDuyBDGlt5/65+lumPHxX2JLz0EZ23hZ4eg4vZGUXwMkYv02fw2JVo/A==}
+  embla-carousel-reactive-utils@8.6.0:
+    resolution: {integrity: sha512-fMVUDUEx0/uIEDM0Mz3dHznDhfX+znCCDCeIophYb1QGVM7YThSWX+wz11zlYwWFOr74b4QLGg0hrGPJeG2s4A==}
     peerDependencies:
-      embla-carousel: 8.5.1
+      embla-carousel: 8.6.0
 
-  embla-carousel@8.5.1:
-    resolution: {integrity: sha512-JUb5+FOHobSiWQ2EJNaueCNT/cQU9L6XWBbWmorWPQT9bkbk+fhsuLr8wWrzXKagO3oWszBO7MSx+GfaRk4E6A==}
+  embla-carousel@8.6.0:
+    resolution: {integrity: sha512-SjWyZBHJPbqxHOzckOfo8lHisEaJWmwd23XppYFYVh10bU66/Pn5tkVkbkCMZVdbUE5eTCI2nD8OyIP4Z+uwkA==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -1526,6 +1555,20 @@ packages:
 
   fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
+
+  framer-motion@12.23.12:
+    resolution: {integrity: sha512-6e78rdVtnBvlEVgu6eFEAgG9v3wLnYEboM8I5O5EXvfKC8gxGQB8wXJdhkMy10iVcn05jl6CNw7/HTsTCfwcWg==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -1665,11 +1708,17 @@ packages:
   jose@6.0.13:
     resolution: {integrity: sha512-Yms4GpbmdANamS51kKK6w4hRlKx8KTxbWyAAKT/MhUMtqbIqh5mb2HjhTNUbk7TFL8/MBB5zWSDohL7ed4k/UA==}
 
+  jquery@3.7.1:
+    resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
+
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
   json-bigint@1.0.0:
     resolution: {integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==}
+
+  json2mq@0.2.0:
+    resolution: {integrity: sha512-SzoRg7ux5DWTII9J2qkrZrqV1gt+rTaoufMxEzXbS26Uid0NwaJd123HcoB80TgubEppxxIGdNxCx50fEoEWQA==}
 
   jsonwebtoken@9.0.2:
     resolution: {integrity: sha512-PRp66vJ865SSqOlgqS8hujT5U4AOgMfhrwYIuIhfKaoSCZcirrmASQr8CX7cUg+RMih+hgznrjp99o+W4pJLHQ==}
@@ -1701,6 +1750,9 @@ packages:
 
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
+
+  lodash.debounce@4.0.8:
+    resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
   lodash.includes@4.3.0:
     resolution: {integrity: sha512-W3Bx6mdkRTGtlJISOvVD/lbqjTlPPUDTMnlXZFnVwi9NKJ6tiAk6LVdlhZMm17VZisqhKcgzpO5Wz91PCt5b0w==}
@@ -1806,6 +1858,12 @@ packages:
   mongoose@8.18.0:
     resolution: {integrity: sha512-3TixPihQKBdyaYDeJqRjzgb86KbilEH07JmzV8SoSjgoskNTpa6oTBmDxeoF9p8YnWQoz7shnCyPkSV/48y3yw==}
     engines: {node: '>=16.20.1'}
+
+  motion-dom@12.23.12:
+    resolution: {integrity: sha512-RcR4fvMCTESQBD/uKQe49D5RUeDOokkGRmz4ceaJKDBgHYtZtntC/s2vLvY38gqGaytinij/yi3hMcWVcEF5Kw==}
+
+  motion-utils@12.23.6:
+    resolution: {integrity: sha512-eAWoPgr4eFEOFfg2WjIsMoqJTW6Z8MTUCgn/GZ3VRpClWBdnbjryiA3ZSNLyxCTmCQx4RmYX6jX1iWHbenUPNQ==}
 
   mpath@0.9.0:
     resolution: {integrity: sha512-ikJRQTk8hw5DEoFVxHG1Gn9T/xcjtdnOKIU1JTmGjZZlg9LST2mBLmcX3/ICIbgJydT2GOc15RnNy5mHmzfSew==}
@@ -2071,6 +2129,12 @@ packages:
       react: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
       react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
 
+  react-slick@0.31.0:
+    resolution: {integrity: sha512-zo6VLT8wuSBJffg/TFPbzrw2dEnfZ/cUKmYsKByh3AgatRv29m2LoFbq5vRMa3R3A4wp4d8gwbJKO2fWZFaI3g==}
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   react-smooth@4.0.4:
     resolution: {integrity: sha512-gnGKTpYwqL0Iii09gHobNolvX4Kiq4PKx6eWBCYYix+8cdw+cGo3do906l1NBPKkSWx1DghC1dlWG9L2uGd61Q==}
     peerDependencies:
@@ -2113,6 +2177,9 @@ packages:
     peerDependencies:
       react: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  resize-observer-polyfill@1.5.1:
+    resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
 
   resolve@1.22.10:
     resolution: {integrity: sha512-NPRy+/ncIMeDlTAsuqwKIiferiawhefFJtkNSW0qZJEqMEb+qBt/77B/jGeeek+F0uOeN05CDa6HXbbIgtVX4w==}
@@ -2175,6 +2242,11 @@ packages:
   simple-swizzle@0.2.2:
     resolution: {integrity: sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==}
 
+  slick-carousel@1.8.1:
+    resolution: {integrity: sha512-XB9Ftrf2EEKfzoQXt3Nitrt/IPbT+f1fgqBdoxO3W/+JYvtEOW6EgxnWfr9GH6nmULv7Y2tPmEX3koxThVmebA==}
+    peerDependencies:
+      jquery: '>=1.8.0'
+
   sonner@1.7.4:
     resolution: {integrity: sha512-DIS8z4PfJRbIyfVFDVnK9rO3eYDtse4Omcm6bt0oEr5/jtLgysmjuBl1frJ9E/EQZrFmKx2A8m/s5s9CRXIzhw==}
     peerDependencies:
@@ -2191,6 +2263,9 @@ packages:
   streamsearch@1.1.0:
     resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
     engines: {node: '>=10.0.0'}
+
+  string-convert@0.2.1:
+    resolution: {integrity: sha512-u/1tdPl4yQnPBjnVrmdLo9gtuLvELKsAoRapekWggdiQNvvvum+jYF329d84NAa660KQw7pB2n36KrIKVoXa3A==}
 
   string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
@@ -3293,6 +3368,10 @@ snapshots:
     dependencies:
       '@types/react': 19.1.11
 
+  '@types/react-slick@0.23.13':
+    dependencies:
+      '@types/react': 19.1.11
+
   '@types/react@19.1.11':
     dependencies:
       csstype: 3.1.3
@@ -3410,6 +3489,8 @@ snapshots:
   class-variance-authority@0.7.1:
     dependencies:
       clsx: 2.1.1
+
+  classnames@2.5.1: {}
 
   client-only@0.0.1: {}
 
@@ -3545,17 +3626,21 @@ snapshots:
 
   electron-to-chromium@1.5.208: {}
 
-  embla-carousel-react@8.5.1(react@18.3.1):
+  embla-carousel-autoplay@8.6.0(embla-carousel@8.6.0):
     dependencies:
-      embla-carousel: 8.5.1
-      embla-carousel-reactive-utils: 8.5.1(embla-carousel@8.5.1)
+      embla-carousel: 8.6.0
+
+  embla-carousel-react@8.6.0(react@18.3.1):
+    dependencies:
+      embla-carousel: 8.6.0
+      embla-carousel-reactive-utils: 8.6.0(embla-carousel@8.6.0)
       react: 18.3.1
 
-  embla-carousel-reactive-utils@8.5.1(embla-carousel@8.5.1):
+  embla-carousel-reactive-utils@8.6.0(embla-carousel@8.6.0):
     dependencies:
-      embla-carousel: 8.5.1
+      embla-carousel: 8.6.0
 
-  embla-carousel@8.5.1: {}
+  embla-carousel@8.6.0: {}
 
   emoji-regex@8.0.0: {}
 
@@ -3625,6 +3710,15 @@ snapshots:
       fetch-blob: 3.2.0
 
   fraction.js@4.3.7: {}
+
+  framer-motion@12.23.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      motion-dom: 12.23.12
+      motion-utils: 12.23.6
+      tslib: 2.8.1
+    optionalDependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   fsevents@2.3.3:
     optional: true
@@ -3787,11 +3881,17 @@ snapshots:
 
   jose@6.0.13: {}
 
+  jquery@3.7.1: {}
+
   js-tokens@4.0.0: {}
 
   json-bigint@1.0.0:
     dependencies:
       bignumber.js: 9.3.1
+
+  json2mq@0.2.0:
+    dependencies:
+      string-convert: 0.2.1
 
   jsonwebtoken@9.0.2:
     dependencies:
@@ -3835,6 +3935,8 @@ snapshots:
   lilconfig@3.1.3: {}
 
   lines-and-columns@1.2.4: {}
+
+  lodash.debounce@4.0.8: {}
 
   lodash.includes@4.3.0: {}
 
@@ -3918,6 +4020,12 @@ snapshots:
       - snappy
       - socks
       - supports-color
+
+  motion-dom@12.23.12:
+    dependencies:
+      motion-utils: 12.23.6
+
+  motion-utils@12.23.6: {}
 
   mpath@0.9.0: {}
 
@@ -4157,6 +4265,15 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
+  react-slick@0.31.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      classnames: 2.5.1
+      json2mq: 0.2.0
+      lodash.debounce: 4.0.8
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      resize-observer-polyfill: 1.5.1
+
   react-smooth@4.0.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       fast-equals: 5.2.2
@@ -4210,6 +4327,8 @@ snapshots:
       recharts-scale: 0.4.5
       tiny-invariant: 1.3.3
       victory-vendor: 36.9.2
+
+  resize-observer-polyfill@1.5.1: {}
 
   resolve@1.22.10:
     dependencies:
@@ -4301,6 +4420,10 @@ snapshots:
       is-arrayish: 0.3.2
     optional: true
 
+  slick-carousel@1.8.1(jquery@3.7.1):
+    dependencies:
+      jquery: 3.7.1
+
   sonner@1.7.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
@@ -4313,6 +4436,8 @@ snapshots:
       memory-pager: 1.5.0
 
   streamsearch@1.1.0: {}
+
+  string-convert@0.2.1: {}
 
   string-width@4.2.3:
     dependencies:
