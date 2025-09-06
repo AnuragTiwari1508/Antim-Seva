@@ -72,10 +72,10 @@ export default function ContactPage() {
             <div className="text-center bg-white rounded-lg p-8 shadow-lg">
               <Mail className="w-16 h-16 text-blue-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-gray-800 mb-4">Email</h3>
-              <p className="text-lg text-gray-700 mb-2">info@antimseva.com</p>
+              <p className="text-lg text-gray-700 mb-2">info@antimseva.in</p>
               <p className="text-sm text-gray-500">Quick Response</p>
               <a 
-                href="mailto:info@antimseva.com"
+                href="mailto:info@antimseva.in"
                 className="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
               >
                 Send Email

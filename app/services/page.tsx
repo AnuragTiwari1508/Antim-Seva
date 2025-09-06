@@ -152,7 +152,7 @@ export default function ServicesPage() {
                 Call Now: +91 91796 77292
               </a>
               <a 
-                href="mailto:info@antimseva.com"
+                href="mailto:info@antimseva.in"
                 className="border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white hover:text-amber-900 transition"
               >
                 Email Us

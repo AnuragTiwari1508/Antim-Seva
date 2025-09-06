@@ -60,7 +60,7 @@ export default function FAQPage() {
     },
     {
       question: "Can I get a consultation before deciding?",
-      answer: "Absolutely! We offer free consultations to understand your specific requirements and explain our services. You can call us at +91 91796 77292 or email info@antimseva.com for a detailed discussion."
+      answer: "Absolutely! We offer free consultations to understand your specific requirements and explain our services. You can call us at +91 91796 77292 or email info@antimseva.in for a detailed discussion."
     }
   ]
 
@@ -125,7 +125,7 @@ export default function FAQPage() {
               Call Us: +91 91796 77292
             </a>
             <a 
-              href="mailto:info@antimseva.com"
+              href="mailto:info@antimseva.in"
               className="border-2 border-amber-900 text-amber-900 px-8 py-3 rounded-lg font-bold hover:bg-amber-900 hover:text-white transition"
             >
               Email Your Question

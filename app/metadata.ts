@@ -1,33 +1,19 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Antim Seva | अंतिम सेवा | Funeral Services Indore | Last Journey Rituals",
+  title: "Antim Seva - अंतिम सेवा | Funeral Services Indore | Antim Sanskar 24/7",
   description:
-    "Antim Seva provides dignified funeral and antim sanskar services in Indore with complete devotion. Shav Vahan, Pandit Ji, cremation assistance, ritual materials available 24/7. अंतिम संस्कार की सभी आवश्यक सामग्री और सेवाएं।",
+    "Antim Seva Indore - Complete funeral services with dignity. Shav Vahan, Pandit Ji, Antim Sanskar materials, cremation assistance. 24/7 emergency. Call +91 91796 77292. अंतिम संस्कार की सभी सामग्री और सेवाएं।",
   keywords: [
-    "Antim Seva",
-    "अंतिम सेवा", 
-    "antim seva indore",
-    "antimseva",
-    "antimsewa", 
-    "अंतिम संस्कार सेवा",
-    "funeral services indore",
-    "Shav Vahan Indore",
-    "अंतिम संस्कार सामग्री",
-    "Cremation Services Indore",
-    "Pandit Ji for Antim Sanskar",
-    "Last Journey Services Indore",
-    "Antim Sanskar Indore",
-    "Final Journey Rituals",
-    "Funeral Management Indore",
-    "Antim Yatra",
-    "दाह संस्कार सेवा",
-    "पंडित जी सेवा",
-    "शव वाहन इंदौर",
-    "funeral services near me",
-    "antim seva contact number",
-    "emergency funeral services",
-    "24/7 funeral services indore"
+    // Most searched terms first
+    "अंतिम सेवा", "अंतिम संस्कार", "Antim Seva", "antim seva indore",
+    "अंतिम संस्कार इंदौर", "funeral services indore", "antimseva", "antim sewa",
+    "शव वाहन", "अंतिम संस्कार सामग्री", "Shav Vahan", "Antim Sanskar",
+    "cremation services indore", "funeral services near me", "अंतिम यात्रा",
+    "pandit ji indore", "दाह संस्कार", "last journey services", "final rites",
+    "hindu funeral services", "religious ceremony indore", "death rituals",
+    "funeral materials indore", "emergency funeral services", "24x7 funeral",
+    "madhya pradesh funeral", "मृत्यु संस्कार", "अंत्येष्टि", "पिंडदान",
   ],
   authors: [{ name: "Antim Seva Team" }],
   generator: "v0.dev", // ✅ kept as you had originally
@@ -59,14 +45,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/icon.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon.png", sizes: "16x16", type: "image/png" },
-      { url: "/products/logo.png", sizes: "192x192", type: "image/png" },
-      { url: "/products/logo.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/products/logo.jpg", sizes: "16x16", type: "image/jpeg" },
+      { url: "/products/logo.jpg", sizes: "192x192", type: "image/jpeg" },
+      { url: "/products/logo.jpg", sizes: "512x512", type: "image/jpeg" },
     ],
-    shortcut: ["/favicon.png"],
+    shortcut: ["/favicon.ico"],
     apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/apple-touch-icon.jpg", sizes: "180x180", type: "image/jpeg" },
     ],
   },
 }

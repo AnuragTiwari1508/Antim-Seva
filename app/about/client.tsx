@@ -113,7 +113,7 @@ export default function AboutPageClient() {
                 <div className="text-center">
                   <Mail className="w-12 h-12 mx-auto mb-4 text-amber-300" />
                   <h3 className="text-xl font-bold mb-2">Email Us</h3>
-                  <p className="text-amber-100">info@antimseva.com</p>
+                  <p className="text-amber-100">info@antimseva.in</p>
                   <p className="text-sm text-amber-200">Quick Response</p>
                 </div>
                 <div className="text-center">
