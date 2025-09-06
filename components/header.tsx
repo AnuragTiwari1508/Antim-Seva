@@ -44,6 +44,8 @@ const handleNavigation = (itemId: string) => {
       }
     }
   }
+
+  const navItems = [
     { id: "home", label: "Home / होम", icon: null },
     { id: "products", label: "Products / उत्पाद", icon: null },
     { id: "packages", label: "Packages / पैकेज", icon: null },
