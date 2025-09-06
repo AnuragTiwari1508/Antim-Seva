@@ -74,16 +74,16 @@ export default function FAQPage() {
       />
       <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
       {/* Hero Section */}
-      <section className="bg-amber-900 text-white py-16">
-        <div className="max-w-6xl mx-auto px-4">
+      <section className="bg-amber-50 text-white">
+        <div className="max-w-6xl mx-auto px-4 py-10">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold mb-3 text-amber-700">
               Frequently Asked Questions
             </h1>
-            <p className="text-xl md:text-2xl text-amber-100 max-w-4xl mx-auto">
+            <p className="text-xl md:text-2xl text-black max-w-4xl mx-auto">
               Find answers to common questions about our services
             </p>
-            <p className="text-lg text-amber-200 mt-4">
+            <p className="text-lg text-black mt-4">
               आपके सवालों के जवाब यहाँ मिलेंगे
             </p>
           </div>
@@ -111,22 +111,22 @@ export default function FAQPage() {
       </section>
 
       {/* Still Have Questions */}
-      <section className="py-16 bg-amber-50">
+      <section className="py-16 bg-green-100 mx-4 rounded-xl">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-amber-900 mb-6">Still Have Questions?</h2>
-          <p className="text-xl text-gray-700 mb-8">
+          <h2 className="text-3xl font-bold text-black mb-6">Still Have Questions?</h2>
+          <p className="text-xl text-black mb-8">
             Our compassionate team is here to help you with any concerns or specific requirements
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href="tel:+919179677292" 
-              className="bg-amber-900 text-white px-8 py-3 rounded-lg font-bold hover:bg-amber-800 transition"
+              className="border border-black bg-white text-black px-8 py-3 rounded-lg font-bold hover:scale-105 duration-150 transition"
             >
               Call Us: +91 91796 77292
             </a>
             <a 
               href="mailto:info@antimseva.in"
-              className="border-2 border-amber-900 text-amber-900 px-8 py-3 rounded-lg font-bold hover:bg-amber-900 hover:text-white transition"
+              className="border border-black text-black px-8 py-3 rounded-lg font-bold hover:scale-105 duration-150 transition"
             >
               Email Your Question
             </a>
@@ -136,7 +136,7 @@ export default function FAQPage() {
 
       {/* Emergency Contact */}
       <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4">
+        <div className="w-full mx-auto px-4">
           <div className="bg-red-600 text-white rounded-lg p-8 text-center">
             <h2 className="text-3xl font-bold mb-4">Emergency Assistance</h2>
             <p className="text-xl mb-6">

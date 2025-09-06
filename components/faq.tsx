@@ -58,9 +58,9 @@ export default function FAQ() {
   ]
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-8 bg-white">
       <div className="max-w-4xl mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-5">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
           <h3 className="text-2xl font-semibold text-amber-900 mb-6">अक्सर पूछे जाने वाले प्रश्न</h3>
           <p className="text-lg text-gray-600">आपके मन में उठने वाले संवेदनशील प्रश्नों के ईमानदार उत्तर</p>
@@ -102,7 +102,7 @@ export default function FAQ() {
         </div>
 
         <div className="mt-12 text-center">
-          <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-8">
+          <div className="bg-green-100 rounded-2xl p-8">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Still have questions? / अभी भी कोई प्रश्न है?</h3>
             <p className="text-gray-600 mb-6">हमारी टीम आपकी हर समस्या का समाधान करने के लिए तैयार है</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

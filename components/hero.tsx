@@ -119,7 +119,7 @@ export default function Hero({ setActiveSection }: HeroProps = {}) {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="relative bg-white"
+            className="relative bg-white rounded-2xl shadow-lg"
           >
             <div className="overflow-hidden rounded-2xl shadow-2xl p-4" ref={emblaRef}>
               <div className="flex">
@@ -148,12 +148,12 @@ export default function Hero({ setActiveSection }: HeroProps = {}) {
             </div>
           </motion.div>
 
-          <div className="mt-6 text-center">
+
+        </div>
+          <div className="mt-6 flex flex-col gap-2 text-center bg-green-100 border-r-4 rounded-lg p-4">
             <h3 className="text-xl font-semibold text-gray-800 mb-2">पूर्ण सम्मान के साथ</h3>
             <p className="text-gray-600">All the necessary materials as per religious rituals</p>
           </div>
-
-        </div>
       </div>
     </section>
   )
