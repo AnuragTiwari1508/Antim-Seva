@@ -20,12 +20,36 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  const navItems = [
+const handleNavigation = (itemId: string) => {
+    // For dedicated pages, use router navigation
+    if (itemId === 'about') {
+      router.push('/about');
+    } else if (itemId === 'services') {
+      router.push('/services');
+    } else if (itemId === 'contact') {
+      router.push('/contact');
+    } else if (itemId === 'faq') {
+      router.push('/faq');
+    } else {
+      // For home page sections, use section switching
+      if (itemId === 'home') {
+        router.push('/');
+      } else {
+        // If not on home page, go to home with section
+        if (window.location.pathname !== '/') {
+          router.push(`/#${itemId}`);
+        } else {
+          setActiveSection(itemId);
+        }
+      }
+    }
+  }
     { id: "home", label: "Home / होम", icon: null },
     { id: "products", label: "Products / उत्पाद", icon: null },
     { id: "packages", label: "Packages / पैकेज", icon: null },
     { id: "services", label: "Services / सेवाएं", icon: null },
     { id: "about", label: "About / हमारे बारे में", icon: null },
+    { id: "contact", label: "Contact / संपर्क", icon: null },
     { id: "faq", label: "FAQ / प्रश्न", icon: null },
   ]
 
@@ -212,7 +236,7 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
                   <button
                     key={item.id}
                     onClick={() => {
-                      setActiveSection(item.id);
+                      handleNavigation(item.id);
                       setIsMobileMenuOpen(false);
                     }}
                     className={`px-3 py-2 text-xs font-medium transition-colors rounded ${
@@ -237,7 +261,7 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
             {navItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => setActiveSection(item.id)}
+                onClick={() => handleNavigation(item.id)}
                 className={`px-4 py-3 text-sm font-medium transition-colors hover:bg-amber-700 ${
                   activeSection === item.id ? "bg-amber-700 border-b-2 border-white" : ""
                 }`}
