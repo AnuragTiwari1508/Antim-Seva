@@ -1,29 +1,22 @@
-import { Metadata } from "next"
-import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react"
+"use client"
 
-export const metadata: Metadata = {
-  title: "Contact Us - Antim Seva | 24/7 Support & Emergency Services",
-  description: "Contact Antim Seva for immediate funeral service assistance. Available 24/7 at +91 91796 77292. Email: info@antimseva.com. Emergency support for Indore and surrounding areas.",
-  keywords: [
-    "Contact Antim Seva",
-    "Funeral Service Contact",
-    "Emergency Contact",
-    "24/7 Support", 
-    "Phone Number",
-    "Email Address",
-    "Indore Funeral Services",
-    "Emergency Helpline"
-  ],
-  openGraph: {
-    title: "Contact Antim Seva - 24/7 Emergency Support",
-    description: "Get immediate assistance for funeral services. Call +91 91796 77292 or email info@antimseva.com",
-    url: "https://antimseva.in/contact",
-  },
-}
+import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import { useState } from "react"
 
 export default function ContactPage() {
+  const [activeSection, setActiveSection] = useState("contact")
+  
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
+    <>
+      <Header 
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+        cartItemsCount={0}
+        onCartClick={() => {}}
+      />
+      <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
       {/* Hero Section */}
       <section className="bg-amber-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
@@ -211,6 +204,8 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+      <Footer />
+    </>
   )
 }

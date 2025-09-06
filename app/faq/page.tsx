@@ -1,4 +1,8 @@
-import { Metadata } from "next"
+"use client"
+
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import { useState } from "react"
 import { 
   Accordion,
   AccordionContent,
@@ -6,27 +10,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
-export const metadata: Metadata = {
-  title: "FAQ - Antim Seva | Frequently Asked Questions",
-  description: "Find answers to common questions about funeral services, pricing, procedures, and religious ceremonies. Get clarity on Antim Seva's services and processes.",
-  keywords: [
-    "FAQ",
-    "Frequently Asked Questions",
-    "Funeral Service Questions",
-    "Antim Seva FAQ",
-    "Pricing Questions",
-    "Service Procedures",
-    "Religious Ceremonies",
-    "Help"
-  ],
-  openGraph: {
-    title: "Frequently Asked Questions - Antim Seva",
-    description: "Get answers to common questions about our funeral services, procedures, and pricing.",
-    url: "https://antimseva.in/faq",
-  },
-}
-
 export default function FAQPage() {
+  const [activeSection, setActiveSection] = useState("faq")
+  
   const faqs = [
     {
       question: "What services does Antim Seva provide?",
@@ -79,7 +65,14 @@ export default function FAQPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
+    <>
+      <Header 
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+        cartItemsCount={0}
+        onCartClick={() => {}}
+      />
+      <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
       {/* Hero Section */}
       <section className="bg-amber-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
@@ -159,6 +152,8 @@ export default function FAQPage() {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+      <Footer />
+    </>
   )
 }

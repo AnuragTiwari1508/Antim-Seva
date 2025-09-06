@@ -1,27 +1,13 @@
-import { Metadata } from "next"
-import { Car, User, Package, Clock, Phone, Heart } from "lucide-react"
+"use client"
 
-export const metadata: Metadata = {
-  title: "Our Services - Antim Seva | Complete Funeral Services",
-  description: "Comprehensive funeral services including Shav Vahan, Pandit Ji, cremation assistance, ritual materials, and 24/7 emergency support. Complete last journey arrangements.",
-  keywords: [
-    "Funeral Services",
-    "Shav Vahan",
-    "Pandit Services", 
-    "Cremation Services",
-    "Antim Sanskar",
-    "Emergency Services",
-    "Ritual Materials",
-    "Last Journey Services"
-  ],
-  openGraph: {
-    title: "Complete Funeral Services - Antim Seva",
-    description: "Professional funeral services with Shav Vahan, Pandit Ji, and complete ritual arrangements available 24/7.",
-    url: "https://antimseva.in/services",
-  },
-}
+import { Car, User, Package, Clock, Phone, Heart } from "lucide-react"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import { useState } from "react"
 
 export default function ServicesPage() {
+  const [activeSection, setActiveSection] = useState("services")
+  
   const services = [
     {
       icon: Car,
@@ -68,7 +54,14 @@ export default function ServicesPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
+    <>
+      <Header 
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+        cartItemsCount={0}
+        onCartClick={() => {}}
+      />
+      <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
       {/* Hero Section */}
       <section className="bg-amber-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
@@ -168,6 +161,8 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+      <Footer />
+    </>
   )
 }

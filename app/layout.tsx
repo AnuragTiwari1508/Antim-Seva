@@ -35,10 +35,11 @@ export default function RootLayout({
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "Antim Seva",
-            "alternateName": ["अंतिम सेवा", "Antim Sewa"],
+            "alternateName": ["अंतिम सेवा", "Antim Sewa", "Antim Sanskar Seva"],
             "url": "https://antimseva.in",
             "logo": "https://antimseva.in/products/logo.png",
-            "description": "Complete funeral and last journey services with dignity and respect. Antim sanskar services including Shav Vahan, Pandit Ji, cremation assistance.",
+            "description": "Complete funeral and last journey services in Indore with dignity and respect. Antim sanskar services including Shav Vahan, Pandit Ji, cremation assistance, ritual materials available 24/7.",
+            "keywords": "antim seva, funeral services indore, shav vahan, antim sanskar, cremation services, pandit ji services, अंतिम सेवा",
             "sameAs": [
               "https://instagram.com/antimseva"
             ],
@@ -46,8 +47,9 @@ export default function RootLayout({
               "@type": "ContactPoint",
               "telephone": "+91 91796 77292",
               "contactType": "customer service",
-              "areaServed": "IN",
-              "availableLanguage": ["en", "hi"]
+              "areaServed": ["Indore", "Madhya Pradesh", "India"],
+              "availableLanguage": ["en", "hi"],
+              "hoursAvailable": "Mo,Tu,We,Th,Fr,Sa,Su 00:00-24:00"
             },
             "address": {
               "@type": "PostalAddress",
@@ -56,6 +58,11 @@ export default function RootLayout({
               "addressRegion": "Madhya Pradesh",
               "postalCode": "452001",
               "addressCountry": "IN"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 22.7196,
+              "longitude": 75.8577
             },
             "hasOfferCatalog": {
               "@type": "OfferCatalog",
