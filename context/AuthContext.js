@@ -13,16 +13,32 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const checkUserLoggedIn = async () => {
       try {
+        // First try to get user from localStorage (for faster initial load)
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          try {
+            const userData = JSON.parse(storedUser);
+            setUser(userData);
+          } catch (e) {
+            localStorage.removeItem('user');
+          }
+        }
+
+        // Then verify with server
         const res = await fetch('/api/auth/me');
         if (res.ok) {
           const data = await res.json();
           setUser(data.user);
+          // Store user in localStorage for persistence
+          localStorage.setItem('user', JSON.stringify(data.user));
         } else {
           setUser(null);
+          localStorage.removeItem('user');
         }
       } catch (error) {
         console.error('Failed to fetch user:', error);
         setUser(null);
+        localStorage.removeItem('user');
       } finally {
         setLoading(false);
       }
@@ -81,6 +97,8 @@ export function AuthProvider({ children }) {
       }
 
       setUser(data.user);
+      // Store user in localStorage for persistence
+      localStorage.setItem('user', JSON.stringify(data.user));
       return data;
     } catch (error) {
       setError(error.message);
@@ -104,6 +122,8 @@ export function AuthProvider({ children }) {
       }
 
       setUser(null);
+      // Clear user from localStorage
+      localStorage.removeItem('user');
     } catch (error) {
       setError(error.message);
       console.error('Logout error:', error);
@@ -162,6 +182,8 @@ export function AuthProvider({ children }) {
       }
 
       setUser(data.user);
+      // Store user in localStorage for persistence
+      localStorage.setItem('user', JSON.stringify(data.user));
       return data;
     } catch (error) {
       setError(error.message);

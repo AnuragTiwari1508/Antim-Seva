@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
+import Link from "next/link"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -20,32 +21,27 @@ export default function OrdersPage() {
   const [error, setError] = useState("")
 
   useEffect(() => {
-    // Redirect to login if not authenticated
-    if (status === "unauthenticated") {
-      router.push("/login?callbackUrl=/orders")
-      return
-    }
-
     async function fetchOrders() {
       try {
         setLoading(true)
         
-        // For logged in users, fetch from API
-        if (status === "authenticated") {
-          const response = await fetch("/api/orders")
-          const data = await response.json()
-          
-          if (data.error) {
-            throw new Error(data.error)
-          }
-          
-          setOrders(data.orders)
-        } else {
-          // For guest users, get from localStorage
+        // Try to fetch orders - API will handle authentication internally
+        const response = await fetch("/api/orders")
+        const data = await response.json()
+        
+        if (data.error && response.status === 401) {
+          // Only redirect to login if user is explicitly unauthenticated
+          // and there are no guest orders in localStorage
           const localOrderIds = JSON.parse(localStorage.getItem("orderHistory") || "[]")
           
+          if (localOrderIds.length === 0 && status === "unauthenticated") {
+            router.push("/login?callbackUrl=/orders")
+            return
+          }
+          
+          // Try to fetch guest orders if available
           if (localOrderIds.length > 0) {
-            const response = await fetch("/api/orders", {
+            const guestResponse = await fetch("/api/orders", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -53,14 +49,20 @@ export default function OrdersPage() {
               body: JSON.stringify({ orderIds: localOrderIds }),
             })
             
-            const data = await response.json()
+            const guestData = await guestResponse.json()
             
-            if (data.error) {
-              throw new Error(data.error)
+            if (guestData.error) {
+              throw new Error(guestData.error)
             }
             
-            setOrders(data.orders)
+            setOrders(guestData.orders || [])
+          } else {
+            setOrders([])
           }
+        } else if (data.error) {
+          throw new Error(data.error)
+        } else {
+          setOrders(data.orders || [])
         }
       } catch (err) {
         console.error("Error fetching orders:", err)
@@ -103,6 +105,15 @@ export default function OrdersPage() {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             View all your previous orders and their details
           </p>
+          {status === "unauthenticated" && (
+            <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg max-w-md mx-auto">
+              <p className="text-sm text-blue-800">
+                <Link href="/login" className="font-medium hover:underline">
+                  Log in
+                </Link> to see your complete order history across all devices
+              </p>
+            </div>
+          )}
         </div>
 
         {loading ? (

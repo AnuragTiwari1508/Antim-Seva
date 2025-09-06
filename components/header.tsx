@@ -1,6 +1,6 @@
 "use client"
 
-import { ShoppingCart, Phone, MapPin, User, LogOut, Menu, X } from "lucide-react"
+import { ShoppingCart, Phone, MapPin, User, LogOut, Menu, X, History } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/context/AuthContext"
 import Link from "next/link"
@@ -108,6 +108,16 @@ const handleNavigation = (itemId: string) => {
                 </span>
               )}
             </Button>
+
+            {/* Order History Button - Visible for all users */}
+            <Button
+              onClick={() => router.push('/orders')}
+              variant="outline"
+              className="border-amber-900 text-amber-900 hover:bg-amber-50 bg-transparent"
+            >
+              <History className="w-5 h-5 mr-2" />
+              Orders / ऑर्डर
+            </Button>
             
             {isAuthenticated ? (
               <DropdownMenu>
@@ -120,6 +130,10 @@ const handleNavigation = (itemId: string) => {
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={() => router.push('/profile')}>
                     Profile / प्रोफाइल
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push('/orders')}>
+                    <History className="w-4 h-4 mr-2" />
+                    Order History / ऑर्डर इतिहास
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={async () => {
                     await logout();
@@ -164,6 +178,16 @@ const handleNavigation = (itemId: string) => {
                   {cartItemsCount}
                 </span>
               )}
+            </Button>
+
+            {/* Mobile Order History Button */}
+            <Button
+              onClick={() => router.push('/orders')}
+              variant="outline"
+              size="sm"
+              className="border-amber-900 text-amber-900 hover:bg-amber-50 bg-transparent p-2"
+            >
+              <History className="w-4 h-4" />
             </Button>
             
             {!isAuthenticated && (
@@ -210,11 +234,26 @@ const handleNavigation = (itemId: string) => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => router.push('/profile')}
+                    onClick={() => {
+                      router.push('/profile');
+                      setIsMobileMenuOpen(false);
+                    }}
                     className="text-amber-900 hover:bg-amber-50 justify-start"
                   >
                     <User className="w-4 h-4 mr-2" />
                     Profile / प्रोफाइल
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      router.push('/orders');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="text-amber-900 hover:bg-amber-50 justify-start"
+                  >
+                    <History className="w-4 h-4 mr-2" />
+                    Order History / ऑर्डर इतिहास
                   </Button>
                   <Button
                     variant="ghost"

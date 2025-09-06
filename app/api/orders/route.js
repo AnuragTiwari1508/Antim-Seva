@@ -13,18 +13,24 @@ export async function GET(request) {
     // Try to get token from cookies
     const cookies = request.cookies;
     const token = cookies.get('token')?.value;
+    let userEmail = null;
+    let userId = null;
     
     if (token) {
       try {
         // Verify token
         const decoded = jwt.verify(token, JWT_SECRET);
-        const userId = decoded.userId || decoded.id;
+        userId = decoded.userId || decoded.id;
+        userEmail = decoded.email;
         
         await dbConnect();
         
-        // Get user's orders
+        // Get user's orders by both userId and email for comprehensive history
         const orders = await Order.find({ 
-          userId: userId 
+          $or: [
+            { userId: userId },
+            { 'customerInfo.email': userEmail }
+          ]
         }).sort({ timestamp: -1 });
         
         return NextResponse.json({ 
@@ -47,9 +53,12 @@ export async function GET(request) {
       if (session) {
         await dbConnect();
         
-        // Get user's orders
+        // Get user's orders by both userId and email
         const orders = await Order.find({ 
-          userId: session.user.id 
+          $or: [
+            { userId: session.user.id },
+            { 'customerInfo.email': session.user.email }
+          ]
         }).sort({ timestamp: -1 });
         
         return NextResponse.json({ 
@@ -60,11 +69,39 @@ export async function GET(request) {
       }
     } catch (sessionError) {
       console.error('Session error:', sessionError);
-      // Continue to unauthorized response if session check fails
+      // Continue to check for guest orders if session check fails
     }
     
-    // If no authentication method worked
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // For guest users, check if orderIds are provided in the request body for POST requests with orderIds
+    const url = new URL(request.url);
+    const guestOrderIds = url.searchParams.get('orderIds');
+    
+    if (guestOrderIds) {
+      try {
+        const orderIdArray = JSON.parse(guestOrderIds);
+        await dbConnect();
+        
+        const orders = await Order.find({ 
+          orderId: { $in: orderIdArray }
+        }).sort({ timestamp: -1 });
+        
+        return NextResponse.json({ 
+          success: true,
+          orders,
+          count: orders.length
+        });
+      } catch (parseError) {
+        console.error('Error parsing guest order IDs:', parseError);
+      }
+    }
+    
+    // If no authentication method worked and no guest orders
+    return NextResponse.json({ 
+      success: true,
+      orders: [],
+      count: 0,
+      message: 'No orders found. Please log in to view your order history.'
+    });
   } catch (error) {
     console.error('Error fetching orders:', error);
     return NextResponse.json(
@@ -74,9 +111,29 @@ export async function GET(request) {
   }
 }
 
-// POST - Create new order
+// POST - Create new order or fetch orders by IDs
 export async function POST(request) {
   try {
+    const body = await request.json();
+    
+    // Check if this is a request to fetch orders by IDs (for guest users)
+    if (body.orderIds && Array.isArray(body.orderIds)) {
+      await dbConnect();
+      
+      const orders = await Order.find({ 
+        orderId: { $in: body.orderIds }
+      }).sort({ timestamp: -1 });
+      
+      return NextResponse.json({ 
+        success: true,
+        orders,
+        count: orders.length
+      });
+    }
+    
+    // Otherwise, this is a request to create a new order
+    const orderData = body;
+    
     // Try to get token from cookies
     const cookies = request.cookies;
     const token = cookies.get('token')?.value;
@@ -86,8 +143,6 @@ export async function POST(request) {
         // Verify token
         const decoded = jwt.verify(token, JWT_SECRET);
         const userId = decoded.userId || decoded.id;
-        
-        const orderData = await request.json();
         
         // Add userId from token
         orderData.userId = userId;
@@ -116,8 +171,6 @@ export async function POST(request) {
       const session = await getServerSession(authOptions);
       
       if (session) {
-        const orderData = await request.json();
-        
         // Add userId from session
         orderData.userId = session.user.id;
         
@@ -135,15 +188,31 @@ export async function POST(request) {
       }
     } catch (sessionError) {
       console.error('Session error:', sessionError);
-      // Continue to unauthorized response if session check fails
+      // Continue to create order without authentication for guest users
     }
     
-    // If no authentication method worked
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // For guest users, create order without userId (but still require email in customerInfo)
+    if (!orderData.customerInfo?.email) {
+      return NextResponse.json({ 
+        error: 'Customer email is required' 
+      }, { status: 400 });
+    }
+    
+    await dbConnect();
+    
+    // Create new order for guest user
+    const order = new Order(orderData);
+    await order.save();
+    
+    return NextResponse.json({ 
+      success: true, 
+      order,
+      message: 'Order created successfully' 
+    });
   } catch (error) {
-    console.error('Error creating order:', error);
+    console.error('Error in POST /api/orders:', error);
     return NextResponse.json(
-      { error: 'Failed to create order', details: error.message },
+      { error: 'Failed to process request', details: error.message },
       { status: 500 }
     );
   }

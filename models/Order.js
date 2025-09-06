@@ -31,7 +31,7 @@ const orderSchema = new Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: false, // Made optional to allow guest orders
     },
     customerInfo: {
       name: {
