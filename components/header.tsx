@@ -37,8 +37,8 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
         router.push('/');
         // Reset active section to home
         setActiveSection('home');
-      } else {
-        // If not on home page, go to home with section
+      } else if (itemId === 'products' || itemId === 'packages') {
+        // For products and packages, only switch sections if on home page
         if (window.location.pathname !== '/') {
           router.push('/');
           // Small delay to allow navigation, then scroll to section
