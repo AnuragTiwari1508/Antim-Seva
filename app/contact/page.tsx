@@ -26,12 +26,12 @@ export default function ContactPage() {
           transition={{ duration: 0.8 }}
           className="bg-amber-50 "
         >
-          <div className="w-full mx-auto text-center py-10">
-            <h1 className="text-4xl text-amber-700 md:text-5xl font-bold mb-3">Contact Us</h1>
-            <p className="text-xl md:text-2xl ">
+          <div className="w-full mx-auto py-10 px-4 text-left">
+            <h1 className="text-4xl md:text-5xl text-amber-700 font-bold mb-3">Contact Us</h1>
+            <p className="text-base md:text-xl">
               We're here for you 24/7 during your time of need
             </p>
-            <p className="text-lg mt-3">
+            <p className="text-base md:text-xl mt-3">
               हम आपकी सेवा के लिए 24/7 उपलब्ध हैं
             </p>
           </div>
@@ -50,7 +50,7 @@ export default function ContactPage() {
               Get in Touch
             </motion.h2>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 justify-stretch">
               {[
                 {
                   icon: <Phone className="w-16 h-16 text-amber-600 mx-auto mb-4" />,
@@ -166,19 +166,20 @@ export default function ContactPage() {
             <h2 className="text-3xl font-bold text-center text-amber-900 mb-12">
               Service Coverage Area
             </h2>
-            <div className="bg-white rounded-lg shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-lg p-4">
               <MapPin className="w-16 h-16 text-amber-600 mx-auto mb-6" />
               <h3 className="text-2xl font-bold text-center mb-8">
                 Areas We Serve
               </h3>
 
-              <div className="grid md:grid-cols-3 gap-6 text-center">
+              <div className="grid grid-cols-3 gap-3 text-left justify-items-center">
                 <div>
                   <h4 className="font-bold text-lg text-amber-900 mb-3">
                     Primary Areas
                   </h4>
                   <ul className="space-y-2 text-gray-700">
                     <li>• Indore</li>
+                    <li>• Dhar</li>
                     <li>• Bhopal</li>
                     <li>• Ujjain</li>
                     <li>• Dewas</li>
@@ -197,10 +198,10 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg text-amber-900 mb-3">
-                    Emergency Coverage
+                    Future Coverage
                   </h4>
                   <ul className="space-y-2 text-gray-700">
-                    <li>• All of Madhya Pradesh</li>
+                    <li>• All over Madhya Pradesh</li>
                     <li>• Neighboring states</li>
                     <li>• Special arrangements</li>
                     <li>• Interstate support</li>

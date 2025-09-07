@@ -147,13 +147,7 @@ export default function Hero({ setActiveSection }: HeroProps = {}) {
               </div>
             </div>
           </motion.div>
-
-
         </div>
-          <div className="mt-6 flex flex-col gap-2 text-center bg-green-100 border-r-4 rounded-lg p-4">
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">पूर्ण सम्मान के साथ</h3>
-            <p className="text-gray-600">All the necessary materials as per religious rituals</p>
-          </div>
       </div>
     </section>
   )
