@@ -107,7 +107,7 @@ export default function Hero({ setActiveSection }: HeroProps = {}) {
                 size="lg"
                 variant="outline"
                 className="border-amber-900 text-amber-900 hover:bg-amber-50 px-8 bg-transparent font-semibold"
-                onClick={() => setActiveSection?.('services')}
+              onClick={handleSeeServices}
               >
                 See Services
               </Button>
