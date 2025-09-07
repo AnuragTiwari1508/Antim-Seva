@@ -2,16 +2,23 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react"
 import Link from "next/link"
 
 export default function Footer() {
-  const handleSectionClick = (sectionId: string) => {
-    if (window.location.pathname !== "/") {
-      window.location.href = `/#${sectionId}`
+  const handleNavigation = (path: string) => {
+    // For pages that exist as separate routes
+    if (['services', 'about', 'faq', 'contact'].includes(path)) {
+      window.location.href = `/${path}`
       return
     }
-    const element = document.getElementById(sectionId)
+    
+    // For sections on home page (products, packages)
+    if (window.location.pathname !== "/") {
+      window.location.href = `/#${path}`
+      return
+    }
+    const element = document.getElementById(path)
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
     } else {
-      window.dispatchEvent(new CustomEvent("changeSection", { detail: sectionId }))
+      window.dispatchEvent(new CustomEvent("changeSection", { detail: path }))
     }
   }
 
@@ -85,11 +92,12 @@ export default function Footer() {
                 { id: "packages", label: "Packages / पैकेज" },
                 { id: "services", label: "Services / सेवाएं" },
                 { id: "about", label: "About / परिचय" },
+                { id: "contact", label: "Contact / संपर्क" },
                 { id: "faq", label: "FAQ / प्रश्न" },
               ].map((item) => (
                 <li key={item.id}>
                   <button
-                    onClick={() => handleSectionClick(item.id)}
+                    onClick={() => handleNavigation(item.id)}
                     className="text-sm text-amber-100 hover:text-white hover:translate-x-1 transition-all"
                   >
                     {item.label}
