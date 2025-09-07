@@ -124,7 +124,7 @@ export default function Home() {
       <main>
         {activeSection === "home" && (
           <>
-            <Hero />
+            <Hero setActiveSection={setActiveSection} />
             <UserOptions onOptionsChange={setUserOptions} />
             <PackageSelector
               onPackageSelect={(packageId, items) => {
