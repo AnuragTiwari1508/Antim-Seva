@@ -44,14 +44,20 @@ export default function Footer() {
               <span className="absolute -bottom-1 left-0 w-10 h-0.5 bg-amber-400"></span>
             </h4>
             <div className="space-y-3">
-              <div className="flex items-center gap-3 hover:translate-x-1 transition-transform">
-                <Phone className="w-5 h-5 text-amber-300" />
-                <span className="text-sm">+91 91796 77292</span>
-              </div>
-              <div className="flex items-center gap-3 hover:translate-x-1 transition-transform">
-                <Mail className="w-5 h-5 text-amber-300" />
-                <span className="text-sm">info@antimseva.in</span>
-              </div>
+              <a 
+                href="tel:+919179677292" 
+                className="flex items-center gap-3 hover:translate-x-1 transition-transform group cursor-pointer"
+              >
+                <Phone className="w-5 h-5 text-amber-300 group-hover:text-amber-200" />
+                <span className="text-sm group-hover:text-amber-200">+91 91796 77292</span>
+              </a>
+              <a 
+                href="mailto:info@antimseva.in" 
+                className="flex items-center gap-3 hover:translate-x-1 transition-transform group cursor-pointer"
+              >
+                <Mail className="w-5 h-5 text-amber-300 group-hover:text-amber-200" />
+                <span className="text-sm group-hover:text-amber-200">info@antimseva.in</span>
+              </a>
               <div className="flex items-start gap-3 hover:translate-x-1 transition-transform">
                 <MapPin className="w-5 h-5 text-amber-300 mt-1" />
                 <span className="text-sm">

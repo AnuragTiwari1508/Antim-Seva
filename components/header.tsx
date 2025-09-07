@@ -33,11 +33,18 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
     } else {
       // For home page sections, use section switching
       if (itemId === 'home') {
+        // Always go to home page root
         router.push('/');
+        // Reset active section to home
+        setActiveSection('home');
       } else {
         // If not on home page, go to home with section
         if (window.location.pathname !== '/') {
-          router.push(`/#${itemId}`);
+          router.push('/');
+          // Small delay to allow navigation, then scroll to section
+          setTimeout(() => {
+            setActiveSection(itemId);
+          }, 100);
         } else {
           setActiveSection(itemId);
         }
@@ -61,10 +68,10 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
       <div className="bg-amber-900 text-white py-1 px-4 hidden md:block">
         <div className="max-w-7xl mx-auto flex justify-between items-center text-xs">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
+            <a href="tel:+919179677292" className="flex items-center gap-1 hover:text-amber-200 transition-colors">
               <Phone className="w-3 h-3" />
               <span>+91 91796 77292</span>
-            </div>
+            </a>
             <div className="flex items-center gap-1">
               <MapPin className="w-3 h-3" />
               <span>Indore, Madhya Pradesh</span>
@@ -78,7 +85,10 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
       <div className="max-w-7xl mx-auto px-4 py-2 md:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-2 md:gap-3">
+          <div 
+            className="flex items-center gap-2 md:gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => router.push('/')}
+          >
 
             <img
               src="/products/logo.png"   // <-- place your logo file in public folder and change the name here

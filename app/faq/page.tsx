@@ -20,7 +20,11 @@ export default function FAQPage() {
     },
     {
       question: "Are your services available 24/7?",
-      answer: "Yes, our emergency helpline (+91 91796 77292) is available 24 hours a day, 7 days a week. We understand that emergencies can happen at any time, and we're always ready to assist you."
+      answer: (
+        <>
+          Yes, our emergency helpline (<a href="tel:+919179677292" className="text-amber-600 hover:text-amber-800 font-medium">+91 91796 77292</a>) is available 24 hours a day, 7 days a week. We understand that emergencies can happen at any time, and we're always ready to assist you.
+        </>
+      )
     },
     {
       question: "What areas do you serve?",
@@ -60,7 +64,11 @@ export default function FAQPage() {
     },
     {
       question: "Can I get a consultation before deciding?",
-      answer: "Absolutely! We offer free consultations to understand your specific requirements and explain our services. You can call us at +91 91796 77292 or email info@antimseva.in for a detailed discussion."
+      answer: (
+        <>
+          Absolutely! We offer free consultations to understand your specific requirements and explain our services. You can call us at <a href="tel:+919179677292" className="text-amber-600 hover:text-amber-800 font-medium">+91 91796 77292</a> or email <a href="mailto:info@antimseva.in" className="text-amber-600 hover:text-amber-800 font-medium">info@antimseva.in</a> for a detailed discussion.
+        </>
+      )
     }
   ]
 
