@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import Header from "@/components/header"
 import Hero from "@/components/hero"
 import ProductCatalog from "@/components/product-catalog"
-import Services from "@/components/services"
 import AboutUs from "@/components/about-us"
 import FAQ from "@/components/faq"
 import Footer from "@/components/footer"
@@ -181,7 +180,6 @@ export default function Home() {
             )}
           </>
         )}
-        {activeSection === "services" && <Services />}
         {activeSection === "about" && <AboutUs />}
         {activeSection === "faq" && <FAQ />}
       </main>
