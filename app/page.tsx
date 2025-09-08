@@ -250,39 +250,55 @@ export default function Home() {
 
       {/* Popup after 5s */}
       {showPopup && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-2">
           {/* Popup with animation */}
-          <div className="relative border border-white bg-amber-100 rounded-2xl shadow-xl h-[60%] w-[90%] md:w-[60%] overflow-hidden animate-popUp">
+          <div className="relative border border-white bg-amber-100 rounded-2xl shadow-xl w-full max-w-lg md:max-w-2xl max-h-[90vh] overflow-auto animate-bounceOnce">
+
             {/* Close button */}
-            <button className="absolute text-red-500 top-3 right-3 z-10 font-extrabold"
-              onClick={() => setShowPopup(false)}>
+            <button
+              className="absolute text-red-500 top-3 right-3 z-10 font-extrabold"
+              onClick={() => setShowPopup(false)}
+            >
               X
             </button>
 
             {/* Image inside popup */}
             <div className="relative">
               <img
-                src="https://media.istockphoto.com/id/1169877967/photo/hand-of-a-priest-worshiping-hindu-god-with-fire-and-yagna-ritual.jpg?s=170667a&w=0&k=20&c=6TBgvarPedofbs4NW2odfSvSR20Tz8T27UrZh9Uukfs="
+                src="http://si.wsj.net/public/resources/images/BN-MK673_ipyre_P_20160203061124.jpg"
                 alt="popup"
-                className="w-full h-64 object-cover"
+                className="w-full h-48 md:h-64 object-cover"
               />
               {/* Black gradient overlay on image */}
               <div className="absolute inset-0 bg-black/40"></div>
-              <h2 className="absolute bottom-3 left-3 text-white text-lg font-semibold">
+              <h2 className="absolute bottom-3 left-3 text-white text-lg md:text-xl font-semibold">
                 पूर्ण सम्मान के साथ अंतिम संस्कार सेवा !
+                <br /><a className="font-semibold text-green-400" href="tel:9179677292"> Call us on : 9179677292</a>
               </h2>
+              
             </div>
 
             {/* Content below image */}
-            <div className="p-3">
-              <p className="text-gray-700 text-wrap text-justify">All the necessary materials as per religious rituals. <br />We understand that losing a loved one is one of the most challenging experiences a family can face. <br />हमारी सेवा का उद्देश्य परिवारों को इस कठिन समय में सहारा देना है। हम धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री और सेवाएं प्रदान करते हैं।</p>
+            <div className="p-4 flex flex-col gap-4">
+              <p className="text-gray-700 text-justify text-sm md:text-base font-medium">
+                All the necessary materials as per religious rituals. <br />
+                We understand that losing a loved one is one of the most challenging experiences a family can face. <br />
+                <br /><p > हमारी सेवा का उद्देश्य परिवारों को इस कठिन समय में सहारा देना है। हम धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री और सेवाएं प्रदान करते हैं।</p>
+              </p>
+
+              {/* WhatsApp button */}
+              <a
+                href="https://wa.me/9179677292?text=नमस्ते,%20मुझे%20अंतिम%20संस्कार%20सेवा%20के%20लिए%20जानकारी%20चाहिए।"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-xl flex items-center justify-center gap-2 transition duration-300"
+              >
+                Connect with us on WhatsApp
+              </a>
             </div>
           </div>
         </div>
       )}
-
-
-
     </div>
   )
 }
