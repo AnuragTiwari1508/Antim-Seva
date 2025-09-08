@@ -41,14 +41,14 @@ export const metadata: Metadata = {
     title: "Antim Seva | Funeral Services",
     description:
       "Funeral & antim sanskar services with dignity and compassigiton. Pandit Ji, Shav Vahan, cremation assistance.",
-    images: ["/og-image.jpg"],
+    images: ["/products/logo.png"],
   },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
-      { url: "/products/logo.jpg", sizes: "16x16", type: "image/jpeg" },
-      { url: "/products/logo.jpg", sizes: "192x192", type: "image/jpeg" },
-      { url: "/products/logo.jpg", sizes: "512x512", type: "image/jpeg" },
+      { url: "/products/logo.png", sizes: "16x16", type: "image/png" },
+      { url: "/products/logo.png", sizes: "192x192", type: "image/png" },
+      { url: "/products/logo.png", sizes: "512x512", type: "image/png" },
     ],
     shortcut: ["/favicon.ico"],
     apple: [

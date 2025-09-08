@@ -16,7 +16,7 @@ export default function RootLayout({
         
         {/* ✅ Favicon */}
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="icon" href="/products/logo.jpg" type="image/jpeg" />
+        <link rel="icon" href="/products/logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.jpg" />
         <link rel="shortcut icon" href="/favicon.ico" />
         
@@ -42,7 +42,7 @@ export default function RootLayout({
             "name": "Antim Seva",
             "alternateName": ["अंतिम सेवा", "Antim Sewa", "Antim Sanskar Seva"],
             "url": "https://antimseva.in",
-            "logo": "https://antimseva.in/products/logo.jpg",
+            "logo": "https://antimseva.in/products/logo.png",
             "description": "Complete funeral and last journey services in Indore with dignity and respect. Antim sanskar services including Shav Vahan, Pandit Ji, cremation assistance, ritual materials available 24/7.",
             "keywords": "antim seva, funeral services indore, shav vahan, antim sanskar, cremation services, pandit ji services, अंतिम सेवा",
             "sameAs": [
