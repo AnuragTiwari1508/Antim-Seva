@@ -84,11 +84,11 @@ export default function FAQPage() {
       {/* Hero Section */}
       <section className="bg-amber-50 text-white">
         <div className="max-w-6xl mx-auto px-4 py-10">
-          <div className="text-center">
+          <div className="text-left">
             <h1 className="text-4xl md:text-5xl font-bold mb-3 text-amber-700">
               Frequently Asked Questions
             </h1>
-            <p className="text-xl md:text-2xl text-black max-w-4xl mx-auto">
+            <p className="text-xl md:text-2xl text-black max-w-4xl ">
               Find answers to common questions about our services
             </p>
             <p className="text-lg text-black mt-4">
@@ -100,7 +100,7 @@ export default function FAQPage() {
 
       {/* FAQ Section */}
       <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-4">
           <div className="bg-white rounded-lg shadow-lg p-8">
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (

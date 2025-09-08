@@ -36,7 +36,7 @@ export default function AboutPageClient() {
         activeSection={activeSection}
         setActiveSection={setActiveSection}
         cartItemsCount={0}
-        onCartClick={() => {}}
+        onCartClick={() => { }}
       />
       <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
         {/* Hero Section */}
@@ -46,9 +46,9 @@ export default function AboutPageClient() {
           transition={{ duration: 0.8 }}
           className="bg-amber-50 text-black py-10"
         >
-          <div className="w-full mx-auto px-4 text-center">
+          <div className="w-full px-4 text-left">
             <h1 className="text-4xl md:text-5xl text-amber-700 font-bold mb-3">About Antim Seva</h1>
-            <p className="text-xl md:text-2xl text-black max-w-3xl mx-auto">
+            <p className="text-xl text-black max-w-3xl">
               सम्मान और श्रद्धा के साथ अंतिम संस्कार की सभी आवश्यक सामग्री और सेवाएं
             </p>
           </div>
@@ -104,16 +104,16 @@ export default function AboutPageClient() {
         <section className="py-16 bg-amber-50">
           <div className="w-full mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-amber-900 mb-12">Our Values</h2>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
               {[{
                 title: "Compassion",
                 desc: "We approach every family with empathy, understanding, and genuine care during their time of loss.",
                 icon: <Heart className="w-16 h-16 text-red-500 mx-auto mb-4" />
-              },{
+              }, {
                 title: "Dignity",
                 desc: "Every service is conducted with the utmost respect and dignity, honoring the memory of your loved one.",
                 icon: <Shield className="w-16 h-16 text-blue-500 mx-auto mb-4" />
-              },{
+              }, {
                 title: "Availability",
                 desc: "We're here for you 24/7, ensuring that help is always available when you need it most.",
                 icon: <Clock className="w-16 h-16 text-green-500 mx-auto mb-4" />
@@ -137,38 +137,46 @@ export default function AboutPageClient() {
 
         {/* Our Team */}
         <section className="py-16">
-          <div className="w-full mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center text-amber-900 mb-12">Our Team</h2>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-8">
-              {teamMembers.map((member, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: i * 0.2 }}
-                  viewport={{ once: true }}
-                  className="bg-white rounded-lg shadow-lg p-6 text-center hover:shadow-2xl transition"
-                >
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-24 h-24 mx-auto rounded-full mb-4 object-cover"
-                  />
-                  <h3 className="text-xl font-bold text-amber-900">{member.name}</h3>
-                  <p className="text-sm text-gray-500 mb-3">{member.designation}</p>
-                  <p className="text-gray-600 text-sm">{member.description}</p>
-                </motion.div>
-              ))}
+          <div className="w-full h-full mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center text-amber-900 mb-12">
+              Our Team
+            </h2>
+
+            {/* Horizontal Scroll Container */}
+            <div className="overflow-x-auto scrollbar-hide">
+              <div className="flex gap-6 w-max">
+                {teamMembers.map((member, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: i * 0.2 }}
+                    viewport={{ once: true }}
+                    className="bg-white min-w-[250px] max-w-[250px] rounded-lg shadow-lg p-6 text-center hover:shadow-2xl transition"
+                  >
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-24 h-24 mx-auto rounded-full mb-4 object-cover"
+                    />
+                    <h3 className="text-xl font-bold text-amber-900">{member.name}</h3>
+                    <p className="text-sm text-gray-500 mb-3">{member.designation}</p>
+                    <p className="text-gray-600 text-sm">{member.description}</p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
+
+
 
         {/* Contact Information */}
         <section className="py-16">
           <div className="max-w-6xl mx-auto px-4">
             <div className="bg-green-100 text-black rounded-lg p-8">
-              <h2 className="text-3xl font-bold text-center mb-8 text-black">Get in Touch</h2>
-              <div className="grid md:grid-cols-3 gap-8">
+              <h2 className="text-3xl font-bold text-center mb-10 text-black">Get in Touch</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
                 <div className="text-center">
                   <Phone className="w-12 h-12 mx-auto mb-4 text-amber-900 hover:scale-105 duration-150" />
                   <h3 className="text-xl font-bold mb-2">Call Us</h3>

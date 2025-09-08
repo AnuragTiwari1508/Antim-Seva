@@ -9,7 +9,6 @@ import FAQ from "@/components/faq"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import Cart from "@/components/cart"
-
 import UserOptions from "@/components/user-options"
 import PackageSelector from "@/components/package-selector"
 import IndividualProducts from "@/components/individual-products"
@@ -29,90 +28,91 @@ export default function Home() {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [isCartOpen, setIsCartOpen] = useState(false)
 
-  // Add state for user options and selected items
   const [userOptions, setUserOptions] = useState({})
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null)
   const [selectedItems, setSelectedItems] = useState<{ [key: string]: number }>({})
+
+  // Popup state
+  const [showPopup, setShowPopup] = useState(false)
+
+  // Show popup after 10s but only once
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPopup(true)
+    }, 5000)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   const addToCart = (item: any) => {
     setCartItems((prev) => {
       const existing = prev.find((p) => p.id === item.id)
       if (existing) {
-        return prev.map((p) => (p.id === item.id ? { ...p, quantity: p.quantity + (item.quantity || 1) } : p))
+        return prev.map((p) =>
+          p.id === item.id ? { ...p, quantity: p.quantity + (item.quantity || 1) } : p
+        )
       }
       return [...prev, { ...item, quantity: item.quantity || 1 }]
     })
   }
 
-  // Listen for section change events from footer
   useEffect(() => {
     const handleSectionChange = (event: any) => {
-      setActiveSection(event.detail);
-    };
-
-    window.addEventListener('changeSection', handleSectionChange);
-    return () => window.removeEventListener('changeSection', handleSectionChange);
-  }, []);
+      setActiveSection(event.detail)
+    }
+    window.addEventListener("changeSection", handleSectionChange)
+    return () => window.removeEventListener("changeSection", handleSectionChange)
+  }, [])
 
   const updateCartItem = (id: string, quantity: number) => {
     if (quantity <= 0) {
       setCartItems((prev) => prev.filter((item) => item.id !== id))
     } else {
-      setCartItems((prev) => prev.map((item) => (item.id === id ? { ...item, quantity } : item)))
+      setCartItems((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, quantity } : item))
+      )
     }
   }
 
-  // Enhanced function to handle individual item changes and sync with cart
   const handleItemChange = (itemId: string, quantity: number) => {
-    // Update selectedItems state
     setSelectedItems((prev) => ({
       ...prev,
       [itemId]: quantity,
     }))
-    
-    // Also sync with cart
-    const product = cartItems.find(item => item.id === itemId)
-    const productInfo = products.find(p => p.id === itemId)
-    
+
+    const product = cartItems.find((item) => item.id === itemId)
+    const productInfo = products.find((p) => p.id === itemId)
     if (!productInfo) return
-    
+
     const productData: CartItem = {
       id: itemId,
       name: productInfo.name,
       nameHindi: productInfo.nameHindi,
       price: productInfo.price,
-      quantity: quantity
+      quantity: quantity,
     }
-    
+
     if (quantity > 0) {
       if (product) {
-        // Update existing item in cart
         updateCartItem(itemId, quantity)
       } else {
-        // Add new item to cart
-        setCartItems(prev => [...prev, productData])
+        setCartItems((prev) => [...prev, productData])
       }
     } else {
-      // Remove from cart if quantity is 0
       updateCartItem(itemId, 0)
     }
   }
 
-  const getTotalItems = () => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0)
-  }
+  const getTotalItems = () =>
+    cartItems.reduce((total, item) => total + item.quantity, 0)
 
-  const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
-  }
+  const getTotalPrice = () =>
+    cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
 
-  // Function to clear the cart
-  const clearCart = () => {
-    setCartItems([])
-  }
+  const clearCart = () => setCartItems([])
 
   return (
-    <div className="min-h-screen bg-orange-50">
+    <div className="min-h-screen bg-orange-50 relative">
       <Header
         activeSection={activeSection}
         setActiveSection={setActiveSection}
@@ -128,16 +128,28 @@ export default function Home() {
             <PackageSelector
               onPackageSelect={(packageId, items) => {
                 setSelectedPackage(packageId)
-                // Clear individual selections when package is selected
                 setSelectedItems({})
-                
-                // Add package to cart automatically
                 const packageData = {
                   id: packageId,
-                  name: packageId === "package1" ? "Package 1" : packageId === "package2" ? "Standard Package" : "Premium Package",
-                  nameHindi: packageId === "package1" ? "पैकेट नंबर 1" : packageId === "package2" ? "मानक पैकेज" : "प्रीमियम पैकेज",
-                  price: packageId === "package1" ? 5100 : packageId === "package2" ? 7500 : 11000,
-                  type: "package"
+                  name:
+                    packageId === "package1"
+                      ? "Package 1"
+                      : packageId === "package2"
+                        ? "Standard Package"
+                        : "Premium Package",
+                  nameHindi:
+                    packageId === "package1"
+                      ? "पैकेट नंबर 1"
+                      : packageId === "package2"
+                        ? "मानक पैकेज"
+                        : "प्रीमियम पैकेज",
+                  price:
+                    packageId === "package1"
+                      ? 5100
+                      : packageId === "package2"
+                        ? 7500
+                        : 11000,
+                  type: "package",
                 }
                 addToCart(packageData)
               }}
@@ -151,7 +163,9 @@ export default function Home() {
             )}
           </>
         )}
-        {activeSection === "products" && <ProductCatalog addToCart={addToCart} />}
+        {activeSection === "products" && (
+          <ProductCatalog addToCart={addToCart} />
+        )}
         {activeSection === "packages" && (
           <>
             <UserOptions onOptionsChange={setUserOptions} />
@@ -159,14 +173,27 @@ export default function Home() {
               onPackageSelect={(packageId, items) => {
                 setSelectedPackage(packageId)
                 setSelectedItems({})
-                
-                // Add package to cart automatically
                 const packageData = {
                   id: packageId,
-                  name: packageId === "package1" ? "Package 1" : packageId === "package2" ? "Standard Package" : "Premium Package",
-                  nameHindi: packageId === "package1" ? "पैकेट नंबर 1" : packageId === "package2" ? "मानक पैकेज" : "प्रीमियम पैकेज",
-                  price: packageId === "package1" ? 5100 : packageId === "package2" ? 11000 : 21000,
-                  type: "package"
+                  name:
+                    packageId === "package1"
+                      ? "Package 1"
+                      : packageId === "package2"
+                        ? "Standard Package"
+                        : "Premium Package",
+                  nameHindi:
+                    packageId === "package1"
+                      ? "पैकेट नंबर 1"
+                      : packageId === "package2"
+                        ? "मानक पैकेज"
+                        : "प्रीमियम पैकेज",
+                  price:
+                    packageId === "package1"
+                      ? 5100
+                      : packageId === "package2"
+                        ? 11000
+                        : 21000,
+                  type: "package",
                 }
                 addToCart(packageData)
               }}
@@ -184,6 +211,31 @@ export default function Home() {
         {activeSection === "faq" && <FAQ />}
       </main>
 
+      {/* पूर्ण सम्मान के साथ Section */}
+      <div className="relative m-5 flex flex-col gap-2 text-center rounded-lg overflow-hidden">
+        {/* Background image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url('https://www.talkdeath.com/wp-content/uploads/2023/11/death-ritual-hinduism.jpg')",
+          }}
+        ></div>
+
+        {/* Black overlay */}
+        <div className="absolute inset-0 bg-black/50"></div>
+
+        {/* Content */}
+        <div className="relative z-10 p-4">
+          <h3 className="text-xl font-semibold text-white mb-2">
+            पूर्ण सम्मान के साथ
+          </h3>
+          <p className="text-gray-200">
+            All the necessary materials as per religious rituals
+          </p>
+        </div>
+      </div>
+
       <Footer />
       <WhatsAppButton />
 
@@ -195,6 +247,43 @@ export default function Home() {
         total={getTotalPrice()}
         clearCart={clearCart}
       />
+
+      {/* Popup after 5s */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+          {/* Popup with animation */}
+          <div className="relative border border-white bg-amber-100 rounded-2xl shadow-xl h-[60%] w-[90%] md:w-[60%] overflow-hidden animate-popUp">
+            {/* Close button */}
+            <button className="absolute text-red-500 top-3 right-3 z-10 font-extrabold"
+              onClick={() => setShowPopup(false)}>
+              X
+            </button>
+
+            {/* Image inside popup */}
+            <div className="relative">
+              <img
+                src="https://media.istockphoto.com/id/1169877967/photo/hand-of-a-priest-worshiping-hindu-god-with-fire-and-yagna-ritual.jpg?s=170667a&w=0&k=20&c=6TBgvarPedofbs4NW2odfSvSR20Tz8T27UrZh9Uukfs="
+                alt="popup"
+                className="w-full h-64 object-cover"
+              />
+              {/* Black gradient overlay on image */}
+              <div className="absolute inset-0 bg-black/40"></div>
+              <h2 className="absolute bottom-3 left-3 text-white text-lg font-semibold">
+                पूर्ण सम्मान के साथ अंतिम संस्कार सेवा !
+              </h2>
+            </div>
+
+            {/* Content below image */}
+            <div className="p-3">
+              <p className="text-gray-700 text-wrap text-justify">All the necessary materials as per religious rituals. <br />We understand that losing a loved one is one of the most challenging experiences a family can face. <br />हमारी सेवा का उद्देश्य परिवारों को इस कठिन समय में सहारा देना है। हम धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री और सेवाएं प्रदान करते हैं।</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+
     </div>
   )
 }
+
