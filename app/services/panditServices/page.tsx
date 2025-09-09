@@ -41,12 +41,11 @@ function PanditServices() {
     {
       id: 2,
       // number: Mayank Pandit"9165533952","8889121400",
-
       name: "क्लीं त्रिपुरसुंदरी ज्योतिष शोध संस्थान",
       age: "N/A",
       experience: "संस्थान आधारित कार्य",
       location: "प्रजापत नगर, द्वारिकापुरी, इंदौर, M.P.",
-      charges: "1100-3100 (as per ritual)",
+      charges: "₹1100-₹3100 (as per ritual)",
       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy7lhmpnQJC_dOdUalgin4kL-6IA_gpNNSHA&s",
       description: `हमारा संस्थान पूजन, साधना, अनुष्ठान एवं ज्योतिष कर्मकांड पर शोध करता है। 
       प्राचीन विद्याओं को आधुनिक समाज तक पहुँचाकर भ्रांतियों का निराकरण करना 
@@ -68,13 +67,29 @@ function PanditServices() {
     },
     {
       id: 3,
-      name: "Pandit Harish Joshi",
-      age: 50,
-      experience: 3,
-      location: "Ujjain, M.P.",
-      charges: "₹3000",
+      name: "पं. श्री रामकुमार शास्त्री जी",
+      age: "60",
+      experience: "40 वर्ष का अनुभव",
+      location: "Indore, M.P.",
+      charges: "₹2500 - ₹4000 (as per ritual)",
       image: "https://english.onlinekhabar.com/wp-content/uploads/2024/02/pandit-priest.jpg",
-      services: ["Pitra Dosh Nivaran", "Shradh", "Kal Sarp Dosh Puja"],
+      description: `पं. श्री रामकुमार शास्त्री जी पिछले 40 वर्षों से विभिन्न वैदिक अनुष्ठानों एवं 
+      धार्मिक कर्मकांडों का संचालन करते आ रहे हैं। 
+      वे दुर्गा सप्तशती, गरुड़ पुराण, गायत्री समाज अनुष्ठान और वैष्णव समाज संस्कार 
+      जैसे विशेष कार्यों में निपुण हैं।`,
+      services: [
+        "कर्मकाण्ड पूजा",
+        "दुर्गा सप्तशती पाठ",
+        "गरुड़ पुराण",
+        "गायत्री समाज अनुष्ठान",
+        "वैष्णव समाज संस्कार",
+        "श्राद्ध एवं अन्य धार्मिक अनुष्ठान"
+      ],
+      extras: [
+        "अनुभवी वैदिक परंपरा",
+        "समाज और शास्त्रों के अनुसार विधि",
+        "धार्मिक आयोजनों में संपूर्ण सहयोग"
+      ]
     },
     {
       id: 4,
@@ -85,7 +100,7 @@ function PanditServices() {
       charges: "₹2200",
       image: "https://english.onlinekhabar.com/wp-content/uploads/2024/02/pandit-priest.jpg",
       services: ["Marriage", "Naamkaran", "Navagrah Shanti", "Vastu Shanti"],
-    },
+    }
   ]
 
   return (
@@ -134,14 +149,16 @@ function PanditServices() {
                 <p className="text-sm text-green-600 font-semibold">Charges: {pandit.charges}</p>
 
                 {/* Services */}
-                <div className="mt-3 flex-grow">
-                  <p className="text-sm font-semibold text-gray-700 mb-1">Services:</p>
-                  <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
-                    {pandit.services && pandit.services.map((service, index) => (
-                      <li key={index}>{service}</li>
-                    ))}
-                  </ul>
-                </div>
+                {pandit.services && (
+                  <div className="mt-3 flex-grow">
+                    <p className="text-sm font-semibold text-gray-700 mb-1">Services:</p>
+                    <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                      {pandit.services.map((service, index) => (
+                        <li key={index}>{service}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
                 {/* Extras */}
                 {pandit.extras && (
@@ -153,7 +170,7 @@ function PanditServices() {
                       ))}
                     </ul>
                   </div>
-)}
+                )}
 
                 {/* Description */}
                 {pandit.description && (
@@ -174,6 +191,7 @@ function PanditServices() {
           ))}
         </div>
       </div>
+
       {/* Register Button */}
       <div className="flex justify-center my-4 mx-5 ">
         <motion.button
