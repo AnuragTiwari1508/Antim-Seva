@@ -12,6 +12,7 @@ import Cart from "@/components/cart"
 import UserOptions from "@/components/user-options"
 import PackageSelector from "@/components/package-selector"
 import IndividualProducts from "@/components/individual-products"
+import Services from "@/components/services"
 import { products } from "@/data/products"
 
 interface CartItem {
@@ -124,47 +125,14 @@ export default function Home() {
         {activeSection === "home" && (
           <>
             <Hero setActiveSection={setActiveSection} />
-            <UserOptions onOptionsChange={setUserOptions} />
-            <PackageSelector
-              onPackageSelect={(packageId, items) => {
-                setSelectedPackage(packageId)
-                setSelectedItems({})
-                const packageData = {
-                  id: packageId,
-                  name:
-                    packageId === "package1"
-                      ? "Package 1"
-                      : packageId === "package2"
-                        ? "Standard Package"
-                        : "Premium Package",
-                  nameHindi:
-                    packageId === "package1"
-                      ? "पैकेट नंबर 1"
-                      : packageId === "package2"
-                        ? "मानक पैकेज"
-                        : "प्रीमियम पैकेज",
-                  price:
-                    packageId === "package1"
-                      ? 5100
-                      : packageId === "package2"
-                        ? 7500
-                        : 11000,
-                  type: "package",
-                }
-                addToCart(packageData)
-              }}
-            />
-            {selectedPackage && (
-              <IndividualProducts
-                selectedItems={selectedItems}
-                onItemChange={handleItemChange}
-                addToCart={addToCart}
-              />
-            )}
+            <Services />
           </>
         )}
         {activeSection === "products" && (
           <ProductCatalog addToCart={addToCart} />
+        )}
+        {activeSection === "services" && (
+          <Services />
         )}
         {activeSection === "packages" && (
           <>
