@@ -12,6 +12,7 @@ function ShavVahanServices() {
   const providers = [
 {
       id: 1,
+      // contact number:"Jitendra Rao-7697672496","Guddu Rao- 9669001897","Mayur Nikkam- 9644553882"
       name: "पार्थ एम्बुलेंस सर्विस",
       experience: 20,
       location: "Indore, M.P.",

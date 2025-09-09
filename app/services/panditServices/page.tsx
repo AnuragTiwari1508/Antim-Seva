@@ -12,11 +12,12 @@ function PanditServices() {
   const pandits = [
     {
       id: 1,
+      // number: "Naman Sharma- "9506150619","8770990398","8319863392",
       name: "पंडित नमन शर्मा",
-      age: 50,
+      age: "N/A",
       experience: "चार पीढ़ियों का अनुभव",
       location: "Indore, M.P.",
-      charges: "₹2500",
+      charges: "₹1500-₹3100 (as per ritual)",
       image: "https://english.onlinekhabar.com/wp-content/uploads/2024/02/pandit-priest.jpg",
       description: `प्रियजन, हमारे हिंदू धर्म में संस्कारों का बहुत ही महत्वपूर्ण विधान है। 
       हिंदू धर्म में 16 संस्कार होते हैं, जिनमें सबसे महत्वपूर्ण "अंतिम संस्कार" माना गया है। 
@@ -39,11 +40,13 @@ function PanditServices() {
     },
     {
       id: 2,
+      // number: Mayank Pandit"9165533952","8889121400",
+
       name: "क्लीं त्रिपुरसुंदरी ज्योतिष शोध संस्थान",
       age: "N/A",
       experience: "संस्थान आधारित कार्य",
       location: "प्रजापत नगर, द्वारिकापुरी, इंदौर, M.P.",
-      charges: "₹—",
+      charges: "1100-3100 (as per ritual)",
       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy7lhmpnQJC_dOdUalgin4kL-6IA_gpNNSHA&s",
       description: `हमारा संस्थान पूजन, साधना, अनुष्ठान एवं ज्योतिष कर्मकांड पर शोध करता है। 
       प्राचीन विद्याओं को आधुनिक समाज तक पहुँचाकर भ्रांतियों का निराकरण करना 
