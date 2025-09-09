@@ -10,15 +10,23 @@ function ShavVahanServices() {
 
   // Dummy Shav Vahan Provider Data
   const providers = [
-    {
+{
       id: 1,
-      name: "Shri Ram Ambulance Seva",
-      experience: 5,
+      name: "पार्थ एम्बुलेंस सर्विस",
+      experience: 20,
       location: "Indore, M.P.",
-      charges: "₹1500",
-      vehicleNumber: "MP09 AB 1234",
-      image: "https://5.imimg.com/data5/ANDROID/Default/2023/3/293667104/MK/KG/HO/52309285/product-jpeg-500x500.jpg",
-      services: ["Dead Body Freezer", "AC Shav Vahan", "Outstation Transport"],
+      charges: "₹1500 - ₹6000 (as per distance)",
+      vehicleNumber: "Available (Multiple Vehicles)",
+      // image: "https://5.imimg.com/data5/ANDROID/Default/2023/3/293667104/MK/KG/HO/52309285/product-jpeg-500x500.jpg",
+      image:"/Ambulance.jpeg",
+      services: [
+        "शव वाहन (AC / Non AC)",
+        "24x7 सेवा उपलब्ध",
+        "फ्रीजर बॉक्स",
+        "फूलों से सजावट",
+        "लंबी दूरी के लिए वाहन",
+        "अनुभवी ड्राइवर एवं समय पर सेवा"
+      ],
     },
     {
       id: 2,
