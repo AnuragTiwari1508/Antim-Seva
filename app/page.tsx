@@ -125,14 +125,14 @@ export default function Home() {
         {activeSection === "home" && (
           <>
             <Hero setActiveSection={setActiveSection} />
-            <Services />
+            <Services setActiveSection={setActiveSection} />
           </>
         )}
         {activeSection === "products" && (
           <ProductCatalog addToCart={addToCart} />
         )}
         {activeSection === "services" && (
-          <Services />
+          <Services setActiveSection={setActiveSection} />
         )}
         {activeSection === "packages" && (
           <>
