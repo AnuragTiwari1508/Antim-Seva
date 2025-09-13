@@ -30,7 +30,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       titleHindi: "पूजा सामग्री",
       description: "Complete collection of all necessary items required for proper antim sanskar and religious ceremonies.",
       features: ["Authentic materials", "Complete packages", "Quality assured", "Timely delivery"],
-      link: "packages"
+      link: "/package"
     },
     {
       image: "https://cdn.i-scmp.com/sites/default/files/styles/1020x680/public/d8/images/methode/2021/05/12/ad71a5a8-b2f2-11eb-93b7-03206dd91175_image_hires_162043.jpg?itok=xfbKAfPb&v=1620807652",
@@ -173,20 +173,11 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
                       Contact
                     </a>
                     {service.link ? (
-                      service.link === "packages" && setActiveSection ? (
-                        <button 
-                          onClick={() => setActiveSection("packages")}
-                          className="flex-1 py-2 rounded-lg border border-amber-600 text-amber-600 font-medium hover:bg-amber-50"
-                        >
+                      <Link href={service.link}>
+                        <button className="flex-1 py-2 rounded-lg border border-amber-600 text-amber-600 font-medium hover:bg-amber-50">
                           See More
                         </button>
-                      ) : (
-                        <Link href={service.link}>
-                          <button className="flex-1 py-2 rounded-lg border border-amber-600 text-amber-600 font-medium opacity-50">
-                            See More
-                          </button>
-                        </Link>
-                      )
+                      </Link>
                     ) : (
                       <button className="flex-1 py-2 rounded-lg border border-amber-600 text-amber-600 font-medium opacity-50 cursor-not-allowed">
                         See More

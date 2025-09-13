@@ -248,11 +248,13 @@ export default function Home() {
 
             {/* Content below image */}
             <div className="p-4 flex flex-col gap-4">
-              <p className="text-gray-700 text-justify text-sm md:text-base font-medium">
-                All the necessary materials as per religious rituals. <br />
-                We understand that losing a loved one is one of the most challenging experiences a family can face. <br />
-                <br /><p > हमारी सेवा का उद्देश्य परिवारों को इस कठिन समय में सहारा देना है। हम धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री और सेवाएं प्रदान करते हैं।</p>
-              </p>
+              <div className="text-gray-700 text-justify text-sm md:text-base font-medium">
+                <p>All the necessary materials as per religious rituals.</p>
+                <p>We understand that losing a loved one is one of the most challenging experiences a family can face.</p>
+                <div className="mt-2">
+                  <p>हमारी सेवा का उद्देश्य परिवारों को इस कठिन समय में सहारा देना है। हम धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री और सेवाएं प्रदान करते हैं।</p>
+                </div>
+              </div>
 
               {/* WhatsApp button */}
               <a

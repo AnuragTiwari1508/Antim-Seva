@@ -1,18 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Check, ShoppingCart, Star, Store } from "lucide-react"
-import { packagePricing } from "@/data/products"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Check, ShoppingCart, Star, Store, Globe } from "lucide-react"
+import { packagePricing } from "@/data/products"
 
-interface PackageSelectorProps {
-  onPackageSelect: (packageId: string, items: any[]) => void
-}
-
-export default function PackageSelector({ onPackageSelect }: PackageSelectorProps) {
+export default function PackagePage() {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null)
 
   const packages = [
@@ -39,42 +35,54 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
     },
   ]
 
-  const handlePackageSelect = (pkg: any) => {
+  const handleOnlinePackageSelect = (pkg: any) => {
     setSelectedPackage(pkg.id)
-    onPackageSelect(pkg.id, pkg.items)
+    // Add to cart logic will go here
+    console.log("Selected package for online purchase:", pkg)
   }
 
   return (
-    <section className="py-16 bg-gradient-to-b from-orange-50 to-amber-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Ritual Packages / अनुष्ठान पैकेज</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
-              संपूर्ण अंतिम संस्कार के लिए विशेष पैकेज - बेहतर मूल्य पर सभी आवश्यक सामग्री
-            </p>
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-amber-50">
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        {/* Back to Home */}
+        <div className="text-center mb-6">
+          <Link href="/" className="text-amber-600 hover:text-amber-700 underline text-lg">
+            ← Back to Home
+          </Link>
+        </div>
+
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Ritual Packages / अनुष्ठान पैकेज</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+            संपूर्ण अंतिम संस्कार के लिए विशेष पैकेज - बेहतर मूल्य पर सभी आवश्यक सामग्री
+          </p>
+          
+          {/* Dual Purchase Options */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+            <Button 
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
+            >
+              <Globe className="w-5 h-5 mr-2" />
+              Buy Online (Current Page)
+            </Button>
             
-            {/* Buy Offline Button */}
-            <div className="mb-8">
-              <Link href="/package/offline">
-                <Button 
-                  className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 text-lg"
-                  size="lg"
-                >
-                  <Store className="w-5 h-5 mr-2" />
-                  Buy Offline / ऑफलाइन खरीदें
-                </Button>
-              </Link>
-              <p className="text-sm text-gray-600 mt-2">
-                Visit our physical stores and collect items directly
-              </p>
-            </div>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Online Packages</h3>
-              <p className="text-gray-600">Choose from our online delivery packages</p>
-            </div>
+            <div className="text-gray-500 font-medium">OR</div>
+            
+            <Link href="/package/offline">
+              <Button 
+                size="lg"
+                variant="outline"
+                className="border-orange-500 text-orange-600 hover:bg-orange-50 px-8 py-4 text-lg"
+              >
+                <Store className="w-5 h-5 mr-2" />
+                Buy Offline
+              </Button>
+            </Link>
           </div>
+        </div>
 
+        {/* Package Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {packages.map((pkg) => (
             <Card
@@ -148,7 +156,7 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
               <CardFooter className="pt-4">
                 <div className="w-full space-y-2">
                   <Button
-                    onClick={() => handlePackageSelect(pkg)}
+                    onClick={() => handleOnlinePackageSelect(pkg)}
                     className={`w-full ${
                       selectedPackage === pkg.id
                         ? "bg-green-600 hover:bg-green-700"
@@ -160,7 +168,8 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
                     <ShoppingCart className="w-4 h-4 mr-2" />
                     {selectedPackage === pkg.id ? "Selected / चुना गया" : "Add to Cart Online"}
                   </Button>
-                  <Link href="/package/offline" className="w-full">
+                  
+                  <Link href="/package/offline" className="block">
                     <Button 
                       variant="outline"
                       className="w-full border-orange-500 text-orange-600 hover:bg-orange-50"
@@ -180,6 +189,6 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
           <p className="text-sm text-gray-500">You can add individual items after selecting a package</p>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
