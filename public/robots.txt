@@ -6,6 +6,8 @@ Allow: /about
 Allow: /services
 Allow: /contact
 Allow: /faq
+Allow: /package
+Allow: /package/offline
 
 # Block admin and API routes
 Disallow: /admin

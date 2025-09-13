@@ -99,8 +99,7 @@ const OfflinePackageSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Create indexes
-OfflinePackageSchema.index({ tokenNumber: 1 });
+// Create indexes (tokenNumber already has unique index from schema)
 OfflinePackageSchema.index({ shopId: 1 });
 OfflinePackageSchema.index({ userId: 1 });
 OfflinePackageSchema.index({ 'customerDetails.email': 1 });
