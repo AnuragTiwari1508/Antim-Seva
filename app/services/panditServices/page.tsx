@@ -18,7 +18,8 @@ function PanditServices() {
       experience: "चार पीढ़ियों का अनुभव",
       location: "Indore, M.P.",
       charges: "₹1500-₹3100 (as per ritual)",
-      image: "https://english.onlinekhabar.com/wp-content/uploads/2024/02/pandit-priest.jpg",
+      // image: "https://english.onlinekhabar.com/wp-content/uploads/2024/02/pandit-priest.jpg",
+      image:"/pandit/Naman Sharma.jpeg",
       description: `प्रियजन, हमारे हिंदू धर्म में संस्कारों का बहुत ही महत्वपूर्ण विधान है। 
       हिंदू धर्म में 16 संस्कार होते हैं, जिनमें सबसे महत्वपूर्ण "अंतिम संस्कार" माना गया है। 
       मैं आपका मित्र पंडित नमन शर्मा, अपनी चार पीढ़ियों के ज्ञान और अनुभव के साथ 

@@ -12,7 +12,7 @@ export default function AboutPageClient() {
   const teamMembers = [
     {
       name: "Vaibhav Malviya",
-      designation: "CEO",
+      designation: "CEO & Founder",
       description: "Ensures smooth coordination of all funeral services with empathy and professionalism.",
       image: "https://media.licdn.com/dms/image/v2/D4D03AQGcjFbRue-w8A/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1696228816192?e=2147483647&v=beta&t=wGuIyjx3f-PRFSaMHmpVxJnPcWAwebZvdEcppAkWyEs"
     },
@@ -28,6 +28,19 @@ export default function AboutPageClient() {
       description: "Dedicated to helping families during difficult times, available 24/7 for assistance.",
       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5HvXCJSBnWAkoS69l00z4WkuLZACEFosgI6BKQgB2Bw&s&ec=73068120"
     },
+    {
+      name: "Udit Chaturvedi",
+      designation: "Social Media Manager",
+      description: "Spreading awareness about Antim Seva mission and ensuring families can easily connect with our services online.",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5HvXCJSBnWAkoS69l00z4WkuLZACEFosgI6BKQgB2Bw&s&ec=73068120"
+    },
+    {
+      name: "Gaurav Peruliya",
+      designation: "Field Manager",
+      description: "Coordinating on-ground support and ensuring that every ritual and service is delivered with dignity and compassion.",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5HvXCJSBnWAkoS69l00z4WkuLZACEFosgI6BKQgB2Bw&s&ec=73068120"
+    },
+
   ]
 
   return (
