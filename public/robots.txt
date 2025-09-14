@@ -15,4 +15,10 @@ Disallow: /api/
 Disallow: /test-*
 Disallow: /*?*
 
+# Point crawlers to your sitemap
 Sitemap: https://antimseva.in/sitemap.xml
+
+# Helpful for favicons and static files
+Allow: /logo.png
+Allow: /favicon.ico
+Allow: /apple-touch-icon.jpg

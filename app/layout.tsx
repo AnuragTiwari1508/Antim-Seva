@@ -20,21 +20,41 @@ export default function RootLayout({
 
         {/* ✅ Favicon */}
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="icon" href="/products/logo.png" type="image/png" />
+        <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.jpg" />
         <link rel="shortcut icon" href="/favicon.ico" />
 
+        {/* ✅ Extra favicon support */}
+        <link rel="mask-icon" href="/logo.svg" color="#000000" /> {/* ✅ added */}
+        <meta name="theme-color" content="#ffffff" /> {/* ✅ added */}
+
+        {/* ✅ Preload favicon/logo for faster load */}
+        <link rel="preload" href="/logo.png" as="image" type="image/png" /> {/* ✅ added */}
+        <link rel="preload" href="/favicon.ico" as="image" type="image/x-icon" /> {/* ✅ added */}
+
         {/* Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Cormorant:ital,wght@0,300..700;1,300..700&family=DM+Serif+Text:ital@0;1&family=Francois+One&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=News+Cycle:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"></link>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" /> {/* ✅ added crossOrigin */}
+
+        {/* ✅ Preload only critical fonts (example: Poppins + Montserrat) */}
+        <link
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Montserrat+Alternates:wght@500;700&display=swap"
+        /> {/* ✅ added */}
+
+        {/* Keep your existing font link as fallback */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Cormorant:ital,wght@0,300..700;1,300..700&family=DM+Serif+Text:ital@0;1&family=Francois+One&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=News+Cycle:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet"
+        />
 
         {/* ✅ Google Analytics */}
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-YG4KQ5XGJE"
         />
-        <Script id="google-analytics">
+        <Script id="google-analytics" strategy="afterInteractive"> {/* ✅ added strategy */}
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -47,7 +67,7 @@ export default function RootLayout({
         <StructuredData />
 
         {/* ✅ Website Navigation Structure */}
-        <Script id="website-navigation" type="application/ld+json">
+        <Script id="website-navigation" type="application/ld+json" strategy="afterInteractive"> {/* ✅ added strategy */}
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebSite",
@@ -66,7 +86,7 @@ export default function RootLayout({
         </Script>
 
         {/* ✅ Breadcrumb Navigation */}
-        <Script id="breadcrumb-navigation" type="application/ld+json">
+        <Script id="breadcrumb-navigation" type="application/ld+json" strategy="afterInteractive"> {/* ✅ added strategy */}
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
