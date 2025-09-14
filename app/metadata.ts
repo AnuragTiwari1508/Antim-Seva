@@ -41,17 +41,17 @@ export const metadata: Metadata = {
     "call antim seva", "9179677292", "antimseva contact", "funeral helpline indore"
   ],
   authors: [{ name: "Antim Seva Team" }],
-  generator: "v0.dev", // ✅ kept as you had originally
+  generator: "v0.dev", 
   metadataBase: new URL("https://antimseva.in"),
   openGraph: {
     title: "Antim Seva | अंतिम सेवा | Dignified Funeral Services Indore",
     description:
-      "Complete last journey & funeral arrangements in Indore — Shav Vahan, Pandit Ji, Cremation, Antim Sanskar rituals with dignity and care. 24/7 Emergency Services. अंतिम संस्कार की सभी आवश्यक सामग्री।",
+      "Complete last journey & funeral arrangements in Indore,Madhya Pradesh — Shav Vahan, Pandit Ji, Cremation, Antim Sanskar rituals with dignity and care. 24/7 Emergency Services. अंतिम संस्कार की सभी आवश्यक सामग्री।",
     url: "https://antimseva.in",
     siteName: "Antim Seva",
     images: [
       {
-        url: "/products/logo.png",
+        url: "https://antimseva.in/logo.png", // ✅ absolute URL for WhatsApp/Instagram/FB
         width: 1200,
         height: 630,
         alt: "Antim Seva - Dignified Funeral Services in Indore",
@@ -65,19 +65,25 @@ export const metadata: Metadata = {
     site: "@antimseva", // update when Twitter/X account exists
     title: "Antim Seva | Funeral Services",
     description:
-      "Funeral & antim sanskar services with dignity and compassigiton. Pandit Ji, Shav Vahan, cremation assistance.",
-    images: ["/products/logo.png"],
+      "Funeral & antim sanskar services with dignity and compassion. Pandit Ji, Shav Vahan, cremation assistance.",
+    images: ["https://antimseva.in/logo.png"], // ✅ absolute URL
   },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
-      { url: "/products/logo.png", sizes: "16x16", type: "image/png" },
-      { url: "/products/logo.png", sizes: "192x192", type: "image/png" },
-      { url: "/products/logo.png", sizes: "512x512", type: "image/png" },
+      { url: "/logo.png", sizes: "16x16", type: "image/png" },
+      { url: "/logo.png", sizes: "192x192", type: "image/png" },
+      { url: "/logo.png", sizes: "512x512", type: "image/png" },
     ],
     shortcut: ["/favicon.ico"],
     apple: [
       { url: "/apple-touch-icon.jpg", sizes: "180x180", type: "image/jpeg" },
     ],
+  },
+  // ✅ Social media links
+  other: {
+    instagram: "https://www.instagram.com/antimsevaofficial",
+    facebook: "https://www.facebook.com/people/Antim-Seva/pfbid02VjjpNbnhzWhGFNHzd1BsQejitzRbw6sjNpRwtEwR5YWJheQhRXmGKMexKdLodxxdl/",
+    youtube: "https://www.youtube.com/@antimsevaofficial",
   },
 }
