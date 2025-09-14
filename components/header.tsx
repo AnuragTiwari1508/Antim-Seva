@@ -35,8 +35,8 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
         router.push('/');
         // Reset active section to home
         setActiveSection('home');
-      } else if (itemId === 'products' || itemId === 'packages' || itemId === 'services') {
-        // For products, packages, and services, only switch sections if on home page
+      } else if (itemId === 'packages' || itemId === 'services') {
+        // For packages and services, only switch sections if on home page
         if (window.location.pathname !== '/') {
           router.push('/');
           // Small delay to allow navigation, then scroll to section
@@ -52,7 +52,6 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
 
   const navItems = [
     { id: "home", label: "Home / होम", icon: null },
-    { id: "products", label: "Products / उत्पाद", icon: null },
     { id: "packages", label: "Packages / पैकेज", icon: null },
     { id: "services", label: "Services / सेवाएं", icon: null },
     { id: "about", label: "About / हमारे बारे में", icon: null },

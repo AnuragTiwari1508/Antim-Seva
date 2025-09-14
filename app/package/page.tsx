@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Check, ShoppingCart, Star, Store, Globe } from "lucide-react"
+import { Check, ShoppingCart, Star, Store, Globe, Plus } from "lucide-react"
 import { packagePricing } from "@/data/products"
 
 export default function PackagePage() {
@@ -168,6 +168,19 @@ export default function PackagePage() {
                     <ShoppingCart className="w-4 h-4 mr-2" />
                     {selectedPackage === pkg.id ? "Selected / चुना गया" : "Add to Cart Online"}
                   </Button>
+                  
+                  {/* Add Products Option - Only show when package is selected */}
+                  {selectedPackage === pkg.id && (
+                    <Link href={`/package/products?package=${pkg.id}`} className="block">
+                      <Button 
+                        variant="outline"
+                        className="w-full border-green-500 text-green-600 hover:bg-green-50"
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Want to add more products? / और उत्पाद जोड़ना चाहते हैं?
+                      </Button>
+                    </Link>
+                  )}
                   
                   <Link href="/package/offline" className="block">
                     <Button 

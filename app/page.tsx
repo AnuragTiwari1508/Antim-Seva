@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import Header from "@/components/header"
 import Hero from "@/components/hero"
-import ProductCatalog from "@/components/product-catalog"
 import AboutUs from "@/components/about-us"
 import FAQ from "@/components/faq"
 import Footer from "@/components/footer"
@@ -11,7 +10,6 @@ import WhatsAppButton from "@/components/whatsapp-button"
 import Cart from "@/components/cart"
 import UserOptions from "@/components/user-options"
 import PackageSelector from "@/components/package-selector"
-import IndividualProducts from "@/components/individual-products"
 import Services from "@/components/services"
 import { products } from "@/data/products"
 
@@ -128,9 +126,6 @@ export default function Home() {
             <Services setActiveSection={setActiveSection} />
           </>
         )}
-        {activeSection === "products" && (
-          <ProductCatalog addToCart={addToCart} />
-        )}
         {activeSection === "services" && (
           <Services setActiveSection={setActiveSection} />
         )}
@@ -166,13 +161,6 @@ export default function Home() {
                 addToCart(packageData)
               }}
             />
-            {selectedPackage && (
-              <IndividualProducts
-                selectedItems={selectedItems}
-                onItemChange={handleItemChange}
-                addToCart={addToCart}
-              />
-            )}
           </>
         )}
         {activeSection === "about" && <AboutUs />}
