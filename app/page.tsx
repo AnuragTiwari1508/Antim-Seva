@@ -241,6 +241,7 @@ export default function Home() {
                 <p>We understand that losing a loved one is one of the most challenging experiences a family can face.</p>
                 <div className="mt-2">
                   <p>हमारी सेवा का उद्देश्य परिवारों को इस कठिन समय में सहारा देना है। हम धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री और सेवाएं प्रदान करते हैं।</p>
+                  <p className="text-red-500 font-semibold mt-2">Antim Seva is a service facilitation platform. We provide vehicles, pandits, samagri kits, and support staff through verified vendors. We do not perform cremation or rituals ourselves. All religious services are carried out by independent vendors engaged through Antim Seva.</p>
                 </div>
               </div>
 

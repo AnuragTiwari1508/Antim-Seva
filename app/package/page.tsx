@@ -1,5 +1,7 @@
 "use client"
 
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -10,6 +12,7 @@ import { packagePricing } from "@/data/products"
 
 export default function PackagePage() {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null)
+  const [activeSection, setActiveSection] = useState("services")
 
   const packages = [
     {
@@ -42,14 +45,24 @@ export default function PackagePage() {
   }
 
   return (
+    <>
+    {/* Header (inculdes complete NavBar) */}
+    <Header
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
+            cartItemsCount={0}
+            onCartClick={() => { }}
+          />
+    {/* Package Selector Section */}
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-amber-50">
       <div className="max-w-7xl mx-auto px-4 py-16">
-        {/* Back to Home */}
-        <div className="text-center mb-6">
+        {/* (Back to Home) isko mene hata diya kyuki mene NavBar add kar diya hai  */}
+        {/* Back to Home */} 
+        {/* <div className="text-center mb-6">
           <Link href="/" className="text-amber-600 hover:text-amber-700 underline text-lg">
             ← Back to Home
           </Link>
-        </div>
+        // </div> */} 
 
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Ritual Packages / अनुष्ठान पैकेज</h1>
@@ -203,5 +216,9 @@ export default function PackagePage() {
         </div>
       </div>
     </div>
+
+    {/* Footer */}
+    <Footer />
+    </>
   )
 }

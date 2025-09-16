@@ -1,5 +1,8 @@
 "use client"
 
+// yeh Page Routing wala hai yeh page abhi homePage par use nahi ho rha hai 
+// HomePage par abhi components/services.tsx use ho rha hai 
+
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useState } from "react"
@@ -104,12 +107,13 @@ export default function ServicesPage() {
       titleHindi: "दस्तावेज़ीकरण एवं मृत्यु प्रमाण पत्र",
       description: "Assist with crematorium registration and death certificate procedures.",
       features: ["Cremation registration", "Certificate facilitation", "Paperwork handled"],
-      link: null
+      link: "/services/DeathCertificate"
     }
   ]
 
   return (
     <>
+      {/* Header */}
       <Header
         activeSection={activeSection}
         setActiveSection={setActiveSection}

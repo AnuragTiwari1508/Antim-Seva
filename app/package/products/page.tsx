@@ -1,5 +1,7 @@
 "use client"
 
+
+
 import { useState, useEffect, Suspense } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
@@ -97,7 +99,7 @@ function PackageProductsContent() {
               <p className="text-gray-600">Selected Package: <span className="font-semibold text-amber-600">{selectedPackage}</span></p>
             </div>
           </div>
-          
+
           {cartItems.length > 0 && (
             <div className="text-right">
               <p className="text-lg font-semibold text-gray-800">
@@ -119,7 +121,7 @@ function PackageProductsContent() {
             <p className="text-amber-700 mb-4">
               Your package includes all essential items for the ceremony. You can add additional products below if needed.
             </p>
-            <Button 
+            <Button
               onClick={() => setShowProducts(!showProducts)}
               className="bg-amber-600 hover:bg-amber-700"
             >
@@ -194,7 +196,7 @@ function PackageProductsContent() {
             {/* Individual Products */}
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-6">Individual Products</h2>
-              <IndividualProducts 
+              <IndividualProducts
                 addToCart={addToCart}
                 cartItems={cartItems}
               />

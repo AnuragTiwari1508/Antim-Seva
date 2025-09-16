@@ -2,6 +2,8 @@
 
 import Link from "next/link"
 
+// Yeh walaServices Page => HomePage par display ho rha hai 
+
 interface ServicesProps {
   setActiveSection?: (section: string) => void
 }
@@ -41,6 +43,22 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       link: null
     },
     {
+      image: "https://c.ndtvimg.com/2024-08/amb6aj7o_representational-image_625x300_29_August_24.jpg?downsize=545:307",
+      title: "Mrityu Bhoj/Tehrvi",
+      titleHindi: "मृत्यु भोज / तेरहवीं",
+      description: "We can arrange Mrityu Bhoj that is offered by family to the nearest relatives near the Family Location and also decide the Catering Workers  .",
+      features: ["As per Religion(No Garlic/Onlion)", "Tent House", "Catering Services"],
+      link: null
+    },
+    {
+      image: "https://akm-img-a-in.tosshub.com/aajtak/images/story/202104/creamtion-sixteen_nine.jpg",
+      title: "Cremation Ground Booking",
+      titleHindi: "श्मशान भूमि बुकिंग",
+      description: "We assist in booking cremation ground slots as per family preferences and local regulations.",
+      features: ["Nearest Cremation Ground","24/7 availability", "Trained staff", "Respectful handling"],
+      link: "/services/cremationGrounds"
+    },
+    {
       image: "https://onlinepoojan.com/wp-content/uploads/2024/02/Garud-Puran-Path.jpg",
       title: "Garud Puraan Path",
       titleHindi: "गरुड़ पुराण पाठ",
@@ -66,7 +84,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
     },
     {
       image: "https://cdn.prod.website-files.com/62bec2ad58883c0d7237610e/632b22618f37388f1c48e98e_example.jpg",
-      title: "Obituary In Newspaper",
+      title: "Obituary In Newspaper (Shok Sandesh)",
       titleHindi: "समाचार पत्र में मृत्युलेख",
       description: "Obituary announcements & remembrance displays in newspapers of your choice.",
       features: ["Multiple newspaper options", "Custom content", "Timely publishing"],
@@ -74,9 +92,9 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
     },
     {
       image: "https://content.jdmagicbox.com/comp/def_content/morgues/bc95f5cb33-morgues-4-yriys.jpg",
-      title: "Morgue Facility",
+      title: "Morgue Box for Body",
       titleHindi: "मॉर्ग्यू सुविधा",
-      description: "Portable freezer for maintaining the deceased at home instead of hospital morgue.",
+      description: "Morgue Box (Portable freezer) available at Shav Vahan as well as Morgue Box will be provide as per your convinience at your home .",
       features: ["Home-based freezer", "No hospital transfer", "Convenient"],
       link: null
     },
@@ -100,16 +118,17 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       image: "https://apostillenevada.com/wp-content/uploads/2023/10/Certificate-of-Death-scaled.jpeg",
       title: "Documentation & Death Certificate",
       titleHindi: "दस्तावेज़ीकरण एवं मृत्यु प्रमाण पत्र",
-      description: "Assist with crematorium registration and death certificate procedures.",
+      description: "No Direct Envolvement. We can only assist with crematorium registration and death certificate procedures to the family.",
       features: ["Cremation registration", "Certificate facilitation", "Paperwork handled"],
-      link: null
+      link: "/services/DeathCertificate"
     }
   ]
 
   return (
     <div className="bg-gradient-to-b from-amber-50 to-white">
       {/* Hero Section */}
-      <section className="bg-amber-100 text-amber-700 py-10">
+      <hr className="border border-amber-900" />
+      <section className="bg-amber-50 text-amber-700 py-10">
         <div className="w-full mx-auto px-4">
           <div className="text-left">
             <h1 className="text-4xl md:text-5xl font-bold mb-3">
@@ -124,7 +143,6 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
           </div>
         </div>
       </section>
-
       {/* Services Grid */}
       <section className="py-8">
         <div className="max-w-7xl mx-auto px-4">
@@ -190,8 +208,8 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
           </div>
         </div>
       </section>
-
       {/* Process Flow */}
+      <hr className="border border-amber-900" />
       <section className="py-16 bg-amber-50">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-amber-900 mb-12">
@@ -221,8 +239,8 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
           </div>
         </div>
       </section>
-
       {/* Contact CTA */}
+      <hr className="border border-amber-900" />
       <section className="py-16">
         <div className="w-full mx-auto px-4 text-center">
           {/* Background + overlay inside the box only */}
