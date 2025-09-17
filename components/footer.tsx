@@ -117,18 +117,24 @@ export default function Footer() {
               </h4>
               <ul className="space-y-2">
                 {[
-                  "Ritual Materials / पूजा सामग्री",
-                  "Pandit Services / पंडित सेवा",
-                  "Emergency Delivery / आपातकालीन डिलीवरी",
-                  "Asthi Visarjan / अस्थि विसर्जन",
-                  "24/7 Support / सहायता",
+                  { label: "Ritual Materials / पूजा सामग्री", path: "/package" },
+                  { label: "Pandit Services / पंडित सेवा", path: "/services/panditServices" },
+                  { label: "Emergency Delivery / आपातकालीन डिलीवरी", path: "/services" },
+                  { label: "Shav Vahan Seva / शव वाहन सेवा", path: "/services/shavVahanServices" },
+                  { label: "24/7 Support / सहायता", path: "/services/support" },
                 ].map((service, i) => (
                   <li key={i} className="hover:translate-x-1 transition-transform">
-                    <span className="text-sm text-amber-100">{service}</span>
+                    <Link
+                      href={service.path}
+                      className="text-sm text-amber-100 hover:text-white transition-colors"
+                    >
+                      {service.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
+
           </div>
         </div>
 
@@ -240,25 +246,30 @@ export default function Footer() {
           </div>
 
           {/* Services */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4 relative inline-block">
-              Services / सेवाएं
-              <span className="absolute -bottom-1 left-0 w-10 h-0.5 bg-amber-400"></span>
-            </h4>
-            <ul className="space-y-2">
-              {[
-                "Ritual Materials / पूजा सामग्री",
-                "Pandit Services / पंडित सेवा",
-                "Emergency Delivery / आपातकालीन डिलीवरी",
-                "Asthi Visarjan / अस्थि विसर्जन",
-                "24/7 Support / सहायता",
-              ].map((service, i) => (
-                <li key={i} className="hover:translate-x-1 transition-transform">
-                  <span className="text-sm text-amber-100">{service}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4 relative inline-block">
+                Services / सेवाएं
+                <span className="absolute -bottom-1 left-0 w-10 h-0.5 bg-amber-400"></span>
+              </h4>
+              <ul className="space-y-2">
+                {[
+                  { label: "Ritual Materials / पूजा सामग्री", path: "/package" },
+                  { label: "Pandit Services / पंडित सेवा", path: "/services/panditServices" },
+                  { label: "Emergency Delivery / आपातकालीन डिलीवरी", path: "/services" },
+                  { label: "Shav Vahan Seva / शव वाहन सेवा", path: "/services/shavVahanServices" },
+                  { label: "24/7 Support / सहायता", path: "/services/support" },
+                ].map((service, i) => (
+                  <li key={i} className="hover:translate-x-1 transition-transform">
+                    <Link
+                      href={service.path}
+                      className="text-sm text-amber-100 hover:text-white transition-colors"
+                    >
+                      {service.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
         </div>
 
         {/* Bottom bar */}

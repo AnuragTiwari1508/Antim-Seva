@@ -21,28 +21,23 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleNavigation = (itemId: string) => {
-    // For dedicated pages, use router navigation
     if (itemId === 'about') {
       router.push('/about');
     } else if (itemId === 'contact') {
       router.push('/contact');
     } else if (itemId === 'faq') {
       router.push('/faq');
+    } else if (itemId === 'blogs') {
+      router.push('/blogs'); // ✅ blogs route
     } else if (itemId === 'packages') {
-      // Navigate to dedicated package page
-      router.push('/package');
+      router.push('/package'); // ✅ dedicated package page
     } else {
-      // For home page sections, use section switching
       if (itemId === 'home') {
-        // Always go to home page root
         router.push('/');
-        // Reset active section to home
         setActiveSection('home');
-      } else if (itemId === 'products' || itemId === 'services') {
-        // For products and services, only switch sections if on home page
+      } else if (itemId === 'services') {
         if (window.location.pathname !== '/') {
           router.push('/');
-          // Small delay to allow navigation, then scroll to section
           setTimeout(() => {
             setActiveSection(itemId);
           }, 100);
@@ -53,15 +48,17 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
     }
   }
 
+
   const navItems = [
     { id: "home", label: "Home / होम", icon: null },
-    { id: "products", label: "Products / उत्पाद", icon: null },
     { id: "packages", label: "Packages / पैकेज", icon: null },
-    { id: "services", label: "Services / सेवाएं", icon: null },
+    // { id: "services", label: "Services / सेवाएं", icon: null },
     { id: "about", label: "About / हमारे बारे में", icon: null },
     { id: "contact", label: "Contact / संपर्क", icon: null },
     { id: "faq", label: "FAQ / प्रश्न", icon: null },
+    { id: "blogs", label: "Blogs / ब्लॉग्स", icon: null }, // ✅ new item
   ]
+
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -86,7 +83,7 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
       <div className="max-w-7xl mx-auto px-4 py-2 md:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div 
+          <div
             className="flex items-center gap-2 md:gap-3 cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => router.push('/')}
           >
@@ -222,7 +219,6 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
           </div>
         </div>
 
-
         {/* Mobile Menu Drawer */}
         {isMobileMenuOpen && (
           <div className="fixed inset-0 z-50">
@@ -286,7 +282,6 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
             </div>
           </div>
         )}
-
 
       </div>
 

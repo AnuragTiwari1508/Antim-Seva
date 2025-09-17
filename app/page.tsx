@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import Header from "@/components/header"
 import Hero from "@/components/hero"
-import ProductCatalog from "@/components/product-catalog"
 import AboutUs from "@/components/about-us"
 import FAQ from "@/components/faq"
 import Footer from "@/components/footer"
@@ -11,7 +10,6 @@ import WhatsAppButton from "@/components/whatsapp-button"
 import Cart from "@/components/cart"
 import UserOptions from "@/components/user-options"
 import PackageSelector from "@/components/package-selector"
-import IndividualProducts from "@/components/individual-products"
 import Services from "@/components/services"
 import { products } from "@/data/products"
 
@@ -128,9 +126,6 @@ export default function Home() {
             <Services setActiveSection={setActiveSection} />
           </>
         )}
-        {activeSection === "products" && (
-          <ProductCatalog addToCart={addToCart} />
-        )}
         {activeSection === "services" && (
           <Services setActiveSection={setActiveSection} />
         )}
@@ -166,13 +161,6 @@ export default function Home() {
                 addToCart(packageData)
               }}
             />
-            {selectedPackage && (
-              <IndividualProducts
-                selectedItems={selectedItems}
-                onItemChange={handleItemChange}
-                addToCart={addToCart}
-              />
-            )}
           </>
         )}
         {activeSection === "about" && <AboutUs />}
@@ -248,11 +236,14 @@ export default function Home() {
 
             {/* Content below image */}
             <div className="p-4 flex flex-col gap-4">
-              <p className="text-gray-700 text-justify text-sm md:text-base font-medium">
-                All the necessary materials as per religious rituals. <br />
-                We understand that losing a loved one is one of the most challenging experiences a family can face. <br />
-                <br /><p > हमारी सेवा का उद्देश्य परिवारों को इस कठिन समय में सहारा देना है। हम धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री और सेवाएं प्रदान करते हैं।</p>
-              </p>
+              <div className="text-gray-700 text-justify text-sm md:text-base font-medium">
+                <p>All the necessary materials as per religious rituals.</p>
+                <p>We understand that losing a loved one is one of the most challenging experiences a family can face.</p>
+                <div className="mt-2">
+                  <p>हमारी सेवा का उद्देश्य परिवारों को इस कठिन समय में सहारा देना है। हम धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री और सेवाएं प्रदान करते हैं।</p>
+                  <p className="text-red-500 font-semibold mt-2">Antim Seva is a service facilitation platform. We provide vehicles, pandits, samagri kits, and support staff through verified vendors. We do not perform cremation or rituals ourselves. All religious services are carried out by independent vendors engaged through Antim Seva.</p>
+                </div>
+              </div>
 
               {/* WhatsApp button */}
               <a
