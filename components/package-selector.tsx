@@ -6,7 +6,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Check, ShoppingCart, Star, Store } from "lucide-react"
 import { packagePricing } from "@/data/products"
-import Link from "next/link"
+import OfflineShopSelector from "./offline-shop-selector"
+import TokenBookingForm from "./token-booking-form"
+import TokenSuccess from "./token-success"
+import { OfflineShop } from "@/data/offline-shops"
 
 interface PackageSelectorProps {
   onPackageSelect: (packageId: string, items: any[]) => void
@@ -14,6 +17,13 @@ interface PackageSelectorProps {
 
 export default function PackageSelector({ onPackageSelect }: PackageSelectorProps) {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null)
+  const [showOfflineShops, setShowOfflineShops] = useState(false)
+  const [showBookingForm, setShowBookingForm] = useState(false)
+  const [showTokenSuccess, setShowTokenSuccess] = useState(false)
+  const [selectedShop, setSelectedShop] = useState<OfflineShop | null>(null)
+  const [selectedPackageForOffline, setSelectedPackageForOffline] = useState<any>(null)
+  const [generatedToken, setGeneratedToken] = useState("")
+  const [customerName, setCustomerName] = useState("")
 
   const packages = [
     {
@@ -44,8 +54,37 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
     onPackageSelect(pkg.id, pkg.items)
   }
 
+  const handleOfflineShopSelect = (shop: OfflineShop) => {
+    setSelectedShop(shop)
+    setShowOfflineShops(false)
+    setShowBookingForm(true)
+  }
+
+  const handleBookingComplete = (tokenNumber: string, customerName: string) => {
+    setGeneratedToken(tokenNumber)
+    setCustomerName(customerName)
+    setShowBookingForm(false)
+    setShowTokenSuccess(true)
+  }
+
+  const handleCloseAll = () => {
+    setShowOfflineShops(false)
+    setShowBookingForm(false)
+    setShowTokenSuccess(false)
+    setSelectedShop(null)
+    setSelectedPackageForOffline(null)
+    setGeneratedToken("")
+    setCustomerName("")
+  }
+
+  const handleOfflineBooking = (pkg?: any) => {
+    setSelectedPackageForOffline(pkg || null)
+    setShowOfflineShops(true)
+  }
+
   return (
-    <section className="py-16 bg-gradient-to-b from-orange-50 to-amber-50">
+    <>
+      <section className="py-16 bg-gradient-to-b from-orange-50 to-amber-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Ritual Packages / अनुष्ठान पैकेज</h2>
@@ -55,15 +94,14 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
             
             {/* Buy Offline Button */}
             <div className="mb-8">
-              <Link href="/package/offline">
-                <Button 
-                  className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 text-lg"
-                  size="lg"
-                >
-                  <Store className="w-5 h-5 mr-2" />
-                  Buy Offline / ऑफलाइन खरीदें
-                </Button>
-              </Link>
+              <Button 
+                onClick={() => handleOfflineBooking()}
+                className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 text-lg"
+                size="lg"
+              >
+                <Store className="w-5 h-5 mr-2" />
+                Buy Offline / ऑफलाइन खरीदें
+              </Button>
               <p className="text-sm text-gray-600 mt-2">
                 Visit our physical stores and collect items directly
               </p>
@@ -160,15 +198,14 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
                     <ShoppingCart className="w-4 h-4 mr-2" />
                     {selectedPackage === pkg.id ? "Selected / चुना गया" : "Add to Cart Online"}
                   </Button>
-                  <Link href="/package/offline" className="w-full">
-                    <Button 
-                      variant="outline"
-                      className="w-full border-orange-500 text-orange-600 hover:bg-orange-50"
-                    >
-                      <Store className="w-4 h-4 mr-2" />
-                      Book Offline / ऑफलाइन बुक करें
-                    </Button>
-                  </Link>
+                  <Button 
+                    onClick={() => handleOfflineBooking(pkg)}
+                    variant="outline"
+                    className="w-full border-orange-500 text-orange-600 hover:bg-orange-50"
+                  >
+                    <Store className="w-4 h-4 mr-2" />
+                    Book Offline / ऑफलाइन बुक करें
+                  </Button>
                 </div>
               </CardFooter>
             </Card>
@@ -181,5 +218,37 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
         </div>
       </div>
     </section>
+
+    {/* Offline Shop Selector Modal */}
+    {showOfflineShops && (
+      <OfflineShopSelector
+        onShopSelect={handleOfflineShopSelect}
+        onClose={handleCloseAll}
+      />
+    )}
+
+    {/* Token Booking Form Modal */}
+    {showBookingForm && selectedShop && (
+      <TokenBookingForm
+        shop={selectedShop}
+        packageDetails={selectedPackageForOffline}
+        onBookingComplete={handleBookingComplete}
+        onBack={() => {
+          setShowBookingForm(false)
+          setShowOfflineShops(true)
+        }}
+      />
+    )}
+
+    {/* Token Success Modal */}
+    {showTokenSuccess && (
+      <TokenSuccess
+        tokenNumber={generatedToken}
+        shopName={selectedShop?.name || ""}
+        customerName={customerName}
+        onClose={handleCloseAll}
+      />
+    )}
+  </>
   )
 }

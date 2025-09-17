@@ -1,24 +1,34 @@
-import type { Metadata } from "next"
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: "Antim Seva Packages - अंतिम संस्कार पैकेज | antimseva.in",
-  description:
-    "Choose from our complete Antim Sanskar packages for dignified funeral services. Online and offline options available. antimseva.in - अंतिम संस्कार की सभी सामग्री।",
-  keywords: [
-    "antim seva packages", "अंतिम संस्कार पैकेज", "funeral packages indore", 
-    "antimseva.in", "antim sanskar materials", "ritual packages", "पूजा सामग्री पैकेज"
-  ],
+  title: 'Ritual Packages - Antim Seva | Complete Last Rites Packages',
+  description: 'Choose from our comprehensive ritual packages for complete last rites ceremonies. Authentic materials, quality assured, with both online and offline booking options.',
+  keywords: 'ritual packages, last rites packages, antim sanskar packages, puja packages, funeral packages, religious packages, Indore',
   openGraph: {
-    title: "Antim Seva Packages | अंतिम संस्कार पैकेज",
-    description: "Complete Antim Sanskar packages with all necessary ritual materials. Online delivery and offline shop options available.",
-    url: "https://antimseva.in/package",
-    images: ["/products/logo.png"],
+    title: 'Ritual Packages - Antim Seva',
+    description: 'Complete last rites packages with authentic materials and quality assurance',
+    url: 'https://antimseva.in/package',
+    siteName: 'Antim Seva',
+    images: [
+      {
+        url: '/logo.png',
+        width: 800,
+        height: 600,
+        alt: 'Antim Seva - Ritual Packages',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
   },
-  alternates: {
-    canonical: "https://antimseva.in/package",
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ritual Packages - Antim Seva',
+    description: 'Complete last rites packages with authentic materials',
+    images: ['/logo.png'],
   },
   icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
   },
 }

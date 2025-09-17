@@ -32,7 +32,7 @@ export default function ServicesPage() {
       titleHindi: "पूजा सामग्री",
       description: "Complete collection of all necessary items required for proper antim sanskar and religious ceremonies.",
       features: ["Authentic materials", "Complete packages", "Quality assured", "Timely delivery"],
-      link: "/package"
+      link: "/#packages"
     },
     {
       image: "https://cdn.i-scmp.com/sites/default/files/styles/1020x680/public/d8/images/methode/2021/05/12/ad71a5a8-b2f2-11eb-93b7-03206dd91175_image_hires_162043.jpg?itok=xfbKAfPb&v=1620807652",

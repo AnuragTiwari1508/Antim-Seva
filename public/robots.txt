@@ -6,8 +6,6 @@ Allow: /about
 Allow: /services
 Allow: /contact
 Allow: /faq
-Allow: /package
-Allow: /package/offline
 
 # Block admin and API routes
 Disallow: /admin
@@ -15,10 +13,4 @@ Disallow: /api/
 Disallow: /test-*
 Disallow: /*?*
 
-# Point crawlers to your sitemap
 Sitemap: https://antimseva.in/sitemap.xml
-
-# Helpful for favicons and static files
-Allow: /logo.png
-Allow: /favicon.ico
-Allow: /apple-touch-icon.jpg

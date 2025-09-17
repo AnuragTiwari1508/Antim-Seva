@@ -72,7 +72,8 @@ const OfflineBookingSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Create indexes (tokenNumber already has unique index from schema)
+// Create indexes
+OfflineBookingSchema.index({ tokenNumber: 1 });
 OfflineBookingSchema.index({ shopId: 1 });
 OfflineBookingSchema.index({ userId: 1 });
 OfflineBookingSchema.index({ 'customerDetails.email': 1 });
