@@ -4,11 +4,11 @@ import Link from "next/link"
 
 // Yeh walaServices Page => HomePage par display ho rha hai 
 
-interface ServicesProps {
-  setActiveSection?: (section: string) => void
-}
+"use client"
 
-export default function Services({ setActiveSection }: ServicesProps = {}) {
+import Link from "next/link"
+
+export default function Services() {
   const services = [
     {
       image: "https://5.imimg.com/data5/ANDROID/Default/2024/6/426670836/QL/FS/KQ/54448067/prod-20240612-2040076763498091398836649-jpg-500x500.jpg",

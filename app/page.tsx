@@ -123,11 +123,11 @@ export default function Home() {
         {activeSection === "home" && (
           <>
             <Hero setActiveSection={setActiveSection} />
-            <Services setActiveSection={setActiveSection} />
+            <Services />
           </>
         )}
         {activeSection === "services" && (
-          <Services setActiveSection={setActiveSection} />
+          <Services />
         )}
         {activeSection === "packages" && (
           <>
