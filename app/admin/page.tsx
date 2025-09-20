@@ -18,7 +18,9 @@ import { toast } from 'sonner'
 // Admin authorized emails
 const AUTHORIZED_ADMINS = [
   'vaibhavmalviyaji@gmail.com',
-  'tiwarianurag342407@gmail.com'
+  'tiwarianurag342407@gmail.com',
+  'pradumnporwal@gmail.com',
+  'gauravperuliya7@gmail.com',
 ]
 
 interface Product {

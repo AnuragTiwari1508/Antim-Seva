@@ -48,7 +48,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       titleHindi: "मृत्यु भोज / तेरहवीं",
       description: "We can arrange Mrityu Bhoj that is offered by family to the nearest relatives near the Family Location and also decide the Catering Workers  .",
       features: ["As per Religion(No Garlic/Onlion)", "Tent House", "Catering Services"],
-      link: null
+      link: '/services/MrityuBhoj',
     },
     {
       image: "https://akm-img-a-in.tosshub.com/aajtak/images/story/202104/creamtion-sixteen_nine.jpg",
@@ -121,7 +121,15 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       description: "No Direct Envolvement. We can only assist with crematorium registration and death certificate procedures to the family.",
       features: ["Cremation registration", "Certificate facilitation", "Paperwork handled"],
       link: "/services/DeathCertificate"
-    }
+    },
+    {
+      image: "https://www.shutterstock.com/image-photo/jamshedpur-jharkhand-india-december-8-600nw-2007886916.jpg",
+      title: "Band Baja, Dhol, Rath Services",
+      titleHindi: "बैंड बाजा, ढोल, रथ सेवा",
+      description: "We Provide Band Baja, Dhol, Rath Services as per family requirement at Funeral.",
+      features: ["Traditional music", "Decorated rath", "Experienced performers"],
+      link: "/services/BandBajaServices"
+    },
   ]
 
   return (

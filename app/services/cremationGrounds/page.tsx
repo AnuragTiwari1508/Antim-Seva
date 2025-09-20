@@ -25,7 +25,7 @@ function CremationGroundServices() {
     },
     {
       id: 2,
-      name: "Ram Bagh Mukti sham",
+      name: "Ram Bagh Mukti dham",
       location: "Ram Bagh, Indore, M.P.",
       charges: "₹250 - ₹600",
       image: "https://img.naidunia.com/naidunia/ndnimg/01042021/01_04_2021-panchkuia_muktidham_31-2-2021.jpg",
