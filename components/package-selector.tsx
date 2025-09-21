@@ -24,6 +24,8 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
   const [selectedPackageForOffline, setSelectedPackageForOffline] = useState<any>(null)
   const [generatedToken, setGeneratedToken] = useState("")
   const [customerName, setCustomerName] = useState("")
+  const [processingPackage, setProcessingPackage] = useState<string | null>(null) // Double-click protection
+  const [processingOffline, setProcessingOffline] = useState<string | null>(null) // Double-click protection for offline
 
   const packages = [
     {
@@ -49,9 +51,24 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
     },
   ]
 
-  const handlePackageSelect = (pkg: any) => {
-    setSelectedPackage(pkg.id)
-    onPackageSelect(pkg.id, pkg.items)
+  const handlePackageSelect = async (pkg: any) => {
+    // Prevent double-click/multiple rapid clicks
+    if (processingPackage === pkg.id) return
+    
+    setProcessingPackage(pkg.id)
+    
+    try {
+      setSelectedPackage(pkg.id)
+      onPackageSelect(pkg.id, pkg.items)
+      
+      // Add small delay to prevent rapid clicking
+      setTimeout(() => {
+        setProcessingPackage(null)
+      }, 1000)
+    } catch (error) {
+      console.error('Error selecting package:', error)
+      setProcessingPackage(null)
+    }
   }
 
   const handleOfflineShopSelect = (shop: OfflineShop) => {
@@ -77,9 +94,25 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
     setCustomerName("")
   }
 
-  const handleOfflineBooking = (pkg?: any) => {
-    setSelectedPackageForOffline(pkg || null)
-    setShowOfflineShops(true)
+  const handleOfflineBooking = async (pkg?: any) => {
+    // Prevent double-click/multiple rapid clicks
+    const packageId = pkg?.id || 'general'
+    if (processingOffline === packageId) return
+    
+    setProcessingOffline(packageId)
+    
+    try {
+      setSelectedPackageForOffline(pkg || null)
+      setShowOfflineShops(true)
+      
+      // Add small delay to prevent rapid clicking
+      setTimeout(() => {
+        setProcessingOffline(null)
+      }, 1000)
+    } catch (error) {
+      console.error('Error handling offline booking:', error)
+      setProcessingOffline(null)
+    }
   }
 
   return (
@@ -96,11 +129,16 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
             <div className="mb-8">
               <Button 
                 onClick={() => handleOfflineBooking()}
-                className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 text-lg"
+                disabled={processingOffline === 'general'}
+                className={`bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 text-lg ${
+                  processingOffline === 'general' ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
                 size="lg"
               >
                 <Store className="w-5 h-5 mr-2" />
-                Buy Offline / ऑफलाइन खरीदें
+                {processingOffline === 'general' 
+                  ? "Processing..." 
+                  : "Buy Offline / ऑफलाइन खरीदें"}
               </Button>
               <p className="text-sm text-gray-600 mt-2">
                 Visit our physical stores and collect items directly
@@ -187,24 +225,34 @@ export default function PackageSelector({ onPackageSelect }: PackageSelectorProp
                 <div className="w-full space-y-2">
                   <Button
                     onClick={() => handlePackageSelect(pkg)}
+                    disabled={processingPackage === pkg.id}
                     className={`w-full ${
                       selectedPackage === pkg.id
                         ? "bg-green-600 hover:bg-green-700"
                         : pkg.popular
                           ? "bg-amber-500 hover:bg-amber-600"
                           : "bg-amber-900 hover:bg-amber-800"
-                    }`}
+                    } ${processingPackage === pkg.id ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
                     <ShoppingCart className="w-4 h-4 mr-2" />
-                    {selectedPackage === pkg.id ? "Selected / चुना गया" : "Add to Cart Online"}
+                    {processingPackage === pkg.id 
+                      ? "Adding..." 
+                      : selectedPackage === pkg.id 
+                        ? "Selected / चुना गया" 
+                        : "Add to Cart Online"}
                   </Button>
                   <Button 
                     onClick={() => handleOfflineBooking(pkg)}
+                    disabled={processingOffline === pkg.id}
                     variant="outline"
-                    className="w-full border-orange-500 text-orange-600 hover:bg-orange-50"
+                    className={`w-full border-orange-500 text-orange-600 hover:bg-orange-50 ${
+                      processingOffline === pkg.id ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                   >
                     <Store className="w-4 h-4 mr-2" />
-                    Book Offline / ऑफलाइन बुक करें
+                    {processingOffline === pkg.id 
+                      ? "Processing..." 
+                      : "Book Offline / ऑफलाइन बुक करें"}
                   </Button>
                 </div>
               </CardFooter>

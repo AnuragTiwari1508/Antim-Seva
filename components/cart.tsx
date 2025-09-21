@@ -39,20 +39,17 @@ export default function Cart({ isOpen, onClose, items, updateItem, total, clearC
     console.log('📦 Cart items:', items)
     console.log('💰 Total amount:', total)
     
-    // For testing purposes, let's bypass authentication temporarily
-    // TODO: Remove this bypass in production
+    // Check if user is authenticated
     if (!isAuthenticated) {
-      console.log('⚠️ User not authenticated')
-      // Option 1: Show login prompt within checkout
-      // Option 2: Allow guest checkout
-      // For now, let's allow guest checkout for testing
-      console.log('🔄 Proceeding with guest checkout for testing...')
-    } else {
-      console.log('✅ User authenticated')
+      console.log('⚠️ User not authenticated - redirecting to login')
+      // Save current path for redirect after login
+      const returnPath = '/';
+      router.push(`/login?callbackUrl=${encodeURIComponent(returnPath)}&message=Please login to checkout`)
+      return
     }
     
+    console.log('✅ User authenticated - proceeding to checkout')
     console.log('📋 Opening checkout form...')
-    // Open checkout form regardless for testing
     setIsCheckoutOpen(true)
   }
   
@@ -131,11 +128,21 @@ export default function Cart({ isOpen, onClose, items, updateItem, total, clearC
                   <span className="text-2xl font-bold text-amber-900">₹{total}</span>
                 </div>
 
+                {!isAuthenticated && (
+                  <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p className="text-sm text-blue-800 text-center">
+                      Please login to proceed with checkout
+                      <br />
+                      <span className="text-xs">चेकआउट के लिए कृपया लॉगिन करें</span>
+                    </p>
+                  </div>
+                )}
+
                 <Button
                   onClick={handleCheckout}
                   className="w-full bg-amber-900 hover:bg-amber-800 text-white py-3 text-lg"
                 >
-                  Proceed to Checkout / चेकआउट करें
+                  {isAuthenticated ? 'Proceed to Checkout / चेकआउट करें' : 'Login to Checkout / लॉगिन करें'}
                 </Button>
 
                 <p className="text-xs text-gray-500 text-center mt-3">Secure payment • Free delivery in Indore</p>
