@@ -1,45 +1,43 @@
-import { Button } from "@/components/ui/button"
-import { Heart, Shield, Clock } from "lucide-react"
-import { motion } from "framer-motion"
-import useEmblaCarousel from "embla-carousel-react"
-import Autoplay from "embla-carousel-autoplay"
-import { useEffect } from "react"
+import { Button } from "@/components/ui/button";
+import { Heart, Shield, Clock } from "lucide-react";
+import { motion } from "framer-motion";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import { useEffect } from "react";
 
 interface HeroProps {
-  setActiveSection?: (section: string) => void
+  setActiveSection?: (section: string) => void;
 }
 
 export default function Hero({ setActiveSection }: HeroProps = {}) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()])
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
 
   useEffect(() => {
-    if (emblaApi) emblaApi.reInit()
-  }, [emblaApi])
-
+    if (emblaApi) emblaApi.reInit();
+  }, [emblaApi]);
 
   const carouselImages = [
     {
       src: "https://kevinstandagephotography.wordpress.com/wp-content/uploads/2020/05/cover-2.jpg",
       title: "पूर्ण सम्मान के साथ",
-      desc: "धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री"
+      desc: "धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री",
     },
     {
       src: "https://cms.patrika.com/wp-content/uploads/2018/06/14/abna.jpg",
       title: "विश्वसनीय सेवा",
-      desc: "हर परिस्थिति में आपके साथ 24/7"
+      desc: "हर परिस्थिति में आपके साथ 24/7",
     },
     {
       src: "https://curlytales.com/wp-content/uploads/2022/12/Untitled-design-2022-12-20T115850.427.jpg",
       title: "सेवा भाव",
-      desc: "पूर्ण श्रद्धा और सम्मान के साथ"
+      desc: "पूर्ण श्रद्धा और सम्मान के साथ",
     },
     {
       src: "https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/manikarnika-ghat-bernaras-mrutyunjaya-dash.jpg",
       title: "तत्काल सहायता",
-      desc: "समय पर और जिम्मेदारी से सेवा"
-    }
-  ]
-
+      desc: "समय पर और जिम्मेदारी से सेवा",
+    },
+  ];
 
   return (
     <section className="bg-gradient-to-r from-amber-50 to-orange-100 py-16">
@@ -54,10 +52,15 @@ export default function Hero({ setActiveSection }: HeroProps = {}) {
             <h2 className="text-4xl md:text-5xl font-bold text-amber-900 mb-6 leading-tight">
               सम्मान के साथ
               <br />
+              <br />
               <span className="text-orange-600">अंतिम विदाई</span>
             </h2>
             <p className="text-lg text-gray-700 mb-8 leading-relaxed font-medium">
-              When life’s most difficult moment arrives, we stand with you. All essential materials and services in one place, with complete devotion and respect.
+              In times of loss, we stand beside you with dignity and care. From
+              ambulance for dead body and antim sanskar services to antyeshti
+              services in Indore, funeral management services, and shraddh
+              ceremony organization, we ensure seamless arrangements for your
+              loved one’s last rites.
             </p>
 
             {/* Features */}
@@ -99,7 +102,7 @@ export default function Hero({ setActiveSection }: HeroProps = {}) {
               <Button
                 size="lg"
                 className="bg-amber-900 hover:bg-amber-800 text-white px-8 shadow-md hover:shadow-lg transition font-semibold"
-                onClick={() => setActiveSection?.('packages')}
+                onClick={() => setActiveSection?.("packages")}
               >
                 Order Now
               </Button>
@@ -107,7 +110,7 @@ export default function Hero({ setActiveSection }: HeroProps = {}) {
                 size="lg"
                 variant="outline"
                 className="border-amber-900 text-amber-900 hover:bg-amber-50 px-8 bg-transparent font-semibold"
-                onClick={() => window.location.href = '/services'}
+                onClick={() => (window.location.href = "/services")}
               >
                 See Services
               </Button>
@@ -121,7 +124,10 @@ export default function Hero({ setActiveSection }: HeroProps = {}) {
             transition={{ duration: 0.8 }}
             className="relative bg-white rounded-2xl shadow-lg"
           >
-            <div className="overflow-hidden rounded-2xl shadow-2xl p-4" ref={emblaRef}>
+            <div
+              className="overflow-hidden rounded-2xl shadow-2xl p-4"
+              ref={emblaRef}
+            >
               <div className="flex">
                 {carouselImages.map((item, idx) => (
                   <div className="flex-[0_0_100%] relative mr-2" key={idx}>
@@ -150,7 +156,5 @@ export default function Hero({ setActiveSection }: HeroProps = {}) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-
-

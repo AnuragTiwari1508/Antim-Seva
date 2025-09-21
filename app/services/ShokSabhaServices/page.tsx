@@ -4,76 +4,60 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { motion } from "framer-motion";
 
-const TentHouseServices = () => {
-  const [activeSection, setActiveSection] = useState("services");
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+const shokSabhaHalls = [
+  {
+    id: 1,
+    name: "Gandhi Hall",
+    location: "Indore",
+    capacity: "Capacity Upto 300 peoples",
+    image:
+      "https://www.lastjourney.in/uploaded_files/thumb_cache/thumb_684_575_IMG_7736.jpg",
+    features: [
+      "Small hall available for 50-60 people",
+      "Big hall available for 200-300 people",
+      "Well-ventilated and spacious",
+      "Comfortable seating arrangements",
+      "Audio/Visual facilities available",
+      "Parking space available for visitors",
+    ],
+  },
+  {
+    id: 2,
+    name: "Tagore Hall",
+    location: "Indore",
+    capacity: "Capacity Upto 150 peoples",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0lEEd3oGEqKbAsskBbXJXXHOFL3VuyDGeEA&s",
+    features: [
+      "Medium-sized hall suitable for 100-150 people",
+      "Comfortable seating with proper ventilation",
+      "Basic audio system available",
+      "Easy parking access",
+      "Ideal for small gatherings and memorial services",
+    ],
+  },
+];
 
-  const tentVendors = [
-    {
-      id: 1,
-      name: "Sharma Tent House",
-      experience: 20,
-      location: "Indore, M.P.",
-      charges: "₹5000 – ₹50,000 (depending on event)",
-      image:
-        "https://content.jdmagicbox.com/comp/damoh/v5/9999p7812.7812.111217134109.n4v5/catalogue/amit-tent-house-tendukheda-damoh-tent-house-1q3tfcuxvy.jpg",
-      services: [
-        "Shamiyana Setup",
-        "Lighting & Decoration",
-        "Seating Arrangements",
-        "Stage & Mandap Setup",
-      ],
-    },
-    {
-      id: 2,
-      name: "Gupta Decorators & Tent",
-      experience: 15,
-      location: "Indore, M.P.",
-      charges: "₹5,000 – ₹60,000 (custom packages)",
-      image:
-        "https://images.jdmagicbox.com/quickquotes/images_main/customised-tent-house-2216808709-sck3sbl5.jpg",
-      services: [
-        "Tent & Canopy",
-        "Flower Decoration",
-        "Sound & Lighting",
-        "Dining Setup",
-      ],
-    },
-    {
-      id: 3,
-      name: "Joshi Tent & Events",
-      experience: 12,
-      location: "Indore, M.P.",
-      charges: "₹10,000 – ₹40,000",
-      image:
-        "https://media.istockphoto.com/id/599133022/photo/wedding-hall.jpg?s=612x612&w=0&k=20&c=4mG0FFcdc_jOoEMS_V7VT4WYrerO4FvNqaDxx4icb9k=",
-      services: [
-        "Complete Wedding Tent",
-        "Stage Decoration",
-        "Lighting Arrangements",
-        "Chairs & Tables",
-      ],
-    },
-  ];
+const ShokSabhaServices = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   return (
     <>
       <Header
-        activeSection={activeSection}
-        setActiveSection={setActiveSection}
+        activeSection="services"
+        setActiveSection={() => {}}
         cartItemsCount={0}
         onCartClick={() => {}}
       />
 
-      {/* Tent House Vendors */}
-      <div className="max-w-7xl mx-auto px-4 py-8 bg-blue-50">
+      <div className="max-w-7xl mx-auto px-4 py-8 bg-gray-50">
         <motion.h3
-          className="text-2xl font-bold text-blue-900 mb-6"
+          className="text-2xl font-bold text-gray-800 mb-6"
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          Our Tent House & Decoration Vendors
+          Shok Sabha / शोक सभा Services
         </motion.h3>
 
         <motion.p
@@ -82,12 +66,13 @@ const TentHouseServices = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          Our Tent House vendors provide complete solutions for weddings,
-          rituals and events. From Shamiyana setup to stage decoration,
-          lighting, and seating, everything is arranged with care and
-          professionalism.
+          We provide halls for Shok Sabha with all necessary facilities to
+          accommodate family and friends respectfully. Both small and big halls
+          are available to ensure comfort and convenience during this solemn
+          occasion.
         </motion.p>
 
+        {/* Hall Cards */}
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 gap-6"
           initial="hidden"
@@ -97,9 +82,9 @@ const TentHouseServices = () => {
             visible: { transition: { staggerChildren: 0.25 } },
           }}
         >
-          {tentVendors.map((vendor) => (
+          {shokSabhaHalls.map((hall) => (
             <motion.div
-              key={vendor.id}
+              key={hall.id}
               variants={{
                 hidden: { opacity: 0, y: 50 },
                 visible: { opacity: 1, y: 0 },
@@ -110,33 +95,30 @@ const TentHouseServices = () => {
             >
               <div className="relative md:w-1/3">
                 <img
-                  src={vendor.image}
-                  alt={vendor.name}
+                  src={hall.image}
+                  alt={hall.name}
                   className="w-full h-60 object-cover"
                 />
                 <div className="absolute bottom-2 left-2 bg-black/60 text-white text-sm md:text-base font-semibold px-3 py-1 rounded">
-                  {vendor.name}
+                  {hall.name} ({hall.capacity})
                 </div>
               </div>
 
               <div className="p-4 md:w-2/3 flex flex-col flex-grow">
                 <p className="text-sm text-gray-600">
-                  Experience: {vendor.experience} years
+                  Location: {hall.location}
                 </p>
                 <p className="text-sm text-gray-600">
-                  Location: {vendor.location}
-                </p>
-                <p className="text-sm text-green-600 font-semibold">
-                  Charges: {vendor.charges}
+                  Capacity: {hall.capacity}
                 </p>
 
                 <div className="mt-3 flex-grow">
                   <p className="text-sm font-semibold text-gray-700 mb-1">
-                    Services:
+                    Features:
                   </p>
                   <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
-                    {vendor.services.map((service, index) => (
-                      <li key={index}>{service}</li>
+                    {hall.features.map((item, index) => (
+                      <li key={index}>{item}</li>
                     ))}
                   </ul>
                 </div>
@@ -145,7 +127,7 @@ const TentHouseServices = () => {
                   whileTap={{ scale: 0.9 }}
                   className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-medium self-start"
                 >
-                  <a href="https://wa.me/9179677292?text=I want to book Tent House Vendor">
+                  <a href="https://wa.me/9179677292?text=I want to book a Shok Sabha hall">
                     Book Now
                   </a>
                 </motion.button>
@@ -177,7 +159,7 @@ const TentHouseServices = () => {
               ✕
             </button>
             <h3 className="text-xl font-semibold mb-4">
-              Register as Tent House Vendor
+              Register as Shok Sabha Hall Provider
             </h3>
             <form className="space-y-4">
               <input
@@ -187,7 +169,7 @@ const TentHouseServices = () => {
               />
               <input
                 type="text"
-                placeholder="Business Name"
+                placeholder="Hall / Business Name"
                 className="w-full p-2 border rounded-lg"
               />
               <input
@@ -197,7 +179,7 @@ const TentHouseServices = () => {
               />
               <input
                 type="text"
-                placeholder="Years of Experience"
+                placeholder="Capacity"
                 className="w-full p-2 border rounded-lg"
               />
               <input
@@ -206,7 +188,7 @@ const TentHouseServices = () => {
                 className="w-full p-2 border rounded-lg"
               />
               <textarea
-                placeholder="Services Offered"
+                placeholder="Facilities / Services Offered"
                 className="w-full p-2 border rounded-lg"
               ></textarea>
               <button
@@ -225,4 +207,4 @@ const TentHouseServices = () => {
   );
 };
 
-export default TentHouseServices;
+export default ShokSabhaServices;

@@ -43,7 +43,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
     {
       image:
         "https://cdn.99pandit.com/images/blogsimg/udaka%20shanti%20puja%20after%20death%201.webp",
-      title: "Ritual Materials",
+      title: "Funeral Samagri",
       titleHindi: "पूजा सामग्री",
       description:
         "Complete collection of all necessary items required for proper antim sanskar and religious ceremonies.",
@@ -52,6 +52,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
         "Complete packages",
         "Quality assured",
         "Timely delivery",
+        "Home delivery",
       ],
       link: "/package",
     },
@@ -87,7 +88,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
     {
       image:
         "https://akm-img-a-in.tosshub.com/aajtak/images/story/202104/creamtion-sixteen_nine.jpg",
-      title: "Cremation Ground Booking",
+      title: "Cremation Ground Information",
       titleHindi: "श्मशान भूमि बुकिंग",
       description:
         "We assist in booking cremation ground slots as per family preferences and local regulations.",
@@ -111,7 +112,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
         "Traditional chanting",
         "Spiritual guidance",
       ],
-      link: null,
+      link: "/services/panditServices",
     },
     {
       image:
@@ -172,7 +173,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
         "Custom content",
         "Timely publishing",
       ],
-      link: null,
+      link: "/services/NewspaperServices",
     },
     {
       image:
@@ -182,7 +183,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       description:
         "Morgue Box (Portable freezer) available at Shav Vahan as well as Morgue Box will be provide as per your convinience at your home .",
       features: ["Home-based freezer", "No hospital transfer", "Convenient"],
-      link: null,
+      link: "/services/MorgueBoxServices",
     },
     {
       image:
@@ -202,7 +203,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       description:
         "Arrange condolence meetings as per family wishes without burden on family.",
       features: ["Venue setup", "Arrangement assistance", "Family comfort"],
-      link: null,
+      link: "/services/ShokSabhaServices",
     },
     {
       image:
