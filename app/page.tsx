@@ -12,6 +12,7 @@ import UserOptions from "@/components/user-options"
 import PackageSelector from "@/components/package-selector"
 import Services from "@/components/services"
 import { products } from "@/data/products"
+import { useAuth } from "@/context/AuthContext"
 
 interface CartItem {
   id: string
@@ -26,6 +27,8 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("home")
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [cartSessionId, setCartSessionId] = useState<string | null>(null)
+  const { user, isAuthenticated } = useAuth()
 
   const [userOptions, setUserOptions] = useState({})
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null)
@@ -33,6 +36,130 @@ export default function Home() {
 
   // Popup state
   const [showPopup, setShowPopup] = useState(false)
+
+  // Generate or get session ID for guest users
+  useEffect(() => {
+    if (!isAuthenticated) {
+      let sessionId = localStorage.getItem('cartSessionId')
+      if (!sessionId) {
+        sessionId = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+        localStorage.setItem('cartSessionId', sessionId)
+      }
+      setCartSessionId(sessionId)
+    }
+  }, [isAuthenticated])
+
+  // Load cart from database when component mounts
+  useEffect(() => {
+    const loadCart = async () => {
+      try {
+        const headers: any = {}
+        if (cartSessionId && !isAuthenticated) {
+          headers['x-session-id'] = cartSessionId
+        }
+        
+        const response = await fetch('/api/cart', {
+          headers: headers
+        })
+        
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success && data.cart && data.cart.items) {
+            setCartItems(data.cart.items)
+          }
+        }
+      } catch (error) {
+        console.error('Error loading cart:', error)
+      }
+    }
+
+    // Load cart after session ID is set or user is authenticated
+    if ((cartSessionId && !isAuthenticated) || isAuthenticated) {
+      loadCart()
+    }
+  }, [cartSessionId, isAuthenticated])
+
+  // Save cart to database whenever cart items change
+  useEffect(() => {
+    const saveCart = async () => {
+      try {
+        const headers: any = {
+          'Content-Type': 'application/json'
+        }
+        
+        if (cartSessionId && !isAuthenticated) {
+          headers['x-session-id'] = cartSessionId
+        }
+        
+        await fetch('/api/cart', {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify({
+            items: cartItems,
+            sessionId: cartSessionId
+          })
+        })
+      } catch (error) {
+        console.error('Error saving cart:', error)
+      }
+    }
+
+    // Only save if we have items and session/user info
+    if (cartItems.length > 0 && ((cartSessionId && !isAuthenticated) || isAuthenticated)) {
+      saveCart()
+    } else if (cartItems.length === 0 && ((cartSessionId && !isAuthenticated) || isAuthenticated)) {
+      // Clear cart in database if empty
+      const clearCart = async () => {
+        try {
+          const headers: any = {}
+          if (cartSessionId && !isAuthenticated) {
+            headers['x-session-id'] = cartSessionId
+          }
+          
+          await fetch('/api/cart', {
+            method: 'DELETE',
+            headers: headers
+          })
+        } catch (error) {
+          console.error('Error clearing cart:', error)
+        }
+      }
+      clearCart()
+    }
+  }, [cartItems, cartSessionId, isAuthenticated])
+
+  // Migrate guest cart when user logs in
+  useEffect(() => {
+    const migrateCart = async () => {
+      if (isAuthenticated && cartSessionId) {
+        try {
+          const response = await fetch('/api/cart', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              sessionId: cartSessionId
+            })
+          })
+          
+          if (response.ok) {
+            const data = await response.json()
+            if (data.success && data.cart && data.cart.items) {
+              setCartItems(data.cart.items)
+            }
+            // Clear guest session ID after migration
+            localStorage.removeItem('cartSessionId')
+            setCartSessionId(null)
+          }
+        } catch (error) {
+          console.error('Error migrating cart:', error)
+        }
+      }
+    }
+
+    migrateCart()
+  }, [isAuthenticated, cartSessionId])
 
   // Show popup after 10s but only once
   useEffect(() => {

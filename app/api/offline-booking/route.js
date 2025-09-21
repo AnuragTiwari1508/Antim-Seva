@@ -112,6 +112,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const tokenNumber = searchParams.get('token');
     const shopId = searchParams.get('shopId');
+    const userEmail = searchParams.get('email');
 
     if (tokenNumber) {
       // Get specific booking by token
@@ -131,10 +132,54 @@ export async function GET(request) {
       return NextResponse.json({ bookings });
     }
 
-    return NextResponse.json(
-      { error: 'Token number or shop ID required' },
-      { status: 400 }
-    );
+    if (userEmail) {
+      // Get all bookings for a user by email
+      const bookings = await OfflineBooking.find({ 
+        'customerDetails.email': userEmail 
+      }).sort({ createdAt: -1 });
+      return NextResponse.json({ success: true, bookings });
+    }
+
+    // Get all bookings (for authenticated users or admin)
+    const cookies = request.cookies;
+    const token = cookies.get('token')?.value;
+    
+    if (token) {
+      try {
+        // Try to get user email from token if no specific email provided
+        const jwt = await import('jsonwebtoken');
+        const JWT_SECRET = process.env.JWT_SECRET || 'antim-seva-secret-key';
+        const decoded = jwt.verify(token, JWT_SECRET);
+        
+        if (decoded.email) {
+          const bookings = await OfflineBooking.find({ 
+            'customerDetails.email': decoded.email 
+          }).sort({ createdAt: -1 });
+          return NextResponse.json({ success: true, bookings });
+        }
+      } catch (tokenError) {
+        console.error('Token verification error:', tokenError);
+      }
+    }
+
+    // Try NextAuth session as fallback
+    try {
+      const { authOptions } = await import('@/app/api/auth/[...nextauth]/options');
+      const { getServerSession } = await import('next-auth/next');
+      const session = await getServerSession(authOptions);
+      
+      if (session && session.user.email) {
+        const bookings = await OfflineBooking.find({ 
+          'customerDetails.email': session.user.email 
+        }).sort({ createdAt: -1 });
+        return NextResponse.json({ success: true, bookings });
+      }
+    } catch (sessionError) {
+      console.error('Session error:', sessionError);
+    }
+
+    // Return empty array if no authentication
+    return NextResponse.json({ success: true, bookings: [] });
 
   } catch (error) {
     console.error('Get booking error:', error);

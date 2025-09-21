@@ -25,21 +25,24 @@ export default function OrdersPage() {
       try {
         setLoading(true)
         
-        // Try to fetch orders - API will handle authentication internally
-        const response = await fetch("/api/orders")
-        const data = await response.json()
+        // Fetch both online and offline orders
+        const [onlineResponse, offlineResponse] = await Promise.all([
+          fetch("/api/orders"),
+          fetch("/api/offline-booking")
+        ])
         
-        if (data.error && response.status === 401) {
-          // Only redirect to login if user is explicitly unauthenticated
-          // and there are no guest orders in localStorage
+        const onlineData = await onlineResponse.json()
+        const offlineData = await offlineResponse.json()
+        
+        let allOrders = []
+        
+        // Handle online orders
+        if (onlineData.success && onlineData.orders) {
+          allOrders = [...onlineData.orders]
+        } else if (onlineData.error && onlineResponse.status === 401) {
+          // Try to fetch guest orders if available
           const localOrderIds = JSON.parse(localStorage.getItem("orderHistory") || "[]")
           
-          if (localOrderIds.length === 0 && status === "unauthenticated") {
-            router.push("/login?callbackUrl=/orders")
-            return
-          }
-          
-          // Try to fetch guest orders if available
           if (localOrderIds.length > 0) {
             const guestResponse = await fetch("/api/orders", {
               method: "POST",
@@ -51,19 +54,47 @@ export default function OrdersPage() {
             
             const guestData = await guestResponse.json()
             
-            if (guestData.error) {
-              throw new Error(guestData.error)
+            if (guestData.success && guestData.orders) {
+              allOrders = [...guestData.orders]
             }
-            
-            setOrders(guestData.orders || [])
-          } else {
-            setOrders([])
           }
-        } else if (data.error) {
-          throw new Error(data.error)
-        } else {
-          setOrders(data.orders || [])
+          
+          // Only redirect to login if user is explicitly unauthenticated
+          // and there are no guest orders
+          if (allOrders.length === 0 && status === "unauthenticated") {
+            router.push("/login?callbackUrl=/orders")
+            return
+          }
         }
+        
+        // Handle offline orders/bookings
+        if (offlineData.success && offlineData.bookings) {
+          // Convert offline bookings to order format for unified display
+          const offlineOrders = offlineData.bookings.map(booking => ({
+            orderId: booking.tokenNumber,
+            timestamp: booking.createdAt || booking.bookingDate,
+            totalAmount: booking.packageDetails?.basePrice || 0,
+            paymentStatus: booking.status === 'confirmed' ? 'completed' : 'pending',
+            paymentMethod: 'offline',
+            items: booking.packageDetails ? booking.packageDetails.items : [],
+            customerName: booking.customerDetails.name,
+            customerEmail: booking.customerDetails.email,
+            customerPhone: booking.customerDetails.phone,
+            address: booking.customerDetails.address || booking.shopName,
+            type: 'offline',
+            shopName: booking.shopName,
+            status: booking.status,
+            notes: booking.notes,
+            preferredCollectionDate: booking.preferredCollectionDate
+          }))
+          
+          allOrders = [...allOrders, ...offlineOrders]
+        }
+        
+        // Sort all orders by timestamp (newest first)
+        allOrders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+        
+        setOrders(allOrders)
       } catch (err) {
         console.error("Error fetching orders:", err)
         setError("Failed to load order history. Please try again later.")
@@ -144,7 +175,7 @@ export default function OrdersPage() {
                   <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                     <div>
                       <CardTitle className="text-xl mb-1">
-                        Order #{order.orderId}
+                        {order.type === 'offline' ? `Token #${order.orderId}` : `Order #${order.orderId}`}
                       </CardTitle>
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <Calendar className="h-4 w-4" />
@@ -152,6 +183,14 @@ export default function OrdersPage() {
                         <Clock className="h-4 w-4 ml-2" />
                         <span>{formatTime(order.timestamp)}</span>
                       </div>
+                      {order.type === 'offline' && (
+                        <div className="flex items-center gap-2 mt-2">
+                          <Badge variant="outline" className="border-blue-500 text-blue-700">
+                            Offline Booking
+                          </Badge>
+                          <span className="text-sm text-gray-600">Shop: {order.shopName}</span>
+                        </div>
+                      )}
                     </div>
                     <div className="flex items-center gap-3">
                       <Badge className={`px-3 py-1 ${
@@ -159,16 +198,24 @@ export default function OrdersPage() {
                           ? "bg-green-100 text-green-800" 
                           : order.paymentStatus === "failed"
                             ? "bg-red-100 text-red-800"
-                            : "bg-yellow-100 text-yellow-800"
+                            : order.type === 'offline'
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-yellow-100 text-yellow-800"
                       }`}>
-                        {order.paymentStatus === "completed" 
-                          ? "Paid" 
-                          : order.paymentStatus === "failed"
-                            ? "Failed"
-                            : "Pending"}
+                        {order.type === 'offline' 
+                          ? (order.status === 'confirmed' ? 'Confirmed' : 'Pending')
+                          : order.paymentStatus === "completed" 
+                            ? "Paid" 
+                            : order.paymentStatus === "failed"
+                              ? "Failed"
+                              : "Pending"}
                       </Badge>
                       <Badge variant="outline" className="px-3 py-1 border-amber-900 text-amber-900">
-                        {order.paymentMethod === "cash" ? "Cash on Delivery" : "Online Payment"}
+                        {order.type === 'offline' 
+                          ? "Offline Collection" 
+                          : order.paymentMethod === "cash" 
+                            ? "Cash on Delivery" 
+                            : "Online Payment"}
                       </Badge>
                     </div>
                   </div>
@@ -192,23 +239,41 @@ export default function OrdersPage() {
                             </tr>
                           </thead>
                           <tbody className="divide-y">
-                            {order.items.map((item, index) => (
-                              <tr key={index} className={item.type === "package" ? "bg-amber-50" : ""}>
-                                <td className="py-3 px-4">
-                                  <div className="font-medium">{item.name}</div>
-                                  {item.nameHindi && <div className="text-sm text-gray-600">{item.nameHindi}</div>}
-                                  {item.type === "package" && (
-                                    <Badge variant="outline" className="mt-1 text-xs">Package</Badge>
-                                  )}
+                            {order.type === 'offline' && order.items.length === 0 ? (
+                              <tr>
+                                <td colSpan={3} className="py-6 px-4 text-center text-gray-500">
+                                  <div>
+                                    <div className="font-medium">Package items will be prepared at the shop</div>
+                                    <div className="text-sm mt-1">Visit the shop to collect your items</div>
+                                    {order.preferredCollectionDate && (
+                                      <div className="text-sm mt-2 text-blue-600">
+                                        Preferred collection: {formatDate(order.preferredCollectionDate)}
+                                      </div>
+                                    )}
+                                  </div>
                                 </td>
-                                <td className="text-center py-3 px-4">{item.quantity}</td>
-                                <td className="text-right py-3 px-4">₹{item.price * item.quantity}</td>
                               </tr>
-                            ))}
-                            <tr className="bg-gray-50">
-                              <td colSpan={2} className="py-3 px-4 text-right font-bold">Total</td>
-                              <td className="text-right py-3 px-4 font-bold">₹{order.totalAmount}</td>
-                            </tr>
+                            ) : (
+                              order.items.map((item, index) => (
+                                <tr key={index} className={item.type === "package" ? "bg-amber-50" : ""}>
+                                  <td className="py-3 px-4">
+                                    <div className="font-medium">{item.name}</div>
+                                    {item.nameHindi && <div className="text-sm text-gray-600">{item.nameHindi}</div>}
+                                    {item.type === "package" && (
+                                      <Badge variant="outline" className="mt-1 text-xs">Package</Badge>
+                                    )}
+                                  </td>
+                                  <td className="text-center py-3 px-4">{item.quantity}</td>
+                                  <td className="text-right py-3 px-4">₹{item.price * item.quantity}</td>
+                                </tr>
+                              ))
+                            )}
+                            {order.totalAmount > 0 && (
+                              <tr className="bg-gray-50">
+                                <td colSpan={2} className="py-3 px-4 text-right font-bold">Total</td>
+                                <td className="text-right py-3 px-4 font-bold">₹{order.totalAmount}</td>
+                              </tr>
+                            )}
                           </tbody>
                         </table>
                       </div>
@@ -235,7 +300,9 @@ export default function OrdersPage() {
                         </div>
                         
                         <div>
-                          <h3 className="font-medium text-gray-900 mb-3">Delivery Information</h3>
+                          <h3 className="font-medium text-gray-900 mb-3">
+                            {order.type === 'offline' ? 'Collection Information' : 'Delivery Information'}
+                          </h3>
                           <div className="space-y-3">
                             <div className="flex items-start gap-2">
                               <MapPin className="h-4 w-4 mt-1 text-gray-600" />
@@ -256,6 +323,20 @@ export default function OrdersPage() {
                                 </a>
                               </div>
                             )}
+                            {order.type === 'offline' && order.preferredCollectionDate && (
+                              <div>
+                                <div className="text-sm text-gray-600">Preferred Collection Date</div>
+                                <div className="font-medium text-blue-600">
+                                  {formatDate(order.preferredCollectionDate)}
+                                </div>
+                              </div>
+                            )}
+                            {order.notes && (
+                              <div>
+                                <div className="text-sm text-gray-600">Notes</div>
+                                <div className="text-sm bg-gray-50 p-2 rounded">{order.notes}</div>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -268,26 +349,38 @@ export default function OrdersPage() {
                           <div className="flex items-center gap-2">
                             <CreditCard className="h-4 w-4 text-gray-600" />
                             <div>
-                              {order.paymentMethod === "cash" ? "Cash on Delivery" : "Online Payment"}
+                              {order.type === 'offline' 
+                                ? "Offline Collection" 
+                                : order.paymentMethod === "cash" 
+                                  ? "Cash on Delivery" 
+                                  : "Online Payment"}
                               <Badge className={`ml-2 ${
-                                order.paymentStatus === "completed" 
-                                  ? "bg-green-100 text-green-800" 
-                                  : order.paymentStatus === "failed"
-                                    ? "bg-red-100 text-red-800"
-                                    : "bg-yellow-100 text-yellow-800"
+                                order.type === 'offline'
+                                  ? order.status === 'confirmed'
+                                    ? "bg-green-100 text-green-800"
+                                    : "bg-blue-100 text-blue-800"
+                                  : order.paymentStatus === "completed" 
+                                    ? "bg-green-100 text-green-800" 
+                                    : order.paymentStatus === "failed"
+                                      ? "bg-red-100 text-red-800"
+                                      : "bg-yellow-100 text-yellow-800"
                               }`}>
-                                {order.paymentStatus === "completed" 
-                                  ? "Paid" 
-                                  : order.paymentStatus === "failed"
-                                    ? "Failed"
-                                    : "Pending"}
+                                {order.type === 'offline' 
+                                  ? (order.status === 'confirmed' ? 'Confirmed' : 'Pending')
+                                  : order.paymentStatus === "completed" 
+                                    ? "Paid" 
+                                    : order.paymentStatus === "failed"
+                                      ? "Failed"
+                                      : "Pending"}
                               </Badge>
                             </div>
                           </div>
-                          <div>
-                            <div className="text-sm text-gray-600">Total Amount</div>
-                            <div className="text-xl font-bold text-amber-900">₹{order.totalAmount}</div>
-                          </div>
+                          {order.totalAmount > 0 && (
+                            <div>
+                              <div className="text-sm text-gray-600">Total Amount</div>
+                              <div className="text-xl font-bold text-amber-900">₹{order.totalAmount}</div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </TabsContent>
