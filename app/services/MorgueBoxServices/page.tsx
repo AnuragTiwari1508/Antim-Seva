@@ -9,12 +9,12 @@ const morgueBoxes = [
     id: 1,
     name: "Ice Box",
     nameHindi: "आइस बॉक्स",
-    size: "60 feet height, 2.5 feet width",
+    size: "6 feet height, 2.5 feet width",
     usage: "Short duration body preservation",
     image:
       "https://chennaifuneralservices.in/wp-content/uploads/2020/08/Dead-Body-Freezer-Box-Rental-in-Chennai-1024x768.jpg",
     features: [
-      "60 feet height and 2.5 feet width",
+      "6 feet height and 2.5 feet width",
       "Box can be moved/transported in 2 parts",
       "Portable setup with ice preservation",
     ],
@@ -23,12 +23,12 @@ const morgueBoxes = [
     id: 2,
     name: "Electric Freezer Box",
     nameHindi: "इलेक्ट्रिक फ्रीजर बॉक्स",
-    size: "60 feet height, 2.5 feet width",
+    size: "6 feet height, 2.5 feet width",
     usage: "Longer duration body preservation",
     image:
       "https://5.imimg.com/data5/HO/EB/SO/SELLER-6382310/mortuary-dead-body-freezer-box.jpg",
     features: [
-      "60 feet height and 2.5 feet width",
+      "6 feet height and 2.5 feet width",
       "Box can be moved/transported in 2 parts",
       "Continuous cooling with electricity",
     ],

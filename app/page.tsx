@@ -1,214 +1,227 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Header from "@/components/header"
-import Hero from "@/components/hero"
-import AboutUs from "@/components/about-us"
-import FAQ from "@/components/faq"
-import Footer from "@/components/footer"
-import WhatsAppButton from "@/components/whatsapp-button"
-import Cart from "@/components/cart"
-import UserOptions from "@/components/user-options"
-import PackageSelector from "@/components/package-selector"
-import Services from "@/components/services"
-import { products } from "@/data/products"
-import { useAuth } from "@/context/AuthContext"
+import { useState, useEffect } from "react";
+import Header from "@/components/header";
+import Hero from "@/components/hero";
+import AboutUs from "@/components/about-us";
+import FAQ from "@/components/faq";
+import Footer from "@/components/footer";
+import WhatsAppButton from "@/components/whatsapp-button";
+import Cart from "@/components/cart";
+import UserOptions from "@/components/user-options";
+import PackageSelector from "@/components/package-selector";
+import Services from "@/components/services";
+import { products } from "@/data/products";
+import { useAuth } from "@/context/AuthContext";
 
 interface CartItem {
-  id: string
-  name: string
-  nameHindi?: string
-  price: number
-  quantity: number
-  type?: string
+  id: string;
+  name: string;
+  nameHindi?: string;
+  price: number;
+  quantity: number;
+  type?: string;
 }
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState("home")
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
-  const [isCartOpen, setIsCartOpen] = useState(false)
-  const [cartSessionId, setCartSessionId] = useState<string | null>(null)
-  const { user, isAuthenticated } = useAuth()
+  const [activeSection, setActiveSection] = useState("home");
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartSessionId, setCartSessionId] = useState<string | null>(null);
+  const { user, isAuthenticated } = useAuth();
 
-  const [userOptions, setUserOptions] = useState({})
-  const [selectedPackage, setSelectedPackage] = useState<string | null>(null)
-  const [selectedItems, setSelectedItems] = useState<{ [key: string]: number }>({})
+  const [userOptions, setUserOptions] = useState({});
+  const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
+  const [selectedItems, setSelectedItems] = useState<{ [key: string]: number }>(
+    {}
+  );
 
   // Popup state
-  const [showPopup, setShowPopup] = useState(false)
+  const [showPopup, setShowPopup] = useState(false);
 
   // Generate or get session ID for guest users
   useEffect(() => {
     if (!isAuthenticated) {
-      let sessionId = localStorage.getItem('cartSessionId')
+      let sessionId = localStorage.getItem("cartSessionId");
       if (!sessionId) {
-        sessionId = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-        localStorage.setItem('cartSessionId', sessionId)
+        sessionId = `session-${Date.now()}-${Math.random()
+          .toString(36)
+          .substr(2, 9)}`;
+        localStorage.setItem("cartSessionId", sessionId);
       }
-      setCartSessionId(sessionId)
+      setCartSessionId(sessionId);
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated]);
 
   // Load cart from database when component mounts
   useEffect(() => {
     const loadCart = async () => {
       try {
-        const headers: any = {}
+        const headers: any = {};
         if (cartSessionId && !isAuthenticated) {
-          headers['x-session-id'] = cartSessionId
+          headers["x-session-id"] = cartSessionId;
         }
-        
-        const response = await fetch('/api/cart', {
-          headers: headers
-        })
-        
+
+        const response = await fetch("/api/cart", {
+          headers: headers,
+        });
+
         if (response.ok) {
-          const data = await response.json()
+          const data = await response.json();
           if (data.success && data.cart && data.cart.items) {
-            setCartItems(data.cart.items)
+            setCartItems(data.cart.items);
           }
         }
       } catch (error) {
-        console.error('Error loading cart:', error)
+        console.error("Error loading cart:", error);
       }
-    }
+    };
 
     // Load cart after session ID is set or user is authenticated
     if ((cartSessionId && !isAuthenticated) || isAuthenticated) {
-      loadCart()
+      loadCart();
     }
-  }, [cartSessionId, isAuthenticated])
+  }, [cartSessionId, isAuthenticated]);
 
   // Save cart to database whenever cart items change
   useEffect(() => {
     const saveCart = async () => {
       try {
         const headers: any = {
-          'Content-Type': 'application/json'
-        }
-        
+          "Content-Type": "application/json",
+        };
+
         if (cartSessionId && !isAuthenticated) {
-          headers['x-session-id'] = cartSessionId
+          headers["x-session-id"] = cartSessionId;
         }
-        
-        await fetch('/api/cart', {
-          method: 'POST',
+
+        await fetch("/api/cart", {
+          method: "POST",
           headers: headers,
           body: JSON.stringify({
             items: cartItems,
-            sessionId: cartSessionId
-          })
-        })
+            sessionId: cartSessionId,
+          }),
+        });
       } catch (error) {
-        console.error('Error saving cart:', error)
+        console.error("Error saving cart:", error);
       }
-    }
+    };
 
     // Only save if we have items and session/user info
-    if (cartItems.length > 0 && ((cartSessionId && !isAuthenticated) || isAuthenticated)) {
-      saveCart()
-    } else if (cartItems.length === 0 && ((cartSessionId && !isAuthenticated) || isAuthenticated)) {
+    if (
+      cartItems.length > 0 &&
+      ((cartSessionId && !isAuthenticated) || isAuthenticated)
+    ) {
+      saveCart();
+    } else if (
+      cartItems.length === 0 &&
+      ((cartSessionId && !isAuthenticated) || isAuthenticated)
+    ) {
       // Clear cart in database if empty
       const clearCart = async () => {
         try {
-          const headers: any = {}
+          const headers: any = {};
           if (cartSessionId && !isAuthenticated) {
-            headers['x-session-id'] = cartSessionId
+            headers["x-session-id"] = cartSessionId;
           }
-          
-          await fetch('/api/cart', {
-            method: 'DELETE',
-            headers: headers
-          })
+
+          await fetch("/api/cart", {
+            method: "DELETE",
+            headers: headers,
+          });
         } catch (error) {
-          console.error('Error clearing cart:', error)
+          console.error("Error clearing cart:", error);
         }
-      }
-      clearCart()
+      };
+      clearCart();
     }
-  }, [cartItems, cartSessionId, isAuthenticated])
+  }, [cartItems, cartSessionId, isAuthenticated]);
 
   // Migrate guest cart when user logs in
   useEffect(() => {
     const migrateCart = async () => {
       if (isAuthenticated && cartSessionId) {
         try {
-          const response = await fetch('/api/cart', {
-            method: 'PUT',
+          const response = await fetch("/api/cart", {
+            method: "PUT",
             headers: {
-              'Content-Type': 'application/json'
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              sessionId: cartSessionId
-            })
-          })
-          
+              sessionId: cartSessionId,
+            }),
+          });
+
           if (response.ok) {
-            const data = await response.json()
+            const data = await response.json();
             if (data.success && data.cart && data.cart.items) {
-              setCartItems(data.cart.items)
+              setCartItems(data.cart.items);
             }
             // Clear guest session ID after migration
-            localStorage.removeItem('cartSessionId')
-            setCartSessionId(null)
+            localStorage.removeItem("cartSessionId");
+            setCartSessionId(null);
           }
         } catch (error) {
-          console.error('Error migrating cart:', error)
+          console.error("Error migrating cart:", error);
         }
       }
-    }
+    };
 
-    migrateCart()
-  }, [isAuthenticated, cartSessionId])
+    migrateCart();
+  }, [isAuthenticated, cartSessionId]);
 
   // Show popup after 10s but only once
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowPopup(true)
-    }, 5000)
+      setShowPopup(true);
+    }, 5000);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   const addToCart = (item: any) => {
     setCartItems((prev) => {
-      const existing = prev.find((p) => p.id === item.id)
+      const existing = prev.find((p) => p.id === item.id);
       if (existing) {
         return prev.map((p) =>
-          p.id === item.id ? { ...p, quantity: p.quantity + (item.quantity || 1) } : p
-        )
+          p.id === item.id
+            ? { ...p, quantity: p.quantity + (item.quantity || 1) }
+            : p
+        );
       }
-      return [...prev, { ...item, quantity: item.quantity || 1 }]
-    })
-  }
+      return [...prev, { ...item, quantity: item.quantity || 1 }];
+    });
+  };
 
   useEffect(() => {
     const handleSectionChange = (event: any) => {
-      setActiveSection(event.detail)
-    }
-    window.addEventListener("changeSection", handleSectionChange)
-    return () => window.removeEventListener("changeSection", handleSectionChange)
-  }, [])
+      setActiveSection(event.detail);
+    };
+    window.addEventListener("changeSection", handleSectionChange);
+    return () =>
+      window.removeEventListener("changeSection", handleSectionChange);
+  }, []);
 
   const updateCartItem = (id: string, quantity: number) => {
     if (quantity <= 0) {
-      setCartItems((prev) => prev.filter((item) => item.id !== id))
+      setCartItems((prev) => prev.filter((item) => item.id !== id));
     } else {
       setCartItems((prev) =>
         prev.map((item) => (item.id === id ? { ...item, quantity } : item))
-      )
+      );
     }
-  }
+  };
 
   const handleItemChange = (itemId: string, quantity: number) => {
     setSelectedItems((prev) => ({
       ...prev,
       [itemId]: quantity,
-    }))
+    }));
 
-    const product = cartItems.find((item) => item.id === itemId)
-    const productInfo = products.find((p) => p.id === itemId)
-    if (!productInfo) return
+    const product = cartItems.find((item) => item.id === itemId);
+    const productInfo = products.find((p) => p.id === itemId);
+    if (!productInfo) return;
 
     const productData: CartItem = {
       id: itemId,
@@ -216,26 +229,26 @@ export default function Home() {
       nameHindi: productInfo.nameHindi,
       price: productInfo.price,
       quantity: quantity,
-    }
+    };
 
     if (quantity > 0) {
       if (product) {
-        updateCartItem(itemId, quantity)
+        updateCartItem(itemId, quantity);
       } else {
-        setCartItems((prev) => [...prev, productData])
+        setCartItems((prev) => [...prev, productData]);
       }
     } else {
-      updateCartItem(itemId, 0)
+      updateCartItem(itemId, 0);
     }
-  }
+  };
 
   const getTotalItems = () =>
-    cartItems.reduce((total, item) => total + item.quantity, 0)
+    cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const getTotalPrice = () =>
-    cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
+    cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
-  const clearCart = () => setCartItems([])
+  const clearCart = () => setCartItems([]);
 
   return (
     <div className="min-h-screen bg-orange-50 relative">
@@ -261,31 +274,31 @@ export default function Home() {
             <UserOptions onOptionsChange={setUserOptions} />
             <PackageSelector
               onPackageSelect={(packageId, items) => {
-                setSelectedPackage(packageId)
-                setSelectedItems({})
+                setSelectedPackage(packageId);
+                setSelectedItems({});
                 const packageData = {
                   id: packageId,
                   name:
                     packageId === "package1"
                       ? "Package 1"
                       : packageId === "package2"
-                        ? "Standard Package"
-                        : "Premium Package",
+                      ? "Standard Package"
+                      : "Premium Package",
                   nameHindi:
                     packageId === "package1"
                       ? "पैकेट नंबर 1"
                       : packageId === "package2"
-                        ? "मानक पैकेज"
-                        : "प्रीमियम पैकेज",
+                      ? "मानक पैकेज"
+                      : "प्रीमियम पैकेज",
                   price:
                     packageId === "package1"
                       ? 5100
                       : packageId === "package2"
-                        ? 11000
-                        : 21000,
+                      ? 11000
+                      : 21000,
                   type: "package",
-                }
-                addToCart(packageData)
+                };
+                addToCart(packageData);
               }}
             />
           </>
@@ -336,7 +349,6 @@ export default function Home() {
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-2">
           {/* Popup with animation */}
           <div className="relative border border-white bg-amber-100 rounded-2xl shadow-xl w-full max-w-lg md:max-w-2xl max-h-[90vh] overflow-auto animate-bounceOnce">
-
             {/* Close button */}
             <button
               className="absolute text-red-500 top-3 right-3 z-10 font-extrabold"
@@ -356,19 +368,38 @@ export default function Home() {
               <div className="absolute inset-0 bg-black/40"></div>
               <h2 className="absolute bottom-3 left-3 text-white text-lg md:text-xl font-semibold">
                 पूर्ण सम्मान के साथ अंतिम संस्कार सेवा !
-                <br /><a className="font-semibold text-green-400" href="tel:9179677292"> Call us on : 9179677292</a>
+                <br />
+                <a
+                  className="font-semibold text-green-400"
+                  href="tel:9179677292"
+                >
+                  {" "}
+                  Call us on : 9179677292
+                </a>
               </h2>
-              
             </div>
 
             {/* Content below image */}
             <div className="p-4 flex flex-col gap-4">
               <div className="text-gray-700 text-justify text-sm md:text-base font-medium">
                 <p>All the necessary materials as per religious rituals.</p>
-                <p>We understand that losing a loved one is one of the most challenging experiences a family can face.</p>
+                <p>
+                  We understand that losing a loved one is one of the most
+                  challenging experiences a family can face.
+                </p>
                 <div className="mt-2">
-                  <p>हमारी सेवा का उद्देश्य परिवारों को इस कठिन समय में सहारा देना है। हम धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री और सेवाएं प्रदान करते हैं।</p>
-                  <p className="text-red-500 font-semibold mt-2">Antim Seva is a service facilitation platform. We provide vehicles, pandits, samagri kits, and support staff through verified vendors. We do not perform cremation or rituals ourselves. All religious services are carried out by independent vendors engaged through Antim Seva.</p>
+                  <p>
+                    हमारी सेवा का उद्देश्य परिवारों को इस कठिन समय में सहारा
+                    देना है। हम धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री
+                    और सेवाएं प्रदान करते हैं।
+                  </p>
+                  <p className="text-red-500 font-semibold mt-2">
+                    Antim Seva is a service facilitation platform. We provide
+                    vehicles, pandits, samagri kits, and support staff through
+                    verified vendors. We do not perform cremation or rituals
+                    ourselves. All religious services are carried out by
+                    independent vendors engaged through Antim Seva.
+                  </p>
                 </div>
               </div>
 
@@ -386,6 +417,5 @@ export default function Home() {
         </div>
       )}
     </div>
-  )
+  );
 }
-

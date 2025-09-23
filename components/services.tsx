@@ -44,7 +44,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       image:
         "https://cdn.99pandit.com/images/blogsimg/udaka%20shanti%20puja%20after%20death%201.webp",
       title: "Funeral Samagri",
-      titleHindi: "पूजा सामग्री",
+      titleHindi: "अंतिम संस्कार की सामग्री",
       description:
         "Complete collection of all necessary items required for proper antim sanskar and religious ceremonies.",
       features: [
@@ -89,7 +89,7 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       image:
         "https://akm-img-a-in.tosshub.com/aajtak/images/story/202104/creamtion-sixteen_nine.jpg",
       title: "Cremation Ground Information",
-      titleHindi: "श्मशान भूमि बुकिंग",
+      titleHindi: "श्मशान भूमि की जानकारी",
       description:
         "We assist in booking cremation ground slots as per family preferences and local regulations.",
       features: [
