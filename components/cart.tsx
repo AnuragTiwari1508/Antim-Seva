@@ -138,14 +138,36 @@ export default function Cart({ isOpen, onClose, items, updateItem, total, clearC
                   </div>
                 )}
 
+                {/* Primary Checkout Button */}
                 <Button
                   onClick={handleCheckout}
-                  className="w-full bg-amber-900 hover:bg-amber-800 text-white py-3 text-lg"
+                  className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-4 text-xl font-bold shadow-lg transform hover:scale-105 transition-all duration-200 mb-3"
                 >
-                  {isAuthenticated ? 'Proceed to Checkout / चेकआउट करें' : 'Login to Checkout / लॉगिन करें'}
+                  {isAuthenticated ? '� BUY NOW / अभी खरीदें' : '🔐 LOGIN TO BUY / लॉगिन करें'}
                 </Button>
 
-                <p className="text-xs text-gray-500 text-center mt-3">Secure payment • Free delivery in Indore</p>
+                {/* Secondary Options */}
+                <div className="grid grid-cols-2 gap-2 mb-3">
+                  <Button
+                    onClick={handleCheckout}
+                    variant="outline"
+                    className="border-amber-600 text-amber-600 hover:bg-amber-50 py-2 text-sm"
+                  >
+                    🛒 Checkout / चेकआउट
+                  </Button>
+                  <Button
+                    onClick={() => window.open('https://wa.me/9179677292', '_blank')}
+                    variant="outline"
+                    className="border-green-600 text-green-600 hover:bg-green-50 py-2 text-sm"
+                  >
+                    💬 WhatsApp
+                  </Button>
+                </div>
+
+                <div className="text-center">
+                  <p className="text-xs text-gray-500">🔒 Secure payment • 🚚 Fast delivery</p>
+                  <p className="text-xs text-green-600 font-medium">✅ Safe & Encrypted Payment Gateway</p>
+                </div>
               </div>
             </>
           )}

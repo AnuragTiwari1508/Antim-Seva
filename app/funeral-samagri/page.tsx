@@ -10,13 +10,15 @@ import { Badge } from "@/components/ui/badge"
 import { Check, ShoppingCart, Package, MapPin, Truck } from "lucide-react"
 import { basicKit, basicKitItems } from "@/data/products"
 import { useAuth } from "@/context/AuthContext"
+import { useCart } from "@/context/CartContext"
+import Cart from "@/components/cart"
 
 export default function FuneralSamagriPage() {
   const router = useRouter()
   const { isAuthenticated } = useAuth()
+  const { addToCart, getTotalItems, openCart, closeCart, isCartOpen, cartItems, updateCartItem, getTotalPrice, clearCart } = useCart()
   const [activeSection, setActiveSection] = useState("services")
   const [selectedLocation, setSelectedLocation] = useState("local")
-  const [cartItemsCount, setCartItemsCount] = useState(0)
 
   const locationOptions = [
     { value: "local", label: "Within Indore City", labelHindi: "इंदौर शहर के अंदर", charge: 100 },
@@ -55,64 +57,23 @@ export default function FuneralSamagriPage() {
         deliveryCharge: getCurrentDeliveryCharge()
       }
 
-      // Save to database via API
-      const response = await fetch('/api/cart', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          items: [cartItem]
-        })
-      })
-
-      if (response.ok) {
-        const result = await response.json()
-        console.log('Cart saved to database:', result)
-        
-        // Also update localStorage for immediate UI updates
-        const existingCart = JSON.parse(localStorage.getItem('cart') || '[]')
-        const existingItemIndex = existingCart.findIndex((item: any) => item.id === basicKit.id)
-        
-        if (existingItemIndex >= 0) {
-          existingCart[existingItemIndex].quantity += 1
-        } else {
-          existingCart.push(cartItem)
-        }
-        
-        localStorage.setItem('cart', JSON.stringify(existingCart))
-        setCartItemsCount(existingCart.length)
-
-        // Open cart directly as requested  
-        window.dispatchEvent(new CustomEvent('openCart'))
-      } else {
-        console.error('Failed to save cart to database')
-        // Fallback to localStorage only
-        const existingCart = JSON.parse(localStorage.getItem('cart') || '[]')
-        existingCart.push(cartItem)
-        localStorage.setItem('cart', JSON.stringify(existingCart))
-        setCartItemsCount(existingCart.length)
-        window.dispatchEvent(new CustomEvent('openCart'))
-      }
+      // Add to cart using global cart context (this will auto-save to database and open cart)
+      addToCart(cartItem)
       
     } catch (error) {
       console.error('Error adding to cart:', error)
     }
   }
 
-  useEffect(() => {
-    // Load cart count on page load
-    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]')
-    setCartItemsCount(existingCart.length)
-  }, [])
+
 
   return (
     <>
       <Header
         activeSection={activeSection}
         setActiveSection={setActiveSection}
-        cartItemsCount={cartItemsCount}
-        onCartClick={() => window.dispatchEvent(new CustomEvent('openCart'))}
+        cartItemsCount={getTotalItems()}
+        onCartClick={openCart}
       />
 
       <div className="min-h-screen bg-gradient-to-b from-orange-50 to-amber-50">
@@ -308,6 +269,16 @@ export default function FuneralSamagriPage() {
       </div>
 
       <Footer />
+      
+      {/* Cart Component */}
+      <Cart
+        isOpen={isCartOpen}
+        onClose={closeCart}
+        items={cartItems}
+        updateItem={updateCartItem}
+        total={getTotalPrice()}
+        clearCart={clearCart}
+      />
     </>
   )
 }

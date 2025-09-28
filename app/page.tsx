@@ -13,6 +13,7 @@ import PackageSelector from "@/components/package-selector";
 import Services from "@/components/services";
 import { products } from "@/data/products";
 import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 
 interface CartItem {
   id: string;
@@ -25,10 +26,18 @@ interface CartItem {
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("home");
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartSessionId, setCartSessionId] = useState<string | null>(null);
   const { user, isAuthenticated } = useAuth();
+  const { 
+    cartItems, 
+    addToCart, 
+    updateCartItem, 
+    clearCart, 
+    getTotalItems, 
+    getTotalPrice, 
+    isCartOpen, 
+    openCart, 
+    closeCart 
+  } = useCart();
 
   const [userOptions, setUserOptions] = useState({});
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
@@ -39,139 +48,7 @@ export default function Home() {
   // Popup state
   const [showPopup, setShowPopup] = useState(false);
 
-  // Generate or get session ID for guest users
-  useEffect(() => {
-    if (!isAuthenticated) {
-      let sessionId = localStorage.getItem("cartSessionId");
-      if (!sessionId) {
-        sessionId = `session-${Date.now()}-${Math.random()
-          .toString(36)
-          .substr(2, 9)}`;
-        localStorage.setItem("cartSessionId", sessionId);
-      }
-      setCartSessionId(sessionId);
-    }
-  }, [isAuthenticated]);
-
-  // Load cart from database when component mounts
-  useEffect(() => {
-    const loadCart = async () => {
-      try {
-        const headers: any = {};
-        if (cartSessionId && !isAuthenticated) {
-          headers["x-session-id"] = cartSessionId;
-        }
-
-        const response = await fetch("/api/cart", {
-          headers: headers,
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.cart && data.cart.items) {
-            setCartItems(data.cart.items);
-          }
-        }
-      } catch (error) {
-        console.error("Error loading cart:", error);
-      }
-    };
-
-    // Load cart after session ID is set or user is authenticated
-    if ((cartSessionId && !isAuthenticated) || isAuthenticated) {
-      loadCart();
-    }
-  }, [cartSessionId, isAuthenticated]);
-
-  // Save cart to database whenever cart items change
-  useEffect(() => {
-    const saveCart = async () => {
-      try {
-        const headers: any = {
-          "Content-Type": "application/json",
-        };
-
-        if (cartSessionId && !isAuthenticated) {
-          headers["x-session-id"] = cartSessionId;
-        }
-
-        await fetch("/api/cart", {
-          method: "POST",
-          headers: headers,
-          body: JSON.stringify({
-            items: cartItems,
-            sessionId: cartSessionId,
-          }),
-        });
-      } catch (error) {
-        console.error("Error saving cart:", error);
-      }
-    };
-
-    // Only save if we have items and session/user info
-    if (
-      cartItems.length > 0 &&
-      ((cartSessionId && !isAuthenticated) || isAuthenticated)
-    ) {
-      saveCart();
-    } else if (
-      cartItems.length === 0 &&
-      ((cartSessionId && !isAuthenticated) || isAuthenticated)
-    ) {
-      // Clear cart in database if empty
-      const clearCart = async () => {
-        try {
-          const headers: any = {};
-          if (cartSessionId && !isAuthenticated) {
-            headers["x-session-id"] = cartSessionId;
-          }
-
-          await fetch("/api/cart", {
-            method: "DELETE",
-            headers: headers,
-          });
-        } catch (error) {
-          console.error("Error clearing cart:", error);
-        }
-      };
-      clearCart();
-    }
-  }, [cartItems, cartSessionId, isAuthenticated]);
-
-  // Migrate guest cart when user logs in
-  useEffect(() => {
-    const migrateCart = async () => {
-      if (isAuthenticated && cartSessionId) {
-        try {
-          const response = await fetch("/api/cart", {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              sessionId: cartSessionId,
-            }),
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            if (data.success && data.cart && data.cart.items) {
-              setCartItems(data.cart.items);
-            }
-            // Clear guest session ID after migration
-            localStorage.removeItem("cartSessionId");
-            setCartSessionId(null);
-          }
-        } catch (error) {
-          console.error("Error migrating cart:", error);
-        }
-      }
-    };
-
-    migrateCart();
-  }, [isAuthenticated, cartSessionId]);
-
-  // Show popup after 10s but only once
+  // Show popup after 5s but only once
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowPopup(true);
@@ -180,38 +57,17 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  const addToCart = (item: any) => {
-    setCartItems((prev) => {
-      const existing = prev.find((p) => p.id === item.id);
-      if (existing) {
-        return prev.map((p) =>
-          p.id === item.id
-            ? { ...p, quantity: p.quantity + (item.quantity || 1) }
-            : p
-        );
-      }
-      return [...prev, { ...item, quantity: item.quantity || 1 }];
-    });
-  };
-
   useEffect(() => {
     const handleSectionChange = (event: any) => {
       setActiveSection(event.detail);
     };
-    window.addEventListener("changeSection", handleSectionChange);
-    return () =>
-      window.removeEventListener("changeSection", handleSectionChange);
-  }, []);
 
-  const updateCartItem = (id: string, quantity: number) => {
-    if (quantity <= 0) {
-      setCartItems((prev) => prev.filter((item) => item.id !== id));
-    } else {
-      setCartItems((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, quantity } : item))
-      );
-    }
-  };
+    window.addEventListener("changeSection", handleSectionChange);
+    
+    return () => {
+      window.removeEventListener("changeSection", handleSectionChange);
+    };
+  }, []);
 
   const handleItemChange = (itemId: string, quantity: number) => {
     setSelectedItems((prev) => ({
@@ -235,20 +91,12 @@ export default function Home() {
       if (product) {
         updateCartItem(itemId, quantity);
       } else {
-        setCartItems((prev) => [...prev, productData]);
+        addToCart(productData);
       }
     } else {
       updateCartItem(itemId, 0);
     }
   };
-
-  const getTotalItems = () =>
-    cartItems.reduce((total, item) => total + item.quantity, 0);
-
-  const getTotalPrice = () =>
-    cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-
-  const clearCart = () => setCartItems([]);
 
   return (
     <div className="min-h-screen bg-orange-50 relative">
@@ -256,7 +104,7 @@ export default function Home() {
         activeSection={activeSection}
         setActiveSection={setActiveSection}
         cartItemsCount={getTotalItems()}
-        onCartClick={() => setIsCartOpen(true)}
+        onCartClick={openCart}
       />
 
       <main>
@@ -337,7 +185,7 @@ export default function Home() {
 
       <Cart
         isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
+        onClose={closeCart}
         items={cartItems}
         updateItem={updateCartItem}
         total={getTotalPrice()}
