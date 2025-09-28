@@ -31,7 +31,7 @@ export default function FuneralSamagriPage() {
     return location ? location.charge : 100
   }
 
-  const getTotalPrice = () => {
+  const getKitTotalPrice = () => {
     return basicKit.basePrice + getCurrentDeliveryCharge()
   }
 
@@ -50,7 +50,7 @@ export default function FuneralSamagriPage() {
         id: basicKit.id,
         name: basicKit.name,
         nameHindi: basicKit.nameHindi,
-        price: getTotalPrice(),
+        price: getKitTotalPrice(),
         quantity: 1,
         type: "Funeral Kit",
         deliveryLocation: selectedLocation,
@@ -145,7 +145,7 @@ export default function FuneralSamagriPage() {
                     <div className="mt-4 pt-4 border-t">
                       <div className="flex justify-between items-center">
                         <span className="font-semibold">Total Price:</span>
-                        <span className="text-2xl font-bold text-green-600">₹{getTotalPrice()}</span>
+                        <span className="text-2xl font-bold text-green-600">₹{getKitTotalPrice()}</span>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">Including delivery charges</p>
                     </div>

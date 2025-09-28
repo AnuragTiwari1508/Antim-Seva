@@ -22,6 +22,8 @@ interface CartItem {
   price: number;
   quantity: number;
   type?: string;
+  deliveryLocation?: string;
+  deliveryCharge?: number;
 }
 
 export default function Home() {
