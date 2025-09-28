@@ -3,225 +3,153 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Check, ShoppingCart, Star, Store, Globe, Plus } from "lucide-react"
-import { packagePricing } from "@/data/products"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Package, Store, ArrowRight, Phone, MessageCircle } from "lucide-react"
 
 export default function PackagePage() {
-  const router = useRouter()
-  const [selectedPackage, setSelectedPackage] = useState<string | null>(null)
   const [activeSection, setActiveSection] = useState("services")
-
-  const packages = [
-    {
-      id: "package1",
-      ...packagePricing.package1,
-      popular: false,
-      savings: 0,
-      originalPrice: packagePricing.package1.basePrice + 200,
-    },
-    {
-      id: "package2",
-      ...packagePricing.package2,
-      popular: true,
-      savings: 500,
-      originalPrice: packagePricing.package2.basePrice + 500,
-    },
-    {
-      id: "package3",
-      ...packagePricing.package3,
-      popular: false,
-      savings: 900,
-      originalPrice: packagePricing.package3.basePrice + 900,
-    },
-  ]
-
-  const handleOnlinePackageSelect = (pkg: any) => {
-    setSelectedPackage(pkg.id)
-    // Store package data in localStorage for the product page
-    localStorage.setItem('selectedPackage', JSON.stringify({
-      packageId: pkg.id,
-      items: pkg.items,
-      timestamp: Date.now()
-    }))
-    
-    // Navigate to product page
-    router.push('/package/product')
-  }
 
   return (
     <>
-    {/* Header (inculdes complete NavBar) */}
+    {/* Header */}
     <Header
             activeSection={activeSection}
             setActiveSection={setActiveSection}
             cartItemsCount={0}
             onCartClick={() => { }}
           />
-    {/* Package Selector Section */}
+    
+    {/* Redirect Message Section */}
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-amber-50">
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        {/* (Back to Home) isko mene hata diya kyuki mene NavBar add kar diya hai  */}
-        {/* Back to Home */} 
-        {/* <div className="text-center mb-6">
-          <Link href="/" className="text-amber-600 hover:text-amber-700 underline text-lg">
-            ← Back to Home
-          </Link>
-        // </div> */} 
-
+      <div className="max-w-4xl mx-auto px-4 py-16">
+        
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Ritual Packages / अनुष्ठान पैकेज</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
-            संपूर्ण अंतिम संस्कार के लिए विशेष पैकेज - बेहतर मूल्य पर सभी आवश्यक सामग्री
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Funeral Packages / अंतिम संस्कार पैकेज
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            We have updated our service to provide you with better products and pricing
+            <br />
+            <span className="text-amber-700 font-medium">हमने बेहतर उत्पाद और मूल्य प्रदान करने के लिए अपनी सेवा को अपडेट किया है</span>
+          </p>
+        </div>
+
+        {/* Main Options */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          
+          {/* Basic Kit Option */}
+          <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-amber-200">
+            <CardHeader className="text-center pb-4">
+              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Package className="w-8 h-8 text-amber-600" />
+              </div>
+              <CardTitle className="text-xl text-amber-900 mb-2">
+                Funeral Samagri - Basic Kit
+              </CardTitle>
+              <p className="text-gray-600">मूलभूत अंतिम संस्कार किट</p>
+            </CardHeader>
+
+            <CardContent className="text-center">
+              <div className="space-y-4 mb-6">
+                <div className="text-3xl font-bold text-amber-900">₹5,100</div>
+                <p className="text-sm text-gray-600">+ Delivery Charges (₹100-300)</p>
+                
+                <div className="space-y-2 text-left bg-amber-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-amber-900">Includes:</h4>
+                  <ul className="text-sm text-gray-700 space-y-1">
+                    <li>• All 38 Essential Items</li>
+                    <li>• High Quality Guaranteed</li>
+                    <li>• Complete Kit - Nothing Missing</li>
+                    <li>• Fast Home Delivery</li>
+                  </ul>
+                </div>
+              </div>
+
+              <Link href="/funeral-samagri" className="block">
+                <Button className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 text-lg">
+                  <ArrowRight className="w-5 h-5 mr-2" />
+                  View Basic Kit / किट देखें
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Offline Option */}
+          <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-orange-200">
+            <CardHeader className="text-center pb-4">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Store className="w-8 h-8 text-orange-600" />
+              </div>
+              <CardTitle className="text-xl text-orange-900 mb-2">
+                Offline Booking
+              </CardTitle>
+              <p className="text-gray-600">ऑफलाइन बुकिंग</p>
+            </CardHeader>
+
+            <CardContent className="text-center">
+              <div className="space-y-4 mb-6">
+                <p className="text-gray-700">
+                  For custom requirements or personal consultation
+                </p>
+                <p className="text-gray-600 text-sm">
+                  कस्टम आवश्यकताओं या व्यक्तिगत परामर्श के लिए
+                </p>
+                
+                <div className="space-y-2 text-left bg-orange-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-orange-900">Benefits:</h4>
+                  <ul className="text-sm text-gray-700 space-y-1">
+                    <li>• Personal Consultation</li>
+                    <li>• Custom Package Options</li>
+                    <li>• Direct Service</li>
+                    <li>• Immediate Support</li>
+                  </ul>
+                </div>
+              </div>
+
+              <Link href="/package/offline" className="block">
+                <Button 
+                  variant="outline"
+                  className="w-full border-orange-500 text-orange-600 hover:bg-orange-50 py-3 text-lg"
+                >
+                  <Store className="w-5 h-5 mr-2" />
+                  Book Offline / ऑफलाइन बुक करें
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Contact Section */}
+        <div className="text-center">
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">
+            Need Help Choosing? / चयन में सहायता चाहिए?
+          </h3>
+          <p className="text-gray-600 mb-8">
+            Our team is available 24/7 to help you during this difficult time
+            <br />
+            <span className="text-sm">इस कठिन समय में सहायता के लिए हमारी टीम 24/7 उपलब्ध है</span>
           </p>
           
-          {/* Dual Purchase Options */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button 
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="tel:+919179677292"
+              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-bold transition inline-flex items-center justify-center"
             >
-              <Globe className="w-5 h-5 mr-2" />
-              Buy Online (Current Page)
-            </Button>
-            
-            <div className="text-gray-500 font-medium">OR</div>
-            
-            <Link href="/package/offline">
-              <Button 
-                size="lg"
-                variant="outline"
-                className="border-orange-500 text-orange-600 hover:bg-orange-50 px-8 py-4 text-lg"
-              >
-                <Store className="w-5 h-5 mr-2" />
-                Buy Offline
-              </Button>
-            </Link>
+              <Phone className="w-5 h-5 mr-2" />
+              Call: +91 91796 77292
+            </a>
+            <a
+              href="https://wa.me/9179677292"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-bold transition inline-flex items-center justify-center"
+            >
+              <MessageCircle className="w-5 h-5 mr-2" />
+              WhatsApp
+            </a>
           </div>
-        </div>
-
-        {/* Package Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {packages.map((pkg) => (
-            <Card
-              key={pkg.id}
-              className={`relative ${pkg.popular ? "ring-2 ring-amber-500 shadow-xl scale-105" : "shadow-lg"} ${
-                selectedPackage === pkg.id ? "ring-2 ring-green-500" : ""
-              } hover:shadow-xl transition-all duration-300`}
-            >
-              {pkg.popular && (
-                <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-amber-500 text-white px-4 py-1">
-                  Most Popular / सबसे लोकप्रिय
-                </Badge>
-              )}
-
-              <CardHeader className="text-center pb-4">
-                <CardTitle className="text-xl mb-2">
-                  {pkg.name}
-                  <div className="text-sm font-normal text-gray-600 mt-1">{pkg.nameHindi}</div>
-                </CardTitle>
-
-                <div className="text-center">
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <span className="text-3xl font-bold text-amber-900">₹{pkg.basePrice}</span>
-                    {pkg.savings > 0 && (
-                      <span className="text-lg text-gray-500 line-through">₹{pkg.originalPrice}</span>
-                    )}
-                  </div>
-                  {pkg.savings > 0 && (
-                    <Badge variant="secondary" className="bg-green-100 text-green-800">
-                      Save ₹{pkg.savings}
-                    </Badge>
-                  )}
-                </div>
-
-                <div className="flex items-center justify-center gap-2 mt-2">
-                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  <span className="text-sm text-gray-600">4.8 Rating</span>
-                </div>
-              </CardHeader>
-
-              <CardContent className="px-6">
-                <div className="space-y-2 max-h-64 overflow-y-auto">
-                  <h4 className="font-semibold text-gray-900 mb-3">Included Items ({pkg.items.length}):</h4>
-                  {pkg.items.map((item, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
-                        <Check className="w-3 h-3" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-sm font-medium">{item.name}</div>
-                        <div className="text-xs text-gray-500">{item.nameHindi}</div>
-                      </div>
-                      <div className="w-6 h-6 flex items-center justify-center">
-                        {item.image ? (
-                          <img 
-                            src={item.image} 
-                            alt={item.name}
-                            className="w-5 h-5 object-cover rounded"
-                          />
-                        ) : (
-                          <div className="w-4 h-4 bg-amber-100 rounded-full flex items-center justify-center">
-                            <span className="text-xs text-amber-600">•</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-
-              <CardFooter className="pt-4">
-                <div className="w-full space-y-2">
-                  <Button
-                    onClick={() => handleOnlinePackageSelect(pkg)}
-                    className={`w-full ${
-                      selectedPackage === pkg.id
-                        ? "bg-green-600 hover:bg-green-700"
-                        : pkg.popular
-                          ? "bg-amber-500 hover:bg-amber-600"
-                          : "bg-amber-900 hover:bg-amber-800"
-                    }`}
-                  >
-                    <ShoppingCart className="w-4 h-4 mr-2" />
-                    {selectedPackage === pkg.id ? "Selected / चुना गया" : "Add to Cart Online"}
-                  </Button>
-                  
-                  {/* Add Products Option - Only show when package is selected */}
-                  {selectedPackage === pkg.id && (
-                    <Link href={`/package/products?package=${pkg.id}`} className="block">
-                      <Button 
-                        variant="outline"
-                        className="w-full border-green-500 text-green-600 hover:bg-green-50"
-                      >
-                        <Plus className="w-4 h-4 mr-2" />
-                        Want to add more products? / और उत्पाद जोड़ना चाहते हैं?
-                      </Button>
-                    </Link>
-                  )}
-                  
-                  <Link href="/package/offline" className="block">
-                    <Button 
-                      variant="outline"
-                      className="w-full border-orange-500 text-orange-600 hover:bg-orange-50"
-                    >
-                      <Store className="w-4 h-4 mr-2" />
-                      Book Offline / ऑफलाइन बुक करें
-                    </Button>
-                  </Link>
-                </div>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-gray-600 mb-4">Need custom items? / कस्टम सामग्री चाहिए?</p>
-          <p className="text-sm text-gray-500">You can add individual items after selecting a package</p>
         </div>
       </div>
     </div>

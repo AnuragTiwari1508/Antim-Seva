@@ -598,6 +598,64 @@ export const products: Product[] = [
 
 ]
 
+// Basic Kit Items - Funeral Samagri as per user requirements
+export const basicKitItems = [
+  { name: "सुतली", nameHindi: "सुतली", quantity: "20 नग तार", price: 0 },
+  { name: "नाडा", nameHindi: "नाडा", quantity: "150gm", price: 0 },
+  { name: "मुझ की रस्सी", nameHindi: "मुझ की रस्सी", quantity: "120gm", price: 0 },
+  { name: "सिंघाड़ा", nameHindi: "सिंघाड़ा", quantity: "15 नग", price: 0 },
+  { name: "कौड़ी", nameHindi: "कौड़ी", quantity: "100gm", price: 0 },
+  { name: "मखाने", nameHindi: "मखाने", quantity: "30gm", price: 0 },
+  { name: "जव", nameHindi: "जव", quantity: "150gm", price: 0 },
+  { name: "तिल्ली", nameHindi: "तिल्ली", quantity: "150gm", price: 0 },
+  { name: "मुठिया", nameHindi: "मुठिया", quantity: "1 नग", price: 0 },
+  { name: "अगरबत्ती", nameHindi: "अगरबत्ती", quantity: "1 नग", price: 0 },
+  { name: "इत्र", nameHindi: "इत्र", quantity: "1 नग", price: 0 },
+  { name: "गुलाल", nameHindi: "गुलाल", quantity: "500 gm", price: 0 },
+  { name: "अबीर", nameHindi: "अबीर", quantity: "30gm", price: 0 },
+  { name: "घी", nameHindi: "घी", quantity: "1 kg", price: 0 },
+  { name: "फूल - माला", nameHindi: "फूल - माला", quantity: "5 नग", price: 0 },
+  { name: "कपूर", nameHindi: "कपूर", quantity: "50 gm", price: 0 },
+  { name: "पंचरत्न", nameHindi: "पंचरत्न", quantity: "250 gm", price: 250 },
+  { name: "मूंगा - मोती", nameHindi: "मूंगा - मोती", quantity: "5 नग", price: 0 },
+  { name: "नारियल", nameHindi: "नारियल", quantity: "1 नग", price: 0 },
+  { name: "गोल्ड/सिल्वर पॉलिश वाली सीढ़ी", nameHindi: "गोल्ड/सिल्वर पॉलिश वाली सीढ़ी", quantity: "1 नग", price: 0 },
+  { name: "कफ़न", nameHindi: "कफ़न", quantity: "1नग", price: 300 },
+  { name: "शाल", nameHindi: "शाल", quantity: "1 नग", price: 100 },
+  { name: "बॉस", nameHindi: "बॉस", quantity: "1 सेट", price: 300 },
+  { name: "घास", nameHindi: "घास", quantity: "100 rs", price: 100 },
+  { name: "मटकी काली", nameHindi: "मटकी काली", quantity: "1 नग", price: 0 },
+  { name: "मटकी लाल", nameHindi: "मटकी लाल", quantity: "1 नग", price: 0 },
+  { name: "किमडी", nameHindi: "किमडी", quantity: "10 लकड़ी", price: 0 },
+  { name: "मटकी का स्टेन / तिकोना", nameHindi: "मटकी का स्टेन / तिकोना", quantity: "1 नग", price: 0 },
+  { name: "धूप", nameHindi: "धूप", quantity: "250 gm", price: 0 },
+  { name: "छीलपि", nameHindi: "छीलपि", quantity: "300gm", price: 0 },
+  { name: "चंदन चुरा", nameHindi: "चंदन चुरा", quantity: "150gm", price: 0 },
+  { name: "राल", nameHindi: "राल", quantity: "500gm", price: 0 },
+  { name: "गोपी", nameHindi: "गोपी", quantity: "1 नग", price: 0 },
+  { name: "जनेऊ", nameHindi: "जनेऊ", quantity: "2 नग", price: 0 },
+  { name: "तुलसी माला", nameHindi: "तुलसी माला", quantity: "1 नग", price: 0 },
+  { name: "गंगाजल", nameHindi: "गंगाजल", quantity: "1 शीशी", price: 0 },
+  { name: "आटा", nameHindi: "आटा", quantity: "200gm", price: 0 },
+  { name: "कुर्ता पजामा / कुर्ता धोती या साड़ी", nameHindi: "कुर्ता पजामा / कुर्ता धोती या साड़ी", quantity: "1नग", price: 0 }
+]
+
+export const basicKit = {
+  id: "basic-kit",
+  name: "Basic Funeral Kit",
+  nameHindi: "मूलभूत अंतिम संस्कार किट",
+  basePrice: 5100,
+  items: basicKitItems,
+  deliveryCharges: {
+    local: 100,    // Within city
+    regional: 200, // Nearby areas  
+    outstation: 300 // Outside city
+  },
+  category: "funeral-kit",
+  description: "Complete funeral samagri kit with all essential items for last rites ceremonies",
+  available: true
+}
+
 export const packagePricing = {
   package1: {
     name: "Basic Package",

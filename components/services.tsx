@@ -43,18 +43,18 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
     {
       image:
         "https://cdn.99pandit.com/images/blogsimg/udaka%20shanti%20puja%20after%20death%201.webp",
-      title: "Funeral Samagri",
-      titleHindi: "अंतिम संस्कार की सामग्री",
+      title: "Funeral Samagri - Basic Kit",
+      titleHindi: "अंतिम संस्कार की सामग्री - मूलभूत किट",
       description:
-        "Complete collection of all necessary items required for proper antim sanskar and religious ceremonies.",
+        "Complete Basic Kit with all 38 essential items required for proper antim sanskar ceremonies at ₹5100 + delivery.",
       features: [
-        "Authentic materials",
-        "Complete packages",
-        "Quality assured",
-        "Timely delivery",
+        "38 Essential Items",
+        "High Quality Guaranteed", 
+        "Complete Kit - Nothing Missing",
+        "Fast Delivery Available",
         "Home delivery",
       ],
-      link: "/package",
+      link: "/funeral-samagri",
     },
     {
       image:

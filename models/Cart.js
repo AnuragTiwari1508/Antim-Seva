@@ -19,6 +19,17 @@ const cartItemSchema = new Schema({
     type: Number,
     required: true,
   },
+  type: {
+    type: String,
+    default: "Product"
+  },
+  deliveryLocation: {
+    type: String,
+  },
+  deliveryCharge: {
+    type: Number,
+    default: 0
+  },
   addedAt: {
     type: Date,
     default: Date.now,

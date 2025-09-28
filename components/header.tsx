@@ -31,6 +31,8 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
       router.push('/blogs'); // ✅ blogs route
     } else if (itemId === 'packages') {
       router.push('/package'); // ✅ dedicated package page
+    } else if (itemId === 'funeral-samagri') {
+      router.push('/funeral-samagri'); // ✅ funeral samagri page
     } else {
       if (itemId === 'home') {
         router.push('/');
@@ -52,6 +54,7 @@ export default function Header({ activeSection, setActiveSection, cartItemsCount
   const navItems = [
     { id: "home", label: "Home / होम", icon: null },
     { id: "packages", label: "Packages / पैकेज", icon: null },
+    { id: "funeral-samagri", label: "Funeral Kit / किट", icon: null },
     // { id: "services", label: "Services / सेवाएं", icon: null },
     { id: "about", label: "About / हमारे बारे में", icon: null },
     { id: "contact", label: "Contact / संपर्क", icon: null },
