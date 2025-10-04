@@ -96,14 +96,24 @@ export default function Footer() {
                   { id: "about", label: "About / परिचय" },
                   { id: "contact", label: "Contact / संपर्क" },
                   { id: "faq", label: "FAQ / प्रश्न" },
+                  { id: "terms", label: "Terms / नियम" },
                 ].map((item) => (
                   <li key={item.id}>
-                    <button
-                      onClick={() => handleNavigation(item.id)}
-                      className="text-sm text-amber-100 hover:text-white hover:translate-x-1 transition-all"
-                    >
-                      {item.label}
-                    </button>
+                    {item.id === "terms" ? (
+                      <Link
+                        href="/terms"
+                        className="text-sm text-amber-100 hover:text-white hover:translate-x-1 transition-all"
+                      >
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={() => handleNavigation(item.id)}
+                        className="text-sm text-amber-100 hover:text-white hover:translate-x-1 transition-all"
+                      >
+                        {item.label}
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -232,14 +242,24 @@ export default function Footer() {
                 { id: "about", label: "About / परिचय" },
                 { id: "contact", label: "Contact / संपर्क" },
                 { id: "faq", label: "FAQ / प्रश्न" },
+                { id: "terms", label: "Terms / नियम" },
               ].map((item) => (
                 <li key={item.id}>
-                  <button
-                    onClick={() => handleNavigation(item.id)}
-                    className="text-sm text-amber-100 hover:text-white hover:translate-x-1 transition-all"
-                  >
-                    {item.label}
-                  </button>
+                  {item.id === "terms" ? (
+                    <Link
+                      href="/terms"
+                      className="text-sm text-amber-100 hover:text-white hover:translate-x-1 transition-all"
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() => handleNavigation(item.id)}
+                      className="text-sm text-amber-100 hover:text-white hover:translate-x-1 transition-all"
+                    >
+                      {item.label}
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>

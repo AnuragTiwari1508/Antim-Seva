@@ -35,10 +35,7 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
     locationAddress: "", // Human-readable address
   })
   
-  const [termsAccepted, setTermsAccepted] = useState({
-    customerTerms: false,
-    privacyPolicy: false
-  })
+  const [termsAccepted, setTermsAccepted] = useState(false)
   
   // Pre-fill form with user data if authenticated
   useEffect(() => {
@@ -205,12 +202,8 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
     }
 
     // Terms and conditions validation
-    if (!termsAccepted.customerTerms) {
-      errors.customerTerms = "You must accept the Customer Terms & Conditions / आपको ग्राहक नियम एवं शर्तें स्वीकार करनीं होंगी"
-    }
-
-    if (!termsAccepted.privacyPolicy) {
-      errors.privacyPolicy = "You must accept the Privacy Policy / आपको गोपनीयता नीति स्वीकार करनी होगी"
+    if (!termsAccepted) {
+      errors.terms = "You must accept the Terms & Conditions / आपको नियम एवं शर्तें स्वीकार करनीं होंगी"
     }
 
     console.log('📋 Validation result:', { errors, isValid: Object.keys(errors).length === 0 })
@@ -322,8 +315,8 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
       paymentMethod: 'cash',
       paymentStatus: 'pending',
       termsAccepted: {
-        customerTerms: termsAccepted.customerTerms,
-        privacyPolicy: termsAccepted.privacyPolicy,
+        customerTerms: termsAccepted,
+        privacyPolicy: termsAccepted,
         acceptedAt: new Date().toISOString()
       }
     }
@@ -435,8 +428,8 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
                 paymentStatus: 'completed',
                 paymentId: response.razorpay_payment_id,
                 termsAccepted: {
-                  customerTerms: termsAccepted.customerTerms,
-                  privacyPolicy: termsAccepted.privacyPolicy,
+                  customerTerms: termsAccepted,
+                  privacyPolicy: termsAccepted,
                   acceptedAt: new Date().toISOString()
                 }
               }
@@ -632,64 +625,32 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
                       </h4>
                       
                       <div className="space-y-3">
-                        {/* Customer Terms */}
+                        {/* Terms & Conditions */}
                         <div className="flex items-start space-x-3">
                           <Checkbox 
-                            id="customer-terms"
-                            checked={termsAccepted.customerTerms}
-                            onCheckedChange={(checked) => 
-                              setTermsAccepted(prev => ({ ...prev, customerTerms: checked as boolean }))
-                            }
-                            className={validationErrors.customerTerms ? "border-red-500" : ""}
+                            id="terms-conditions"
+                            checked={termsAccepted}
+                            onCheckedChange={(checked) => setTermsAccepted(checked as boolean)}
+                            className={validationErrors.terms ? "border-red-500" : ""}
                           />
-                          <label htmlFor="customer-terms" className="text-sm cursor-pointer flex-1">
+                          <label htmlFor="terms-conditions" className="text-sm cursor-pointer flex-1">
                             I agree to the{' '}
                             <Link 
                               href="/terms" 
                               target="_blank" 
                               className="text-blue-600 hover:text-blue-700 underline inline-flex items-center gap-1"
                             >
-                              Customer Terms & Conditions
+                              Terms & Conditions
                               <ExternalLink className="w-3 h-3" />
                             </Link>
                             <br />
                             <span className="text-gray-600">
-                              मैं ग्राहक नियम एवं शर्तों से सहमत हूँ
+                              मैं नियम एवं शर्तों से सहमत हूँ
                             </span>
                           </label>
                         </div>
-                        {validationErrors.customerTerms && (
-                          <p className="text-red-500 text-sm ml-6">{validationErrors.customerTerms}</p>
-                        )}
-
-                        {/* Privacy Policy */}
-                        <div className="flex items-start space-x-3">
-                          <Checkbox 
-                            id="privacy-policy"
-                            checked={termsAccepted.privacyPolicy}
-                            onCheckedChange={(checked) => 
-                              setTermsAccepted(prev => ({ ...prev, privacyPolicy: checked as boolean }))
-                            }
-                            className={validationErrors.privacyPolicy ? "border-red-500" : ""}
-                          />
-                          <label htmlFor="privacy-policy" className="text-sm cursor-pointer flex-1">
-                            I agree to the{' '}
-                            <Link 
-                              href="/terms#privacy" 
-                              target="_blank" 
-                              className="text-blue-600 hover:text-blue-700 underline inline-flex items-center gap-1"
-                            >
-                              Privacy Policy
-                              <ExternalLink className="w-3 h-3" />
-                            </Link>
-                            <br />
-                            <span className="text-gray-600">
-                              मैं गोपनीयता नीति से सहमत हूँ
-                            </span>
-                          </label>
-                        </div>
-                        {validationErrors.privacyPolicy && (
-                          <p className="text-red-500 text-sm ml-6">{validationErrors.privacyPolicy}</p>
+                        {validationErrors.terms && (
+                          <p className="text-red-500 text-sm ml-6">{validationErrors.terms}</p>
                         )}
                       </div>
 
@@ -710,7 +671,7 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
                   <Button 
                     type="submit" 
                     className="w-full bg-amber-900 hover:bg-amber-800 text-white py-3 text-lg"
-                    disabled={isProcessing || !termsAccepted.customerTerms || !termsAccepted.privacyPolicy}
+                    disabled={isProcessing || !termsAccepted}
                   >
                     {isProcessing ? (
                       <div className="flex items-center gap-2">
