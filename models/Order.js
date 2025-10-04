@@ -99,6 +99,20 @@ const orderSchema = new Schema(
     notificationSent: {
       type: Boolean,
       default: false,
+    },
+    termsAccepted: {
+      customerTerms: {
+        type: Boolean,
+        default: false
+      },
+      privacyPolicy: {
+        type: Boolean,
+        default: false
+      },
+      acceptedAt: {
+        type: Date,
+        default: Date.now
+      }
     }
   },
   { timestamps: true }

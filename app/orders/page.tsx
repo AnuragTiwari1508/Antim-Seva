@@ -383,6 +383,78 @@ export default function OrdersPage() {
                           )}
                         </div>
                       </div>
+
+                      {/* Terms Acceptance Information */}
+                      {order.termsAccepted && (order.termsAccepted.customerTerms || order.termsAccepted.privacyPolicy) && (
+                        <>
+                          <Separator className="my-6" />
+                          
+                          <div>
+                            <h3 className="font-medium text-gray-900 mb-3">Legal Agreement / कानूनी समझौता</h3>
+                            <div className="space-y-3">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="flex items-center gap-2">
+                                  <div className={`w-4 h-4 rounded-sm border-2 flex items-center justify-center ${
+                                    order.termsAccepted.customerTerms 
+                                      ? 'bg-green-100 border-green-500' 
+                                      : 'border-gray-300'
+                                  }`}>
+                                    {order.termsAccepted.customerTerms && (
+                                      <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                      </svg>
+                                    )}
+                                  </div>
+                                  <span className="text-sm">
+                                    {order.termsAccepted.customerTerms ? 'Accepted' : 'Not Accepted'} - Terms & Conditions
+                                  </span>
+                                </div>
+                                
+                                <div className="flex items-center gap-2">
+                                  <div className={`w-4 h-4 rounded-sm border-2 flex items-center justify-center ${
+                                    order.termsAccepted.privacyPolicy 
+                                      ? 'bg-green-100 border-green-500' 
+                                      : 'border-gray-300'
+                                  }`}>
+                                    {order.termsAccepted.privacyPolicy && (
+                                      <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                      </svg>
+                                    )}
+                                  </div>
+                                  <span className="text-sm">
+                                    {order.termsAccepted.privacyPolicy ? 'Accepted' : 'Not Accepted'} - Privacy Policy
+                                  </span>
+                                </div>
+                              </div>
+                              
+                              {order.termsAccepted.acceptedAt && (
+                                <div className="mt-3 pt-3 border-t border-gray-100">
+                                  <div className="text-sm text-gray-600">Agreement Date</div>
+                                  <div className="text-sm font-medium">
+                                    {formatDate(order.termsAccepted.acceptedAt)} at {formatTime(order.termsAccepted.acceptedAt)}
+                                  </div>
+                                  <div className="text-xs text-gray-500 mt-1">
+                                    Legal agreements were accepted during checkout process
+                                  </div>
+                                </div>
+                              )}
+                              
+                              <div className="mt-3 pt-3 border-t border-gray-100">
+                                <Link 
+                                  href="/terms" 
+                                  className="text-amber-900 hover:underline text-sm inline-flex items-center"
+                                >
+                                  View Current Terms & Conditions
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                  </svg>
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </TabsContent>
                   </Tabs>
                 </CardContent>

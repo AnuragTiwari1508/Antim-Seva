@@ -7,10 +7,12 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
-import { MapPin, CreditCard, Banknote } from "lucide-react"
+import { Checkbox } from "@/components/ui/checkbox"
+import { MapPin, CreditCard, Banknote, ExternalLink, FileText } from "lucide-react"
 import IndoreMap from "./indore-map"
 import { useAuth } from "@/context/AuthContext"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 interface CheckoutFormProps {
   cartItems: any[]
@@ -31,6 +33,11 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
     paymentMethod: "cash",
     location: { lat: 22.7196, lng: 75.8577 }, // Default to Indore center
     locationAddress: "", // Human-readable address
+  })
+  
+  const [termsAccepted, setTermsAccepted] = useState({
+    customerTerms: false,
+    privacyPolicy: false
   })
   
   // Pre-fill form with user data if authenticated
@@ -197,6 +204,15 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
       errors.location = "Please select your location on the map / कृपया मानचित्र पर अपना स्थान चुनें"
     }
 
+    // Terms and conditions validation
+    if (!termsAccepted.customerTerms) {
+      errors.customerTerms = "You must accept the Customer Terms & Conditions / आपको ग्राहक नियम एवं शर्तें स्वीकार करनीं होंगी"
+    }
+
+    if (!termsAccepted.privacyPolicy) {
+      errors.privacyPolicy = "You must accept the Privacy Policy / आपको गोपनीयता नीति स्वीकार करनी होगी"
+    }
+
     console.log('📋 Validation result:', { errors, isValid: Object.keys(errors).length === 0 })
     setValidationErrors(errors)
     return Object.keys(errors).length === 0
@@ -304,7 +320,12 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
         deliveryLocation: formData.locationAddress || `${formData.location.lat}, ${formData.location.lng}`
       },
       paymentMethod: 'cash',
-      paymentStatus: 'pending'
+      paymentStatus: 'pending',
+      termsAccepted: {
+        customerTerms: termsAccepted.customerTerms,
+        privacyPolicy: termsAccepted.privacyPolicy,
+        acceptedAt: new Date().toISOString()
+      }
     }
 
     // Save order to database (you can add API call here)
@@ -412,7 +433,12 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
                 },
                 paymentMethod: 'online',
                 paymentStatus: 'completed',
-                paymentId: response.razorpay_payment_id
+                paymentId: response.razorpay_payment_id,
+                termsAccepted: {
+                  customerTerms: termsAccepted.customerTerms,
+                  privacyPolicy: termsAccepted.privacyPolicy,
+                  acceptedAt: new Date().toISOString()
+                }
               }
 
               // Save successful order
@@ -596,11 +622,95 @@ export default function CheckoutForm({ cartItems, total, onClose, onComplete }: 
                   </RadioGroup>
                 </div>
 
+                {/* Terms & Conditions Acceptance */}
+                <div className="space-y-4 p-4 bg-gray-50 rounded-lg border">
+                  <div className="flex items-start gap-2">
+                    <FileText className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-gray-900 mb-3">
+                        Terms & Conditions / नियम एवं शर्तें *
+                      </h4>
+                      
+                      <div className="space-y-3">
+                        {/* Customer Terms */}
+                        <div className="flex items-start space-x-3">
+                          <Checkbox 
+                            id="customer-terms"
+                            checked={termsAccepted.customerTerms}
+                            onCheckedChange={(checked) => 
+                              setTermsAccepted(prev => ({ ...prev, customerTerms: checked as boolean }))
+                            }
+                            className={validationErrors.customerTerms ? "border-red-500" : ""}
+                          />
+                          <label htmlFor="customer-terms" className="text-sm cursor-pointer flex-1">
+                            I agree to the{' '}
+                            <Link 
+                              href="/terms" 
+                              target="_blank" 
+                              className="text-blue-600 hover:text-blue-700 underline inline-flex items-center gap-1"
+                            >
+                              Customer Terms & Conditions
+                              <ExternalLink className="w-3 h-3" />
+                            </Link>
+                            <br />
+                            <span className="text-gray-600">
+                              मैं ग्राहक नियम एवं शर्तों से सहमत हूँ
+                            </span>
+                          </label>
+                        </div>
+                        {validationErrors.customerTerms && (
+                          <p className="text-red-500 text-sm ml-6">{validationErrors.customerTerms}</p>
+                        )}
+
+                        {/* Privacy Policy */}
+                        <div className="flex items-start space-x-3">
+                          <Checkbox 
+                            id="privacy-policy"
+                            checked={termsAccepted.privacyPolicy}
+                            onCheckedChange={(checked) => 
+                              setTermsAccepted(prev => ({ ...prev, privacyPolicy: checked as boolean }))
+                            }
+                            className={validationErrors.privacyPolicy ? "border-red-500" : ""}
+                          />
+                          <label htmlFor="privacy-policy" className="text-sm cursor-pointer flex-1">
+                            I agree to the{' '}
+                            <Link 
+                              href="/terms#privacy" 
+                              target="_blank" 
+                              className="text-blue-600 hover:text-blue-700 underline inline-flex items-center gap-1"
+                            >
+                              Privacy Policy
+                              <ExternalLink className="w-3 h-3" />
+                            </Link>
+                            <br />
+                            <span className="text-gray-600">
+                              मैं गोपनीयता नीति से सहमत हूँ
+                            </span>
+                          </label>
+                        </div>
+                        {validationErrors.privacyPolicy && (
+                          <p className="text-red-500 text-sm ml-6">{validationErrors.privacyPolicy}</p>
+                        )}
+                      </div>
+
+                      <div className="mt-3 p-3 bg-blue-50 rounded-lg">
+                        <p className="text-xs text-blue-800">
+                          <strong>Important:</strong> By placing this order, you confirm that Antim Seva is only a facilitator service and all actual services are provided by independent vendors.
+                          <br />
+                          <span className="text-blue-700">
+                            महत्वपूर्ण: इस ऑर्डर को देकर, आप पुष्टि करते हैं कि Antim Seva केवल एक सुविधा प्रदाता है और सभी वास्तविक सेवाएं स्वतंत्र विक्रेताओं द्वारा प्रदान की जाती हैं।
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="pt-4">
                   <Button 
                     type="submit" 
                     className="w-full bg-amber-900 hover:bg-amber-800 text-white py-3 text-lg"
-                    disabled={isProcessing}
+                    disabled={isProcessing || !termsAccepted.customerTerms || !termsAccepted.privacyPolicy}
                   >
                     {isProcessing ? (
                       <div className="flex items-center gap-2">
