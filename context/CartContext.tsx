@@ -1,4 +1,5 @@
 "use client"
+// Updated: 2025-10-04 - Fixed cart persistence and localStorage fallback
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useAuth } from './AuthContext'
