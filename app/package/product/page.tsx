@@ -259,6 +259,18 @@ export default function PackageProductPage() {
                         </Button>
                       </div>
                     )}
+                    <div className="mt-2 p-2 bg-gray-100 rounded text-xs">
+                      <div className="font-semibold mb-1">LocalStorage Debug:</div>
+                      <div className="font-mono">
+                        selectedPackage: {typeof window !== 'undefined' ? localStorage.getItem('selectedPackage') || 'null' : 'N/A'}
+                      </div>
+                      <div className="font-mono mt-1">
+                        cartItems: {typeof window !== 'undefined' ? localStorage.getItem('cartItems') || 'null' : 'N/A'}
+                      </div>
+                      <div className="font-mono mt-1">
+                        localCart: {typeof window !== 'undefined' ? localStorage.getItem('localCart') || 'null' : 'N/A'}
+                      </div>
+                    </div>
                     {cartItems.length > 0 && (
                       <div className="text-xs text-green-600 mt-1">
                         ✓ {cartItems[0]?.name} in cart (₹{cartItems[0]?.price})
