@@ -7,12 +7,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Package, Plus, ShoppingCart } from "lucide-react"
+import { useCart } from "@/context/CartContext"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import Cart from "@/components/cart"
 
 export default function PackageProductPage() {
   const router = useRouter()
   const [selectedPackage, setSelectedPackage] = useState<any>(null)
   const [showProducts, setShowProducts] = useState(false)
-  const [cart, setCart] = useState<any[]>([])
+  const [packageAddedToCart, setPackageAddedToCart] = useState(false)
+  const { addToCart, cartItems, updateCartItem, removeFromCart, getTotalPrice, openCart, isCartOpen, closeCart, clearCart } = useCart()
 
   useEffect(() => {
     // Get selected package from localStorage
@@ -20,7 +25,7 @@ export default function PackageProductPage() {
     if (packageData) {
       const parsed = JSON.parse(packageData)
       // Check if data is not too old (1 hour)
-      if (Date.now() - parsed.timestamp < 3600000) {
+      if (parsed.timestamp && Date.now() - parsed.timestamp < 3600000) {
         setSelectedPackage(parsed)
       } else {
         // Redirect to package page if data is old
@@ -32,42 +37,60 @@ export default function PackageProductPage() {
     }
   }, [router])
 
-  const addToCart = (product: any) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id)
-      if (existing) {
-        return prev.map(item => 
-          item.id === product.id 
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
+  // Add package to cart automatically when package is selected
+  useEffect(() => {
+    if (selectedPackage && !packageAddedToCart) {
+      const packageId = `package-${selectedPackage.name.toLowerCase().replace(/\s+/g, '-')}`
+      const existingPackage = cartItems.find(item => item.id === packageId)
+      
+      if (!existingPackage) {
+        // Add the selected package as a single item to cart
+        const packageItem = {
+          id: packageId,
+          name: selectedPackage.name,
+          nameHindi: selectedPackage.nameHindi,
+          price: selectedPackage.price,
+          quantity: 1,
+          type: 'package'
+        }
+        addToCart(packageItem)
       }
-      return [...prev, { ...product, quantity: 1 }]
-    })
+      setPackageAddedToCart(true)
+    }
+  }, [selectedPackage, cartItems, addToCart, packageAddedToCart])
+
+  const handleAddProduct = (product: any) => {
+    const cartItem = {
+      id: product.id,
+      name: product.name,
+      nameHindi: product.nameHindi,
+      price: product.price,
+      quantity: 1,
+      type: 'individual-product'
+    }
+    addToCart(cartItem)
   }
 
-  const removeFromCart = (productId: string) => {
-    setCart(prev => prev.filter(item => item.id !== productId))
+  const handleRemoveFromCart = (productId: string) => {
+    removeFromCart(productId)
   }
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const handleUpdateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) {
       removeFromCart(productId)
       return
     }
-    setCart(prev => 
-      prev.map(item => 
-        item.id === productId 
-          ? { ...item, quantity }
-          : item
-      )
-    )
+    updateCartItem(productId, quantity)
   }
 
-  const getTotalPrice = () => {
-    const packagePrice = selectedPackage?.items?.reduce((sum: number, item: any) => sum + (item.price || 0), 0) || 0
-    const additionalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-    return packagePrice + additionalPrice
+  // Get additional products (non-package items) from cart
+  const getAdditionalProducts = () => {
+    return cartItems.filter(item => item.type === 'individual-product')
+  }
+
+  // Get package item from cart  
+  const getPackageItem = () => {
+    return cartItems.find(item => item.type === 'package')
   }
 
   if (!selectedPackage) {
@@ -83,7 +106,15 @@ export default function PackageProductPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      {/* Main Header */}
+      <Header
+        activeSection="packages"
+        setActiveSection={() => {}}
+        cartItemsCount={cartItems.length}
+        onCartClick={openCart}
+      />
+      
+      {/* Package Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
@@ -91,19 +122,21 @@ export default function PackageProductPage() {
               <Button
                 variant="outline"
                 onClick={() => router.push('/package')}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 hover:bg-gray-100 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Back to Packages
+                Back to Packages / पैकेज पर वापस जाएं
               </Button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Selected Package</h1>
-                <p className="text-gray-600">Add more products to customize your package</p>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {selectedPackage?.name} / {selectedPackage?.nameHindi}
+                </h1>
+                <p className="text-gray-600">Add more products to customize your package / अपने पैकेज को कस्टमाइज़ करने के लिए और उत्पाद जोड़ें</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-sm text-gray-600">Total Items: {selectedPackage.items?.length + cart.length}</p>
-              <p className="text-lg font-bold text-amber-600">₹{getTotalPrice()}</p>
+              <p className="text-sm text-gray-600">Package Items: {selectedPackage.items?.length || 0} + Additional: {getAdditionalProducts().length}</p>
+              <p className="text-lg font-bold text-amber-600">Total: ₹{getTotalPrice()}</p>
             </div>
           </div>
         </div>
@@ -136,11 +169,11 @@ export default function PackageProductPage() {
                 </div>
 
                 {/* Additional Items */}
-                {cart.length > 0 && (
+                {getAdditionalProducts().length > 0 && (
                   <div className="border-t pt-4">
                     <h4 className="font-medium text-gray-900 mb-2">Additional Items:</h4>
                     <div className="space-y-2">
-                      {cart.map((item) => (
+                      {getAdditionalProducts().map((item) => (
                         <div key={item.id} className="flex items-center gap-3 p-2 bg-blue-50 rounded-lg">
                           <Badge variant="secondary" className="bg-blue-100 text-blue-800">
                             +{item.quantity}
@@ -153,7 +186,7 @@ export default function PackageProductPage() {
                             <Button
                               size="sm"
                               variant="outline"
-                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                               className="h-6 w-6 p-0"
                             >
                               -
@@ -162,7 +195,7 @@ export default function PackageProductPage() {
                             <Button
                               size="sm"
                               variant="outline"
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
                               className="h-6 w-6 p-0"
                             >
                               +
@@ -185,9 +218,12 @@ export default function PackageProductPage() {
                   </Button>
                 </div>
 
-                <Button className="w-full bg-amber-600 hover:bg-amber-700">
+                <Button 
+                  className="w-full bg-amber-600 hover:bg-amber-700"
+                  onClick={() => openCart()}
+                >
                   <ShoppingCart className="w-4 h-4 mr-2" />
-                  Proceed to Checkout
+                  View Cart & Checkout (₹{getTotalPrice()})
                 </Button>
               </CardContent>
             </Card>
@@ -198,17 +234,17 @@ export default function PackageProductPage() {
             {showProducts ? (
               <div>
                 <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Add More Products</h2>
+                  <h2 className="text-xl font-semibold text-gray-900 mb-2">Add More Products</h2>
                   <p className="text-gray-600">Browse our complete collection to add more items to your package</p>
                 </div>
-                <ProductCatalog addToCart={addToCart} />
+                <ProductCatalog addToCart={handleAddProduct} />
               </div>
             ) : (
               <div className="text-center py-16">
                 <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Package Selected</h3>
                 <p className="text-gray-600 mb-6">
-                  Your package includes {selectedPackage.items?.length || 0} essential items for the ceremony.
+                  Your {selectedPackage.name} package is ready. Click "Add More Products" to browse additional items.
                 </p>
                 <Button
                   onClick={() => setShowProducts(true)}
@@ -222,6 +258,19 @@ export default function PackageProductPage() {
           </div>
         </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
+      
+      {/* Cart */}
+      <Cart
+        isOpen={isCartOpen}
+        onClose={closeCart}
+        items={cartItems}
+        updateItem={updateCartItem}
+        total={getTotalPrice()}
+        clearCart={clearCart}
+      />
     </div>
   )
 }

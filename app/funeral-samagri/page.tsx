@@ -18,7 +18,7 @@ export default function FuneralSamagriPage() {
   const router = useRouter()
   const { isAuthenticated } = useAuth()
   const { addToCart, getTotalItems, openCart, closeCart, isCartOpen, cartItems, updateCartItem, getTotalPrice, clearCart } = useCart()
-  const [activeSection, setActiveSection] = useState("services")
+  const [activeSection, setActiveSection] = useState("funeral-samagri")
   const [selectedLocation, setSelectedLocation] = useState("local")
 
   const locationOptions = [

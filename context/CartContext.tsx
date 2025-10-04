@@ -72,10 +72,22 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const data = await response.json()
           if (data.success && data.cart && data.cart.items) {
             setCartItems(data.cart.items)
+            return
           }
         }
       } catch (error) {
         console.error("Error loading cart:", error)
+      }
+      
+      // Fallback to localStorage if database fails
+      try {
+        const localCart = localStorage.getItem('localCart')
+        if (localCart) {
+          const cartData = JSON.parse(localCart)
+          setCartItems(cartData)
+        }
+      } catch (error) {
+        console.error("Error loading local cart:", error)
       }
     }
 
@@ -88,6 +100,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Save cart to database whenever cart items change
   useEffect(() => {
     const saveCart = async () => {
+      // Always save to localStorage as backup
+      try {
+        localStorage.setItem('localCart', JSON.stringify(cartItems))
+      } catch (error) {
+        console.error("Error saving to localStorage:", error)
+      }
+
+      // Try to save to database
       try {
         const headers: any = {
           "Content-Type": "application/json",
@@ -106,7 +126,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }),
         })
       } catch (error) {
-        console.error("Error saving cart:", error)
+        console.error("Error saving cart to database:", error)
       }
     }
 
@@ -115,7 +135,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       saveCart()
     } else if (cartItems.length === 0 && ((cartSessionId && !isAuthenticated) || isAuthenticated)) {
       // Clear cart in database if empty
-      const clearCart = async () => {
+      const clearCartDb = async () => {
+        // Clear localStorage
+        try {
+          localStorage.removeItem('localCart')
+        } catch (error) {
+          console.error("Error clearing localStorage:", error)
+        }
+
+        // Clear database
         try {
           const headers: any = {}
           if (cartSessionId && !isAuthenticated) {
@@ -130,7 +158,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           console.error("Error clearing cart:", error)
         }
       }
-      clearCart()
+      clearCartDb()
     }
   }, [cartItems, cartSessionId, isAuthenticated])
 
@@ -200,6 +228,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const clearCart = () => {
     setCartItems([])
+    // Also clear localStorage
+    try {
+      localStorage.removeItem('localCart')
+    } catch (error) {
+      console.error("Error clearing localStorage:", error)
+    }
   }
 
   const getTotalItems = () =>
