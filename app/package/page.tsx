@@ -67,12 +67,22 @@ export default function PackagePage() {
                 </div>
               </div>
 
-              <Link href="/package/product" className="block">
-                <Button className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 text-lg">
-                  <ArrowRight className="w-5 h-5 mr-2" />
-                  View Package / पैकेज देखें
-                </Button>
-              </Link>
+              <Button 
+                className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 text-lg"
+                onClick={() => {
+                  const packageData = {
+                    name: 'Basic Package',
+                    price: 5100,
+                    originalPrice: 5500,
+                    description: 'Essential funeral package with all basic items'
+                  };
+                  localStorage.setItem('selectedPackage', JSON.stringify(packageData));
+                  window.location.href = '/package/product';
+                }}
+              >
+                <ArrowRight className="w-5 h-5 mr-2" />
+                View Package / पैकेज देखें
+              </Button>
             </CardContent>
           </Card>
 
@@ -112,12 +122,22 @@ export default function PackagePage() {
                 </div>
               </div>
 
-              <Link href="/package/product" className="block">
-                <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 text-lg">
-                  <ArrowRight className="w-5 h-5 mr-2" />
-                  View Package / पैकेज देखें
-                </Button>
-              </Link>
+              <Button 
+                className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 text-lg"
+                onClick={() => {
+                  const packageData = {
+                    name: 'Standard Package',
+                    price: 7500,
+                    originalPrice: 8000,
+                    description: 'Popular package with all basic items plus additional puja materials'
+                  };
+                  localStorage.setItem('selectedPackage', JSON.stringify(packageData));
+                  window.location.href = '/package/product';
+                }}
+              >
+                <ArrowRight className="w-5 h-5 mr-2" />
+                View Package / पैकेج देखें
+              </Button>
             </CardContent>
           </Card>
 
@@ -154,12 +174,22 @@ export default function PackagePage() {
                 </div>
               </div>
 
-              <Link href="/package/product" className="block">
-                <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg">
-                  <ArrowRight className="w-5 h-5 mr-2" />
-                  View Package / पैकेज देखें
-                </Button>
-              </Link>
+              <Button 
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg"
+                onClick={() => {
+                  const packageData = {
+                    name: 'Premium Package',
+                    price: 11000,
+                    originalPrice: 11900,
+                    description: 'Complete premium package with all luxury items and same day delivery'
+                  };
+                  localStorage.setItem('selectedPackage', JSON.stringify(packageData));
+                  window.location.href = '/package/product';
+                }}
+              >
+                <ArrowRight className="w-5 h-5 mr-2" />
+                View Package / पैकेज देखें
+              </Button>
             </CardContent>
           </Card>
         </div>
