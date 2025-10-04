@@ -4,6 +4,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"  
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -243,8 +244,81 @@ export default function FuneralSamagriPage() {
             </div>
           </div>
 
+          {/* Add Products Section */}
+          <div className="mt-16">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Add More Products
+              </h2>
+              <p className="text-lg text-gray-600">
+                Want to add more items to your order? Browse additional products below
+                <br />
+                <span className="text-amber-700">अपने ऑर्डर में और सामान जोड़ना चाहते हैं? नीचे अतिरिक्त उत्पाद देखें</span>
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center max-w-4xl mx-auto">
+              <Link href="/package/product" className="block">
+                <Card className="shadow-lg hover:shadow-xl transition-all duration-300 border-2 hover:border-amber-300">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Package className="w-8 h-8 text-blue-600" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Browse Packages</h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      View different package options
+                      <br />
+                      <span className="text-xs">विभिन्न पैकेज विकल्प देखें</span>
+                    </p>
+                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                      View Packages
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/services" className="block">
+                <Card className="shadow-lg hover:shadow-xl transition-all duration-300 border-2 hover:border-green-300">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Truck className="w-8 h-8 text-green-600" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Additional Services</h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      Pandit, Transport & more
+                      <br />
+                      <span className="text-xs">पंडित, परिवहन और अधिक</span>
+                    </p>
+                    <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                      View Services
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <a href="#contact" className="block">
+                <Card className="shadow-lg hover:shadow-xl transition-all duration-300 border-2 hover:border-purple-300">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Package className="w-8 h-8 text-purple-600" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Custom Request</h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      Need something specific?
+                      <br />
+                      <span className="text-xs">कुछ विशेष चाहिए?</span>
+                    </p>
+                    <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+                      Contact Us
+                    </Button>
+                  </CardContent>
+                </Card>
+              </a>
+            </div>
+          </div>
+
           {/* Additional Information */}
-          <div className="mt-12 text-center">
+          <div className="mt-12 text-center" id="contact">
             <p className="text-gray-600 mb-4">
               Need help or have questions? / सहायता या प्रश्न चाहिए?
             </p>
