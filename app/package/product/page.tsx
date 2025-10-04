@@ -40,12 +40,12 @@ export default function PackageProductPage() {
 
   // Add package to cart automatically when package is selected
   useEffect(() => {
-    if (selectedPackage && !packageAddedToCart) {
+    if (selectedPackage) {
       const packageId = `package-${selectedPackage.name.toLowerCase().replace(/\s+/g, '-')}`
       const existingPackage = cartItems.find(item => item.id === packageId)
       
-      if (!existingPackage) {
-        // Add the selected package as a single item to cart
+      // Always try to add package if not in cart or if cart is empty
+      if (!existingPackage || cartItems.length === 0) {
         const packageItem = {
           id: packageId,
           name: selectedPackage.name,
@@ -54,7 +54,21 @@ export default function PackageProductPage() {
           quantity: 1,
           type: 'package'
         }
+        
+        // Force add to cart and immediately save to localStorage
         addToCart(packageItem)
+        
+        // Double-check localStorage storage
+        try {
+          const currentCart = JSON.parse(localStorage.getItem('localCart') || '[]')
+          const packageExists = currentCart.find((item: any) => item.id === packageId)
+          if (!packageExists) {
+            const newCart = [...currentCart, packageItem]
+            localStorage.setItem('localCart', JSON.stringify(newCart))
+          }
+        } catch (error) {
+          console.error('Error managing localStorage cart:', error)
+        }
       }
       setPackageAddedToCart(true)
     }
@@ -219,13 +233,46 @@ export default function PackageProductPage() {
                   </Button>
                 </div>
 
-                <Button 
-                  className="w-full bg-amber-600 hover:bg-amber-700"
-                  onClick={() => openCart()}
-                >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  View Cart & Checkout (₹{getTotalPrice()})
-                </Button>
+                <div className="space-y-2">
+                  <div className="text-sm text-gray-600 text-center">
+                    <div>Items: {cartItems.length} | Total: ₹{getTotalPrice()}</div>
+                    {getTotalPrice() > 0 && <div className="text-xs text-green-600">+ up to ₹300 delivery charges</div>}
+                    {cartItems.length === 0 && selectedPackage && (
+                      <div className="text-xs text-red-600 mt-1">
+                        Package not in cart! Price: ₹{selectedPackage.price}
+                        <Button
+                          size="sm"
+                          onClick={() => {
+                            const packageItem = {
+                              id: `package-${selectedPackage.name.toLowerCase().replace(/\s+/g, '-')}`,
+                              name: selectedPackage.name,
+                              nameHindi: selectedPackage.nameHindi,
+                              price: selectedPackage.price,
+                              quantity: 1,
+                              type: 'package'
+                            }
+                            addToCart(packageItem)
+                          }}
+                          className="ml-2 bg-red-600 hover:bg-red-700 text-white px-2 py-1 text-xs"
+                        >
+                          Add to Cart
+                        </Button>
+                      </div>
+                    )}
+                    {cartItems.length > 0 && (
+                      <div className="text-xs text-green-600 mt-1">
+                        ✓ {cartItems[0]?.name} in cart (₹{cartItems[0]?.price})
+                      </div>
+                    )}
+                  </div>
+                  <Button 
+                    className="w-full bg-amber-600 hover:bg-amber-700"
+                    onClick={() => openCart()}
+                  >
+                    <ShoppingCart className="w-4 h-4 mr-2" />
+                    View Cart & Checkout (₹{getTotalPrice()})
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>

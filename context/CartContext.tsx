@@ -56,9 +56,25 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [isAuthenticated])
 
-  // Load cart from database when component mounts
+    // Initialize cart from localStorage immediately
   useEffect(() => {
-    const loadCart = async () => {
+    // Load from localStorage immediately on mount
+    try {
+      const localCart = localStorage.getItem('localCart')
+      if (localCart) {
+        const cartData = JSON.parse(localCart)
+        if (Array.isArray(cartData) && cartData.length > 0) {
+          setCartItems(cartData)
+        }
+      }
+    } catch (error) {
+      console.error("Error loading cart from localStorage:", error)
+    }
+  }, [])
+
+  // Separate effect for database sync
+  useEffect(() => {
+    const syncWithDatabase = async () => {
       try {
         const headers: any = {}
         if (cartSessionId && !isAuthenticated) {
@@ -71,30 +87,20 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         if (response.ok) {
           const data = await response.json()
-          if (data.success && data.cart && data.cart.items) {
+          if (data.success && data.cart && data.cart.items && data.cart.items.length > 0) {
             setCartItems(data.cart.items)
-            return
+            localStorage.setItem('localCart', JSON.stringify(data.cart.items))
           }
         }
       } catch (error) {
-        console.error("Error loading cart:", error)
-      }
-      
-      // Fallback to localStorage if database fails
-      try {
-        const localCart = localStorage.getItem('localCart')
-        if (localCart) {
-          const cartData = JSON.parse(localCart)
-          setCartItems(cartData)
-        }
-      } catch (error) {
-        console.error("Error loading local cart:", error)
+        console.error("Error syncing with database:", error)
+        // Ignore database errors, rely on localStorage
       }
     }
 
-    // Load cart after session ID is set or user is authenticated
+    // Only sync with database if we have session info
     if ((cartSessionId && !isAuthenticated) || isAuthenticated) {
-      loadCart()
+      syncWithDatabase()
     }
   }, [cartSessionId, isAuthenticated])
 
@@ -199,14 +205,26 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const addToCart = (item: CartItem) => {
     setCartItems((prev) => {
       const existing = prev.find((p) => p.id === item.id)
+      let newCartItems
+      
       if (existing) {
-        return prev.map((p) =>
+        newCartItems = prev.map((p) =>
           p.id === item.id
             ? { ...p, quantity: p.quantity + (item.quantity || 1) }
             : p
         )
+      } else {
+        newCartItems = [...prev, { ...item, quantity: item.quantity || 1 }]
       }
-      return [...prev, { ...item, quantity: item.quantity || 1 }]
+      
+      // Immediately save to localStorage
+      try {
+        localStorage.setItem('localCart', JSON.stringify(newCartItems))
+      } catch (error) {
+        console.error('Error saving cart to localStorage:', error)
+      }
+      
+      return newCartItems
     })
     
     // Auto-open cart when item is added
