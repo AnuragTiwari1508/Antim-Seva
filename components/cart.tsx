@@ -123,9 +123,19 @@ export default function Cart({ isOpen, onClose, items, updateItem, total, clearC
               </div>
 
               <div className="border-t pt-4">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-lg font-semibold">Total / कुल:</span>
-                  <span className="text-2xl font-bold text-amber-900">₹{total}</span>
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-semibold">Subtotal / उप-योग:</span>
+                    <span className="text-xl font-bold text-gray-800">₹{total}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm text-gray-600">
+                    <span>Delivery Charges / डिलीवरी चार्ज:</span>
+                    <span>Up to ₹300</span>
+                  </div>
+                  <div className="flex justify-between items-center border-t pt-2">
+                    <span className="text-lg font-semibold">Total / कुल:</span>
+                    <span className="text-2xl font-bold text-amber-900">₹{total} + delivery</span>
+                  </div>
                 </div>
 
                 {!isAuthenticated && (
