@@ -138,7 +138,7 @@ export default function TermsPage() {
             <div className="bg-gray-50 p-6 rounded-lg">
               <p className="text-gray-700">
                 <strong>Antim Seva</strong><br />
-                Email: support@antimseva.com<br />
+                Email: support@antimseva.in<br />
                 Phone: +91 91796 77292<br />
                 Address: Indore, Madhya Pradesh, India
               </p>
