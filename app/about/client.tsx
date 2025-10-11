@@ -1,13 +1,15 @@
 "use client"
 
-import { Heart, Shield, Clock, MapPin, Phone, Mail } from "lucide-react"
+import { Heart, Shield, Clock, MapPin, Phone, Mail, ArrowLeft } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useState } from "react"
 import { motion } from "framer-motion"
+import { useRouter } from "next/navigation"
 
 export default function AboutPageClient() {
   const [activeSection, setActiveSection] = useState("about")
+  const router = useRouter()
 
   const teamMembers = [
     {
@@ -60,6 +62,15 @@ export default function AboutPageClient() {
           className="bg-amber-50 text-black py-10"
         >
           <div className="w-full px-4 text-left">
+            {/* Back Navigation */}
+            <button
+              onClick={() => router.push('/')}
+              className="flex items-center text-amber-700 hover:text-amber-800 mb-4 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back to Home
+            </button>
+            
             <h1 className="text-4xl md:text-5xl text-amber-700 font-bold mb-3">About Antim Seva</h1>
             <p className="text-xl text-black max-w-3xl">
               सम्मान और श्रद्धा के साथ अंतिम संस्कार की सभी आवश्यक सामग्री और सेवाएं

@@ -3,6 +3,9 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useState } from "react"
+import { Instagram, Youtube, Facebook, ExternalLink, ArrowLeft } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
 
 interface Blog {
     id: number
@@ -14,7 +17,8 @@ interface Blog {
 }
 
 export default function BlogsPage() {
-    const [activeSection, setActiveSection] = useState("services")
+    const router = useRouter()
+    const [activeSection, setActiveSection] = useState("blogs")
     const [blogs, setBlogs] = useState<Blog[]>([
         {
             id: 1,
@@ -72,9 +76,66 @@ export default function BlogsPage() {
             />
             {/* Blogging Section */}
             <div className="container mx-auto p-6">
+                {/* Back Navigation */}
+                <div className="mb-6">
+                    <Button
+                        variant="outline"
+                        onClick={() => router.push('/')}
+                        className="flex items-center gap-2 hover:bg-amber-50"
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                        Back to Home / होम पर वापस जाएं
+                    </Button>
+                </div>
+
                 <h1 className="text-3xl font-bold text-center text-amber-900 mb-6">
                     Blogs / ब्लॉग
                 </h1>
+
+                {/* Social Media Links */}
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 mb-8 border border-amber-200">
+                    <h2 className="text-xl font-semibold text-amber-900 mb-4 text-center">
+                        Follow Us / हमें फॉलो करें
+                    </h2>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <a
+                            href="https://linktr.ee/Antimseva"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+                        >
+                            <ExternalLink className="w-4 h-4" />
+                            Linktree
+                        </a>
+                        <a
+                            href="https://www.instagram.com/antimsevaofficial"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg transition-colors"
+                        >
+                            <Instagram className="w-4 h-4" />
+                            Instagram
+                        </a>
+                        <a
+                            href="https://www.youtube.com/@antimsevaofficial?si=0rfS5zCSMK4UGrZh"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+                        >
+                            <Youtube className="w-4 h-4" />
+                            YouTube
+                        </a>
+                        <a
+                            href="https://www.facebook.com/profile.php?id=61581180671518&mibextid=ZbWKwL"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                        >
+                            <Facebook className="w-4 h-4" />
+                            Facebook
+                        </a>
+                    </div>
+                </div>
 
                 {/* Blog Form */}
                 <form
@@ -145,6 +206,9 @@ export default function BlogsPage() {
                     ))}
                 </div>
             </div>
+            
+            {/* Footer */}
+            <Footer />
         </>
     )
 }

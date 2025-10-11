@@ -6,11 +6,13 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useState } from "react"
-import { PhoneCall } from 'lucide-react';
+import { PhoneCall, ArrowLeft } from 'lucide-react';
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 
 export default function ServicesPage() {
   const [activeSection, setActiveSection] = useState("services")
+  const router = useRouter()
 
   const services = [
     {
@@ -126,6 +128,15 @@ export default function ServicesPage() {
         <section className="bg-abmer-100 text-amber-700 py-10">
           <div className="w-full mx-auto px-4">
             <div className="text-left">
+              {/* Back Navigation */}
+              <button
+                onClick={() => router.push('/')}
+                className="flex items-center text-amber-700 hover:text-amber-800 mb-4 transition-colors"
+              >
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back to Home
+              </button>
+              
               <h1 className="text-4xl md:text-5xl font-bold mb-3">
                 Our Services
               </h1>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Instagram, Youtube, Facebook, ExternalLink } from "lucide-react";
 import Header from "@/components/header";
 import Hero from "@/components/hero";
 import AboutUs from "@/components/about-us";
@@ -114,6 +115,63 @@ export default function Home() {
           <>
             <Hero setActiveSection={setActiveSection} />
             <Services setActiveSection={setActiveSection} />
+            
+            {/* Social Media Section */}
+            <section className="py-12 bg-gradient-to-r from-amber-50 to-orange-50">
+              <div className="w-full mx-auto px-4">
+                <h2 className="text-3xl font-bold text-center text-amber-900 mb-8">
+                  Connect With Us
+                </h2>
+                <div className="flex justify-center items-center gap-6 flex-wrap">
+                  {/* Instagram */}
+                  <a
+                    href="https://instagram.com/antimsevaofficial"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-4 rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  >
+                    <Instagram className="w-6 h-6" />
+                    <span className="font-semibold hidden sm:block">Instagram</span>
+                  </a>
+
+                  {/* YouTube */}
+                  <a
+                    href="https://youtube.com/@antimsevaofficial"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 bg-red-600 text-white px-6 py-4 rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  >
+                    <Youtube className="w-6 h-6" />
+                    <span className="font-semibold hidden sm:block">YouTube</span>
+                  </a>
+
+                  {/* Facebook */}
+                  <a
+                    href="https://facebook.com/profile.php?id=61581180671518"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 bg-blue-600 text-white px-6 py-4 rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  >
+                    <Facebook className="w-6 h-6" />
+                    <span className="font-semibold hidden sm:block">Facebook</span>
+                  </a>
+
+                  {/* Linktree */}
+                  <a
+                    href="https://linktr.ee/Antimseva"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 bg-green-600 text-white px-6 py-4 rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  >
+                    <ExternalLink className="w-6 h-6" />
+                    <span className="font-semibold hidden sm:block">All Links</span>
+                  </a>
+                </div>
+                <p className="text-center text-amber-800 mt-6 font-medium">
+                  Follow us for updates and support • अपडेट के लिए हमें फॉलो करें
+                </p>
+              </div>
+            </section>
           </>
         )}
         {activeSection === "services" && (

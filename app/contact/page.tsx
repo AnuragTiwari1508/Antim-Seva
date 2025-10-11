@@ -1,13 +1,15 @@
 "use client"
 
-import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react"
+import { MapPin, Phone, Mail, Clock, MessageCircle, Instagram, Youtube, Facebook, ExternalLink, ArrowLeft } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { motion } from "framer-motion"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function ContactPage() {
   const [activeSection, setActiveSection] = useState("contact")
+  const router = useRouter()
 
   return (
     <>
@@ -27,6 +29,15 @@ export default function ContactPage() {
           className="bg-amber-50 "
         >
           <div className="w-full mx-auto py-10 px-4 text-left">
+            {/* Back Navigation */}
+            <button
+              onClick={() => router.push('/')}
+              className="flex items-center text-amber-700 hover:text-amber-800 mb-4 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back to Home
+            </button>
+            
             <h1 className="text-4xl md:text-5xl text-amber-700 font-bold mb-3">Contact Us</h1>
             <p className="text-base md:text-xl">
               We're here for you 24/7 during your time of need
@@ -216,6 +227,89 @@ export default function ContactPage() {
                 >
                   Check Availability
                 </a>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Social Media Links */}
+        <motion.section
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9 }}
+          viewport={{ once: true }}
+          className="py-16 bg-amber-50"
+        >
+          <div className="w-full mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center text-amber-900 mb-12">
+              Connect With Us
+            </h2>
+            <div className="bg-white rounded-lg shadow-lg p-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Instagram */}
+                <motion.a
+                  href="https://instagram.com/antimsevaofficial"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  className="flex flex-col items-center p-6 bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-xl transition-all"
+                >
+                  <Instagram className="w-12 h-12 mb-4" />
+                  <h3 className="text-xl font-bold mb-2">Instagram</h3>
+                  <p className="text-sm opacity-90 text-center">Follow us for updates</p>
+                  <ExternalLink className="w-4 h-4 mt-2" />
+                </motion.a>
+
+                {/* YouTube */}
+                <motion.a
+                  href="https://youtube.com/@antimsevaofficial"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  className="flex flex-col items-center p-6 bg-red-600 text-white rounded-lg hover:shadow-xl transition-all"
+                >
+                  <Youtube className="w-12 h-12 mb-4" />
+                  <h3 className="text-xl font-bold mb-2">YouTube</h3>
+                  <p className="text-sm opacity-90 text-center">Watch our videos</p>
+                  <ExternalLink className="w-4 h-4 mt-2" />
+                </motion.a>
+
+                {/* Facebook */}
+                <motion.a
+                  href="https://facebook.com/profile.php?id=61581180671518"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  className="flex flex-col items-center p-6 bg-blue-600 text-white rounded-lg hover:shadow-xl transition-all"
+                >
+                  <Facebook className="w-12 h-12 mb-4" />
+                  <h3 className="text-xl font-bold mb-2">Facebook</h3>
+                  <p className="text-sm opacity-90 text-center">Like our page</p>
+                  <ExternalLink className="w-4 h-4 mt-2" />
+                </motion.a>
+
+                {/* Linktree */}
+                <motion.a
+                  href="https://linktr.ee/Antimseva"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  className="flex flex-col items-center p-6 bg-green-600 text-white rounded-lg hover:shadow-xl transition-all"
+                >
+                  <ExternalLink className="w-12 h-12 mb-4" />
+                  <h3 className="text-xl font-bold mb-2">Linktree</h3>
+                  <p className="text-sm opacity-90 text-center">All our links</p>
+                  <ExternalLink className="w-4 h-4 mt-2" />
+                </motion.a>
+              </div>
+              
+              <div className="text-center mt-8 p-4 bg-amber-50 rounded-lg">
+                <p className="text-amber-900 font-medium">
+                  Stay connected with Antim Seva for the latest updates and support
+                </p>
+                <p className="text-amber-700 text-sm mt-2">
+                  अंतिम सेवा के साथ जुड़े रहें नवीनतम अपडेट के लिए
+                </p>
               </div>
             </div>
           </div>

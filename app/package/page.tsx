@@ -6,13 +6,15 @@ import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Package, Store, ArrowRight, Phone, MessageCircle } from "lucide-react"
+import { Package, Store, ArrowRight, Phone, MessageCircle, ArrowLeft } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { products } from "@/data/products"
 import { useCart } from "@/context/CartContext"
 import Cart from "@/components/cart"
 
 export default function PackagePage() {
   const [activeSection, setActiveSection] = useState("packages")
+  const router = useRouter()
   const { addToCart, cartItems, openCart, isCartOpen, closeCart, updateCartItem, getTotalPrice, clearCart } = useCart()
 
   const handlePackageSelect = (packageData: any) => {
@@ -48,6 +50,15 @@ export default function PackagePage() {
       {/* Main Content */}
       <div className="min-h-screen bg-gradient-to-b from-orange-50 to-amber-50">
         <div className="max-w-4xl mx-auto px-4 py-16">
+          
+          {/* Back Navigation */}
+          <button
+            onClick={() => router.push('/')}
+            className="flex items-center text-amber-700 hover:text-amber-800 mb-6 transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5 mr-2" />
+            Back to Home
+          </button>
           
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
