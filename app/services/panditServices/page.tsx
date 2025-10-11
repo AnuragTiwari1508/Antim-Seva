@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { motion } from "framer-motion";
@@ -7,6 +9,9 @@ import { motion } from "framer-motion";
 function PanditServices() {
   const [activeSection, setActiveSection] = useState("services");
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [bookingInfo, setBookingInfo] = useState(null);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const router = useRouter();
 
   // Pandit Data
   const pandits = [
@@ -41,28 +46,34 @@ function PanditServices() {
     },
     {
       id: 2,
-      // number: Mayank Pandit"9165533952","8889121400",
-      name: "पंडित इन्द्रानन्द जी शास्त्री",
+      // number: "9165533952","8889121400",
+      name: "पंडित जी (त्रिपुरसुंदरी ज्योतिष शोध संस्थान)",
       age: "N/A",
-      experience: "संस्थान आधारित कार्य",
+      experience: "ज्योतिष कर्मकांड विशेषज्ञ",
       location: "प्रजापत नगर, द्वारिकापुरी, इंदौर, M.P.",
-      charges: "₹1100-₹3100 (as per ritual)",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy7lhmpnQJC_dOdUalgin4kL-6IA_gpNNSHA&s",
-      description: `हमारा संस्थान पूजन, साधना, अनुष्ठान एवं ज्योतिष कर्मकांड पर शोध करता है। 
-      प्राचीन विद्याओं को आधुनिक समाज तक पहुँचाकर भ्रांतियों का निराकरण करना 
-      और सनातनी जनमानस के वैज्ञानिक महत्व को पुनः स्थापित करना हमारा उद्देश्य है।`,
+      charges: "संपर्क करें - 9165533952, 8889121400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy7lhmpnQJC_dOdUalgin4kL-6IA_gpNNSHA&s", // यहाँ pandit1.png की image upload करें
+      description: `क्लीं त्रिपुरसुंदरी ज्योतिष शोध संस्थान में पूजन, साधना, अनुष्ठान रहस्य पर विशेषज्ञता। 
+      हमारा कार्य ज्योतिष कर्मकांड और प्राचीन विद्याओं पर शोध अनुसंधान करना है। समाज के मन में 
+      आध्यात्म और ज्योतिष कर्मकांड को लेकर जो भ्रांति है उसका निराकरण करना हमारा उद्देश्य है।`,
       services: [
-        "ज्योतिष एवं कर्मकांड पर शोध",
-        "देव, नदी, देववृक्ष का वैज्ञानिक महत्व",
-        "पूजन आचार संहिता की व्याख्या",
-        "देवदोष, पितृ दोष, ग्रह दोष निवारण",
-        "नित्य, नैमितिक एवं काम्य पूजा",
-        "कुलदेवी, कुलदेव, क्षेत्रपाल पूजन",
-        "पंचोपचार, दशोपचार, षोडशोपचार पूजन",
-        "जन्म कुंडली निर्माण एवं परामर्श",
+        "ज्योतिष कर्मकांड प्राचीन विद्याओं पर शोध अनुसंधान",
+        "सनातनी जनमानस के कर्तव्य देव, नदी, देववृक्ष का वैज्ञानिक महत्व",
+        "पूजा पाठ की आचार संहिता और उनका फलीभूत होना",
+        "देवदोष, पितृदोष, ग्रहदोष का निराकरण",
+        "नित्य पूजा, नैमितिक पूजा, काम्य पूजा की व्याख्या",
+        "कुलदेवी, कुलदेव, क्षेत्रपाल का महत्व",
+        "पंचोपचार, दशोपचार, षोडशोपचार, राजोपचार पूजन",
+        "जन्म कुंडली निर्माण, परामर्श सभी वैदिक कर्मकांड",
+        "रुद्राभिषेक, वास्तु शांति, प्रेत दोष निवारण",
+        "गरुड़ पुराण, बारवा, तेरहवीं, पगड़ी, श्राद्ध",
+        "गीता पाठ, शिवपुराण, श्रीमद् भागवत कथा, रामकथा"
       ],
-      extras: ["सनातनी जनमानस की रक्षा", "सनातन राष्ट्र निर्माण में योगदान"],
+      extras: [
+        "सभी सनातनी जनमानस की रक्षा", 
+        "सनातन राष्ट्र के निर्माण में योगदान",
+        "फोन: 9165533952, 8889121400"
+      ],
     },
     {
       id: 3,
@@ -115,6 +126,15 @@ function PanditServices() {
 
       {/* Pandit Ji Cards Section */}
       <div className="max-w-7xl mx-auto px-4 py-8 bg-amber-50">
+        {/* Back Navigation */}
+        <button
+          onClick={() => router.push('/services')}
+          className="flex items-center text-amber-700 hover:text-amber-800 mb-6 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          Back to Services
+        </button>
+        
         <h3 className="text-2xl font-bold text-amber-900 mb-6">
           Our Affiliated Pandit Ji
         </h3>
@@ -196,10 +216,12 @@ function PanditServices() {
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   className="mt-4 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-sm font-medium self-start"
+                  onClick={() => {
+                    setBookingInfo(pandit);
+                    setShowBookingModal(true);
+                  }}
                 >
-                  <a href="https://wa.me/9179677292?text=I want to book Pandit Ji">
-                    Book Now
-                  </a>
+                  Book Now
                 </motion.button>
               </div>
             </motion.div>
@@ -217,6 +239,90 @@ function PanditServices() {
           Register with us
         </motion.button>
       </div>
+
+      {/* Booking Modal */}
+      {showBookingModal && bookingInfo && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+        >
+          <motion.div
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            className="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg relative mx-4"
+          >
+            <button
+              className="absolute top-2 right-2 text-gray-600 hover:text-red-500 font-bold"
+              onClick={() => setShowBookingModal(false)}
+            >
+              ✕
+            </button>
+            <h2 className="text-xl font-bold text-amber-900 mb-4">
+              पंडित जी की बुकिंग की जानकारी
+            </h2>
+            
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <img 
+                  src={bookingInfo.image} 
+                  alt={bookingInfo.name}
+                  className="w-20 h-20 rounded-full object-cover"
+                />
+                <div>
+                  <h3 className="font-bold text-lg">{bookingInfo.name}</h3>
+                  <p className="text-gray-600">{bookingInfo.location}</p>
+                  <p className="text-green-600 font-semibold">{bookingInfo.charges}</p>
+                </div>
+              </div>
+              
+              <div className="bg-amber-50 p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">मुख्य सेवाएं:</h4>
+                <ul className="text-sm space-y-1">
+                  {bookingInfo.services.slice(0, 4).map((service, idx) => (
+                    <li key={idx}>• {service}</li>
+                  ))}
+                  {bookingInfo.services.length > 4 && (
+                    <li className="text-gray-500">और भी कई सेवाएं...</li>
+                  )}
+                </ul>
+              </div>
+              
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <p className="text-sm text-blue-800">
+                  <strong>📱 बुकिंग प्रक्रिया:</strong> हम आपको WhatsApp पर redirect कर रहे हैं जहाँ आप 
+                  पंडित जी की बुकिंग के लिए संपर्क कर सकते हैं। सभी जानकारी पहले से भरी हुई मिलेगी।
+                </p>
+              </div>
+              
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  const message = `नमस्ते, मुझे ${bookingInfo.name} को बुक करना है।
+                  
+पंडित जी की जानकारी:
+📍 स्थान: ${bookingInfo.location}
+💰 शुल्क: ${bookingInfo.charges}
+🔹 अनुभव: ${bookingInfo.experience}
+
+मुझे निम्नलिखित सेवाएं चाहिए:
+${bookingInfo.services.slice(0,4).map(service => `• ${service}`).join('\n')}
+
+कृपया बुकिंग की पुष्टि करें और आगे की जानकारी दें। धन्यवाद!`;
+                  
+                  const whatsappUrl = `https://wa.me/9179677292?text=${encodeURIComponent(message)}`;
+                  window.open(whatsappUrl, '_blank');
+                  setShowBookingModal(false);
+                }}
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center gap-2"
+              >
+                <span>📱</span>
+                WhatsApp पर बुकिंग करें
+              </motion.button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* Popup Form */}
       {isFormOpen && (
