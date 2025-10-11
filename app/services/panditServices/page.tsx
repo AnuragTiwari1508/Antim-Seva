@@ -52,7 +52,7 @@ function PanditServices() {
       experience: "ज्योतिष कर्मकांड विशेषज्ञ",
       location: "प्रजापत नगर, द्वारिकापुरी, इंदौर, M.P.",
       charges: "संपर्क करें - 9165533952, 8889121400",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy7lhmpnQJC_dOdUalgin4kL-6IA_gpNNSHA&s", // यहाँ pandit1.png की image upload करें
+      image: "/pandit/pandit1.jpeg", // Replace with the actual pandit photo from attachment
       description: `क्लीं त्रिपुरसुंदरी ज्योतिष शोध संस्थान में पूजन, साधना, अनुष्ठान रहस्य पर विशेषज्ञता। 
       हमारा कार्य ज्योतिष कर्मकांड और प्राचीन विद्याओं पर शोध अनुसंधान करना है। समाज के मन में 
       आध्यात्म और ज्योतिष कर्मकांड को लेकर जो भ्रांति है उसका निराकरण करना हमारा उद्देश्य है।`,
