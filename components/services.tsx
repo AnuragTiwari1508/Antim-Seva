@@ -16,12 +16,13 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Shav Vahan Services",
       titleHindi: "शव वाहन सेवा",
       description:
-        "Dignified transportation services with modern, clean vehicles equipped for respectful transfer of the deceased.",
+        "Antim Seva Indore provides 24x7 Shav Vahan (Hearse Van) service for the dignified transportation of the deceased. Our vans are clean, and equipped with all necessary arrangements for long or short-distance travel. We ensure timely service across Indore — whether from hospital, home, or outstation..",
       features: [
-        "Clean and sanitized vehicles",
-        "24/7 availability",
-        "Trained staff",
-        "Respectful handling",
+        "Available day and night (24x7)",
+        "AC and non-AC vans available",
+        "Trained and respectful drivers",
+        "Pickup from hospital, home, or any location",
+        "Long-distance inter-city transfer available ",
       ],
       link: "/services/shavVahanServices",
     },
@@ -31,11 +32,11 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Pandit Ji Services",
       titleHindi: "पंडित जी सेवा",
       description:
-        "Experienced and knowledgeable pandits to guide and perform all religious ceremonies according to Hindu traditions.",
+        "We provide experienced and certified Pandit Ji for Antim Sanskar rituals including Pind Daan, Asthi Visarjan, Shraddh, and other post-death ceremonies. Our team arranges everything needed for peaceful rituals according to family traditions..",
       features: [
-        "Experienced pandits",
-        "Complete ritual guidance",
-        "Sanskrit mantras",
+        "Experienced Pandit Ji for all Antim Sanskar rituals",
+        "Ritual materials and samagri provided",
+        "Guidance for all post-funeral rites",
         "Custom ceremonies",
       ],
       link: "/services/panditServices",
@@ -46,13 +47,15 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Funeral Samagri - Basic Kit",
       titleHindi: "अंतिम संस्कार की सामग्री - मूलभूत किट",
       description:
-        "Complete Basic Kit with all 38 essential items required for proper antim sanskar ceremonies at ₹5100 + delivery.",
+        "We provide all Antim Sanskar materials in form of a Kit which includes 38 essential items for proper antim sanskar ceremonies at 5100 + delivery. ",
+
       features: [
+        "All ritual materials in one place",
         "38 Essential Items",
-        "High Quality Guaranteed", 
-        "Complete Kit - Nothing Missing",
+        "Delivery to home or cremation ground",
+        "Custom samagri kits for different rituals",
+        "High Quality Guaranteed",
         "Fast Delivery Available",
-        "Home delivery",
       ],
       link: "/funeral-samagri",
     },
@@ -62,12 +65,12 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Emergency Support",
       titleHindi: "आपातकालीन सहायता",
       description:
-        "Round-the-clock emergency assistance and immediate response for urgent funeral service requirements.",
+        "We provide round-the-clock support for all funeral and Antim Sanskar needs in Indore. From initial arrangements to final rites, our compassionate team stands with your family throughout the process.",
       features: [
         "24/7 availability",
-        "Immediate response",
-        "Emergency hotline",
-        "Quick arrangements",
+        "Dedicated helpline for urgent help",
+        "Fast response and on-site coordination",
+        "Affordable and transparent pricing",
       ],
       link: null,
     },
@@ -77,11 +80,12 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Mrityu Bhoj/Tehrvi",
       titleHindi: "मृत्यु भोज / तेरहवीं",
       description:
-        "We can arrange Mrityu Bhoj that is offered by family to the nearest relatives near the Family Location and also decide the Catering Workers  .",
+        "We can organize complete Mrityu Bhoj (Death Feast) arrangements with full respect and care. Our services can include catering, seating, tent setup, and cleaning — so families can perform post-funeral rituals peacefully.",
       features: [
-        "As per Religion(No Garlic/Onlion)",
-        "Tent House",
-        "Catering Services",
+        "Complete Mrityu Bhoj setup (food, seating, decor)",
+        "Custom vegetarian menus as per traditions",
+        "Hygienic food preparation and service",
+        "On-site coordination and support",
       ],
       link: "/services/MrityuBhoj",
     },
@@ -91,9 +95,9 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Cremation Ground Information",
       titleHindi: "श्मशान भूमि की जानकारी",
       description:
-        "We assist in booking cremation ground slots as per family preferences and local regulations.",
+        "We assist families in booking cremation grounds (Shamshan Ghat) in Indore without hassle. Our team coordinates with local authorities to arrange the slot, materials, and rituals on time. We also help with electric crematorium booking.",
       features: [
-        "Nearest Cremation Ground",
+        "Booking assistance for multiple cremation grounds (e.g., Panchkuian, Rambagh, etc.)",
         "24/7 availability",
         "Trained staff",
         "Respectful handling",
@@ -106,11 +110,13 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Garud Puraan Path",
       titleHindi: "गरुड़ पुराण पाठ",
       description:
-        "Recitation of Garuda Puran explaining soul's journey, afterlife, and rituals.",
+        "We provide Garud Puran Path services with experienced pandits who perform readings and rituals according to Hindu traditions. This ceremony brings peace to the departed soul (aatma shanti) and supports the grieving family spiritually.",
       features: [
-        "Skilled reader",
+        "Experienced and qualified pandits",
         "Traditional chanting",
-        "Spiritual guidance",
+        "Path at home, temple, or other venues",
+        "Complete pooja samagri provided",
+        "Ritual guidance and explanation in Hindi",
       ],
       link: "/services/panditServices",
     },
@@ -120,13 +126,12 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Tent & Canopy Setup",
       titleHindi: "टेंट और छतरियां",
       description:
-        "Basic tent and canopy setup for small gatherings, rituals, and events.",
+        "We offer Tent and Canopy setups for Antim Sanskar, Mrityu Bhoj, and Shok Sabha events. Our tents are clean, simple, and respectfully decorated to match the occasion.",
       features: [
-        "Funeral Tent",
-        "Seating Arrangements",
-        "Basic Lighting",
-        "Chairs",
-        "Tables",
+        "Tent and canopy installation at venue or home",
+        "Seating, lighting, and decoration included",
+        "Multiple size options available",
+        "Quick and professional setup",
       ],
       link: "/services/TentHouseServices",
     },
@@ -137,12 +142,12 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Family Support",
       titleHindi: "पारिवारिक सहायता",
       description:
-        "Compassionate guidance and emotional support to help families navigate through difficult times.",
+        "We assist families in handling paperwork related to death certificates, hospital NOCs, and local municipal formalities — offering emotional and administrative support together.",
       features: [
         "Emotional support",
-        "Process guidance",
-        "Documentation help",
-        "Caring staff",
+        "Death certificate assistance",
+        "Guidance for government documentation",
+        "Supportive and Caring staff",
       ],
       link: null,
     },
@@ -167,11 +172,13 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Obituary In Newspaper (Shok Sandesh)",
       titleHindi: "समाचार पत्र में मृत्युलेख",
       description:
-        "Obituary announcements & remembrance displays in newspapers of your choice.",
+        "We help families publish Obituary and Death Notices in leading newspapers. Our team assists in writing, formatting, and coordinating with newspaper offices for timely publication.",
       features: [
         "Multiple newspaper options",
-        "Custom content",
-        "Timely publishing",
+        "Assistance with obituary drafting",
+        "English and Hindi newspaper options",
+        "Same-day or next-day publishing",
+        "Local and national newspaper coverage",
       ],
       link: "/services/NewspaperServices",
     },
@@ -181,8 +188,14 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Morgue Box for Body",
       titleHindi: "मॉर्ग्यू सुविधा",
       description:
-        "Morgue Box (Portable freezer) available at Shav Vahan as well as Morgue Box will be provide as per your convinience at your home .",
-      features: ["Home-based freezer", "No hospital transfer", "Convenient"],
+        "Antim Seva provides Morgue Box and Freezer Boxes for preserving the body respectfully until cremation or transport. We deliver freezer boxes at your doorstep across Indore",
+
+      features: [
+        "Home-based freezer",
+        "24x7 delivery and pickup",
+        "AC Freezer Box for preservation up to 48 hours",
+        "Affordable rental service",
+      ],
       link: "/services/MorgueBoxServices",
     },
     {
@@ -191,8 +204,12 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Tribute Film Making",
       titleHindi: "श्रद्धांजलि फिल्म निर्माण",
       description:
-        "Create an AV (biography & tribute) film with a personal message for remembrance.",
-      features: ["Customized AV", "Memory preservation", "Emotional tribute"],
+        "We create Tribute Films to celebrate the life and memories of your loved one. Our team compiles photos, videos, and heartfelt messages into a beautiful short film that can be shared during the Shok Sabha or remembrance events.",
+      features: [
+        "Custom video creation with photos and clips",
+        "Background music and voice-over options",
+        "Emotional tribute",
+      ],
       link: null,
     },
     {
@@ -201,8 +218,13 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Condolence Meet / Shok Sabha",
       titleHindi: "शोक सभा / समवेदना सभा",
       description:
-        "Arrange condolence meetings as per family wishes without burden on family.",
-      features: ["Venue setup", "Arrangement assistance", "Family comfort"],
+        "We manage complete Shok Sabha arrangements, including hall booking, decoration, seating, and refreshments. Our focus is on providing a peaceful and respectful environment for remembrance.",
+      features: [
+        "Hall or open-ground setup available",
+        "Floral and lighting arrangements",
+        "Sound and mic system for speeches",
+        "Refreshments and hospitality services",
+      ],
       link: "/services/ShokSabhaServices",
     },
     {
@@ -225,11 +247,11 @@ export default function Services({ setActiveSection }: ServicesProps = {}) {
       title: "Band Baja, Dhol, Rath Services",
       titleHindi: "बैंड बाजा, ढोल, रथ सेवा",
       description:
-        "We Provide Band Baja, Dhol, Rath Services as per family requirement at Funeral.",
+        "We provide Band Baja and Rath Services for Antim Yatra with complete dignity and devotion. Our well-maintained Rath (funeral vehicle) and trained Band Baja team ensure a smooth, respectful, and traditional farewell for your loved one.From decorated vehicles to devotional music , we handle every detail to make the final journey peaceful and organized.",
       features: [
-        "Traditional music",
-        "Decorated rath",
-        "Experienced performers",
+        "Traditional and devotional Band Baja arrangements",
+        "Rath decorated with flowers and gardlands",
+        "Trained, uniformed staff and musicians",
       ],
       link: "/services/BandBajaServices",
     },
