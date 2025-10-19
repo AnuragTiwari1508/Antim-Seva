@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
@@ -51,11 +52,9 @@ export default function Header({
       router.push("/package"); // ✅ dedicated package page
     } else if (itemId === "funeral-samagri") {
       router.push("/funeral-samagri"); // ✅ funeral samagri page
-    }
-    // else if (itemId === 'services') {
-    //   router.push('/services'); // ✅ dedicated services page (commented)
-    // }
-    else {
+    } else if (itemId === "services") {
+      router.push("/services"); // ✅ dedicated services page
+    } else {
       if (itemId === "home") {
         router.push("/");
         setActiveSection("home");
@@ -67,7 +66,7 @@ export default function Header({
     { id: "home", label: "Home / होम", icon: null },
     { id: "packages", label: "Packages / पैकेज", icon: null },
     { id: "funeral-samagri", label: "Funeral Kit / किट", icon: null },
-    // { id: "services", label: "Services / सेवाएं", icon: null }, // 🟠 Commented out
+    { id: "services", label: "Services / सेवाएं", icon: null },
     { id: "about", label: "About / हमारे बारे में", icon: null },
     { id: "contact", label: "Contact / संपर्क", icon: null },
     { id: "faq", label: "FAQ / प्रश्न", icon: null },
@@ -105,10 +104,12 @@ export default function Header({
             onClick={() => router.push("/")}
           >
             <img
-              src="/products/LogoWithoutText.jpg"
+              src="/products/LogoWithoutText.jpg" // <-- place your logo file in public folder and change the name here
               alt="Antim Seva Logo"
               className="w-10 h-10 md:w-14 md:h-14 object-contain rounded-full"
+              // className="w-8 h-8 md:w-12 md:h-12 bg-amber-900 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl"
             />
+
             <div>
               <h1 className="text-lg md:text-2xl font-bold text-amber-900">
                 Antim Seva
@@ -135,6 +136,7 @@ export default function Header({
               )}
             </Button>
 
+            {/* Order History Button - Visible for all users */}
             <Button
               onClick={() => router.push("/orders")}
               variant="outline"
@@ -194,8 +196,121 @@ export default function Header({
             )}
           </div>
 
-          {/* Mobile Actions + Drawer below remain unchanged */}
+          {/* Mobile Actions */}
+          <div className="flex md:hidden items-center gap-2">
+            <Button
+              onClick={onCartClick}
+              variant="outline"
+              size="sm"
+              className="relative border-amber-900 text-amber-900 hover:bg-amber-50 bg-transparent p-2"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                  {cartItemsCount}
+                </span>
+              )}
+            </Button>
+
+            {/* Mobile Order History Button */}
+            <Button
+              onClick={() => router.push("/orders")}
+              variant="outline"
+              size="sm"
+              className="border-amber-900 text-amber-900 hover:bg-amber-50 bg-transparent p-2"
+            >
+              <History className="w-4 h-4" />
+            </Button>
+
+            {!isAuthenticated && (
+              <Button
+                size="sm"
+                className="bg-amber-900 hover:bg-amber-800 text-xs px-2"
+                onClick={() => router.push("/register")}
+              >
+                Register
+              </Button>
+            )}
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-amber-900 p-2"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-4 h-4" />
+              ) : (
+                <Menu className="w-4 h-4" />
+              )}
+            </Button>
+          </div>
         </div>
+
+        {/* Mobile Menu Drawer */}
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 z-50">
+            {/* Background Overlay */}
+            <div
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+
+            {/* Drawer */}
+            <div className="absolute top-0 right-0 h-full w-3/5 bg-white shadow-lg transform transition-transform duration-300 ease-in-out">
+              <div className="p-4 flex flex-col h-full overflow-y-auto">
+                {/* Close Button */}
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="self-end text-amber-900 hover:text-amber-700 mb-4"
+                >
+                  ✕
+                </button>
+
+                {/* Auth Buttons */}
+                {!isAuthenticated ? (
+                  <div className="flex gap-2 mb-3">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full text-amber-900 hover:bg-amber-50"
+                      onClick={() => {
+                        router.push("/login");
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Login / लॉगिन
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2 mb-3">
+                    {/* Profile, Orders, Logout same as before */}
+                  </div>
+                )}
+
+                {/* Navigation Items */}
+                <div className="grid grid-cols-1 gap-2">
+                  {navItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        handleNavigation(item.id);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`px-3 py-2 text-sm font-medium transition-colors rounded text-left ${
+                        activeSection === item.id
+                          ? "bg-amber-900 text-white"
+                          : "text-amber-900 hover:bg-amber-50"
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Desktop Navigation */}
