@@ -1,15 +1,26 @@
-"use client"
+"use client";
 
-import { MapPin, Phone, Mail, Clock, MessageCircle, Instagram, Youtube, Facebook, ExternalLink, ArrowLeft } from "lucide-react"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
-import { motion } from "framer-motion"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  MessageCircle,
+  Instagram,
+  Youtube,
+  Facebook,
+  ExternalLink,
+  ArrowLeft,
+} from "lucide-react";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ContactPage() {
-  const [activeSection, setActiveSection] = useState("contact")
-  const router = useRouter()
+  const [activeSection, setActiveSection] = useState("contact");
+  const router = useRouter();
 
   return (
     <>
@@ -17,7 +28,7 @@ export default function ContactPage() {
         activeSection={activeSection}
         setActiveSection={setActiveSection}
         cartItemsCount={0}
-        onCartClick={() => { }}
+        onCartClick={() => {}}
       />
 
       <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
@@ -31,14 +42,16 @@ export default function ContactPage() {
           <div className="w-full mx-auto py-10 px-4 text-left">
             {/* Back Navigation */}
             <button
-              onClick={() => router.push('/')}
+              onClick={() => router.push("/")}
               className="flex items-center text-amber-700 hover:text-amber-800 mb-4 transition-colors"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
               Back to Home
             </button>
-            
-            <h1 className="text-4xl md:text-5xl text-amber-700 font-bold mb-3">Contact Us</h1>
+
+            <h1 className="text-4xl md:text-5xl text-amber-700 font-bold mb-3">
+              Contact Us
+            </h1>
             <p className="text-base md:text-xl">
               We're here for you 24/7 during your time of need
             </p>
@@ -64,7 +77,9 @@ export default function ContactPage() {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 justify-stretch">
               {[
                 {
-                  icon: <Phone className="w-16 h-16 text-amber-600 mx-auto mb-4" />,
+                  icon: (
+                    <Phone className="w-16 h-16 text-amber-600 mx-auto mb-4" />
+                  ),
                   title: "Phone",
                   detail: "+91 91796 77292",
                   btnText: "Call Now",
@@ -72,7 +87,9 @@ export default function ContactPage() {
                   color: "amber",
                 },
                 {
-                  icon: <Mail className="w-16 h-16 text-blue-600 mx-auto mb-4" />,
+                  icon: (
+                    <Mail className="w-16 h-16 text-blue-600 mx-auto mb-4" />
+                  ),
                   title: "Email",
                   detail: "info@antimseva.in",
                   btnText: "Send Email",
@@ -80,7 +97,9 @@ export default function ContactPage() {
                   color: "blue",
                 },
                 {
-                  icon: <MessageCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />,
+                  icon: (
+                    <MessageCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
+                  ),
                   title: "WhatsApp",
                   detail: "+91 91796 77292",
                   btnText: "WhatsApp",
@@ -88,7 +107,9 @@ export default function ContactPage() {
                   color: "green",
                 },
                 {
-                  icon: <MapPin className="w-16 h-16 text-purple-600 mx-auto mb-4" />,
+                  icon: (
+                    <MapPin className="w-16 h-16 text-purple-600 mx-auto mb-4" />
+                  ),
                   title: "Location",
                   detail: "Indore, MP",
                   btnText: "Get Directions",
@@ -157,7 +178,8 @@ export default function ContactPage() {
                   <li>Mon-Fri: 9:00 AM - 6:00 PM</li>
                   <li>Saturday: 9:00 AM - 4:00 PM</li>
                   <li>
-                    Sunday: <span className="text-amber-600">Emergency Only</span>
+                    Sunday:{" "}
+                    <span className="text-amber-600">Emergency Only</span>
                   </li>
                 </ul>
               </motion.div>
@@ -183,20 +205,22 @@ export default function ContactPage() {
                 Areas We Serve
               </h3>
 
-              <div className="grid grid-cols-3 gap-3 text-left justify-items-center">
+              <div className="grid grid-cols-2 gap-2 text-left justify-items-center">
                 <div>
                   <h4 className="font-bold text-lg text-amber-900 mb-3">
-                    Primary Areas
+                    Currently Available In
                   </h4>
                   <ul className="space-y-2 text-gray-700">
-                    <li>• Indore</li>
-                    <li>• Dhar</li>
+                    <li style={{ fontSize: "22px", fontWeight: "bold" }}>
+                      • INDORE
+                    </li>
+                    {/* <li>• Dhar</li>
                     <li>• Bhopal</li>
                     <li>• Ujjain</li>
-                    <li>• Dewas</li>
+                    <li>• Dewas</li> */}
                   </ul>
                 </div>
-                <div>
+                {/* <div>
                   <h4 className="font-bold text-lg text-amber-900 mb-3">
                     Extended Areas
                   </h4>
@@ -206,16 +230,19 @@ export default function ContactPage() {
                     <li>• Khargone</li>
                     <li>• Khandwa</li>
                   </ul>
-                </div>
+                </div> */}
                 <div>
                   <h4 className="font-bold text-lg text-amber-900 mb-3">
                     Future Coverage
                   </h4>
                   <ul className="space-y-2 text-gray-700">
+                    <li>• Dewas , Ujjain </li>
+                    <li>• Dhar , Khargone , Khandwa </li>
+                    <li>• Bhopal </li>
                     <li>• All over Madhya Pradesh</li>
                     <li>• Neighboring states</li>
-                    <li>• Special arrangements</li>
-                    <li>• Interstate support</li>
+                    {/* <li>• Special arrangements</li>
+                    <li>• Interstate support</li> */}
                   </ul>
                 </div>
               </div>
@@ -256,7 +283,9 @@ export default function ContactPage() {
                 >
                   <Instagram className="w-12 h-12 mb-4" />
                   <h3 className="text-xl font-bold mb-2">Instagram</h3>
-                  <p className="text-sm opacity-90 text-center">Follow us for updates</p>
+                  <p className="text-sm opacity-90 text-center">
+                    Follow us for updates
+                  </p>
                   <ExternalLink className="w-4 h-4 mt-2" />
                 </motion.a>
 
@@ -270,7 +299,9 @@ export default function ContactPage() {
                 >
                   <Youtube className="w-12 h-12 mb-4" />
                   <h3 className="text-xl font-bold mb-2">YouTube</h3>
-                  <p className="text-sm opacity-90 text-center">Watch our videos</p>
+                  <p className="text-sm opacity-90 text-center">
+                    Watch our videos
+                  </p>
                   <ExternalLink className="w-4 h-4 mt-2" />
                 </motion.a>
 
@@ -284,7 +315,9 @@ export default function ContactPage() {
                 >
                   <Facebook className="w-12 h-12 mb-4" />
                   <h3 className="text-xl font-bold mb-2">Facebook</h3>
-                  <p className="text-sm opacity-90 text-center">Like our page</p>
+                  <p className="text-sm opacity-90 text-center">
+                    Like our page
+                  </p>
                   <ExternalLink className="w-4 h-4 mt-2" />
                 </motion.a>
 
@@ -298,14 +331,17 @@ export default function ContactPage() {
                 >
                   <ExternalLink className="w-12 h-12 mb-4" />
                   <h3 className="text-xl font-bold mb-2">Linktree</h3>
-                  <p className="text-sm opacity-90 text-center">All our links</p>
+                  <p className="text-sm opacity-90 text-center">
+                    All our links
+                  </p>
                   <ExternalLink className="w-4 h-4 mt-2" />
                 </motion.a>
               </div>
-              
+
               <div className="text-center mt-8 p-4 bg-amber-50 rounded-lg">
                 <p className="text-amber-900 font-medium">
-                  Stay connected with Antim Seva for the latest updates and support
+                  Stay connected with Antim Seva for the latest updates and
+                  support
                 </p>
                 <p className="text-amber-700 text-sm mt-2">
                   अंतिम सेवा के साथ जुड़े रहें नवीनतम अपडेट के लिए
@@ -344,6 +380,5 @@ export default function ContactPage() {
 
       <Footer />
     </>
-  )
+  );
 }
-
