@@ -104,16 +104,18 @@ export default function Hero({ setActiveSection }: HeroProps = {}) {
                 className="bg-amber-900 hover:bg-amber-800 text-white px-8 shadow-md hover:shadow-lg transition font-semibold"
                 onClick={() => setActiveSection?.("packages")}
               >
-                Order Now
+                Book Service
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-amber-900 text-amber-900 hover:bg-amber-50 px-8 bg-transparent font-semibold"
-                onClick={() => (window.location.href = "/services")}
-              >
-                See Services
-              </Button>
+              {
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-amber-900 text-amber-900 hover:bg-amber-50 px-8 bg-transparent font-semibold"
+                  onClick={() => (window.location.href = "/services")}
+                >
+                  See Services
+                </Button>
+              }
             </div>
           </motion.div>
 

@@ -66,7 +66,7 @@ export default function Header({
     { id: "home", label: "Home / होम", icon: null },
     { id: "packages", label: "Packages / पैकेज", icon: null },
     { id: "funeral-samagri", label: "Funeral Kit / किट", icon: null },
-    { id: "services", label: "Services / सेवाएं", icon: null },
+    // { id: "services", label: "Services / सेवाएं", icon: null },
     { id: "about", label: "About / हमारे बारे में", icon: null },
     { id: "contact", label: "Contact / संपर्क", icon: null },
     { id: "faq", label: "FAQ / प्रश्न", icon: null },

@@ -53,10 +53,17 @@ export default function ContactPage() {
               Contact Us
             </h1>
             <p className="text-base md:text-xl">
-              We're here for you 24/7 during your time of need
+              Contact Antim Seva Indore We’re here for you 24x7, offering
+              complete support for funeral arrangements, Shav Vahan, Antim
+              Sanskar Samagri, and all related services in Indore. If you or
+              your family need help, please reach out — our compassionate team
+              will respond immediately and assist with every detail.
             </p>
             <p className="text-base md:text-xl mt-3">
-              हम आपकी सेवा के लिए 24/7 उपलब्ध हैं
+              हम आपकी सेवा के लिए 24/7 उपलब्ध हैं — अंतिम सेवा इंदौर संपर्क
+              करें। हम शव वाहन, अंतिम संस्कार सामग्री और संपूर्ण अंतिम संस्कार
+              सेवाएँ सम्मान और संवेदना के साथ प्रदान करते हैं। किसी भी सहायता के
+              लिए तुरंत संपर्क करें।
             </p>
           </div>
         </motion.section>

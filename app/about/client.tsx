@@ -110,15 +110,32 @@ export default function AboutPageClient() {
                 Our Story
               </h2>
               <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                Antim Seva was founded with a simple yet profound mission: to
-                provide dignified, compassionate funeral services during life's
-                most difficult moments. We understand that losing a loved one is
-                one of the most challenging experiences a family can face.
+                At Antim Seva Indore, we understand that saying goodbye to a
+                loved one is one of life’s most difficult moments. <br /> Antim
+                Seva was founded with a simple yet profound mission: to provide
+                dignified, compassionate funeral services during life's most
+                difficult moments. We understand that losing a loved one is one
+                of the most challenging experiences a family can face.
+                <br />
+                We offer end-to-end funeral management services such as Shav
+                Vahan (Dead Body Transport), Antim Samagri, Mrityu Bhoj, Tent
+                Setup, Shok Sabha Arrangements, Obituary Publication, and more —
+                all under one trusted name in Indore.
+                <br />
+                Our experienced and empathetic team is available 24x7 to support
+                families in their most difficult times — with guidance, care,
+                and respect.
+                <br /> We strive to ensure dignified and respectful funeral
+                services, helping families perform each ritual with peace of
+                mind and cultural authenticity.
               </p>
               <p className="text-gray-700 text-lg leading-relaxed">
                 हमारी सेवा का उद्देश्य परिवारों को इस कठिन समय में सहारा देना
                 है। हम धार्मिक विधि-विधान के अनुसार सभी आवश्यक सामग्री और सेवाएं
                 प्रदान करते हैं।
+                <br />
+                हमारी अंतिम सेवा सिर्फ सेवा नहीं , एक ज़िम्मेदारी है - आपके अपनों
+                के अंतिम संस्कार को सम्मान के साथ पूरा करना.
               </p>
             </motion.div>
             <motion.div
@@ -164,22 +181,22 @@ export default function AboutPageClient() {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
               {[
                 {
-                  title: "Compassion",
-                  desc: "We approach every family with empathy, understanding, and genuine care during their time of loss.",
+                  title: "Compassion ",
+                  desc: "We approach every family with karuna (compassion), empathy, and genuine care during their time of loss. At Antim Seva Indore, our team supports you through every step of the Antim Sanskar Seva, ensuring peace, comfort, and emotional guidance when it’s needed most..",
                   icon: (
                     <Heart className="w-16 h-16 text-red-500 mx-auto mb-4" />
                   ),
                 },
                 {
-                  title: "Dignity",
-                  desc: "Every service is conducted with the utmost respect and dignity, honoring the memory of your loved one.",
+                  title: "Dignity ",
+                  desc: "Every farewell is conducted with the utmost respect, dignity, and samman, honoring the sacred memory of your loved one. Our staff ensures that every ritual — from Shav Vahan to Cremation Ground Services — is handled with devotion and professionalism.",
                   icon: (
                     <Shield className="w-16 h-16 text-blue-500 mx-auto mb-4" />
                   ),
                 },
                 {
                   title: "Availability",
-                  desc: "We're here for you 24/7, ensuring that help is always available when you need it most.",
+                  desc: "We’re here for you 24x7, ensuring help is always available when you need it most. Whether it’s Shav Vahan Booking, Funeral Material, or complete Antim Sanskar Arrangements, Antim Seva Indore responds immediately with care and coordination.",
                   icon: (
                     <Clock className="w-16 h-16 text-green-500 mx-auto mb-4" />
                   ),
